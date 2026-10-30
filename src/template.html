@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<title>خاورمیانه‌شناس</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6fb; --bg2:#e9eef8; --card:#ffffff; --text:#1d2433; --muted:#667085; --line:#dde3ee;
+  --primary:#0f766e; --primary2:#14b8a6; --accent:#f59e0b; --ok:#16a34a; --okbg:#dcfce7; --bad:#dc2626; --badbg:#fee2e2;
+  --sea:#cfe8f7; --land:#e6e2d8; --landline:#ffffff; --country:#9ad7c9; --countryHover:#5fbfa9; --sel:#f59e0b;
+  --shadow:0 6px 24px rgba(30,40,70,.08); --r:18px;
+  --g1:#6366f1; --g2:#ec4899; --g3:#14b8a6; --g4:#f59e0b; --g5:#0ea5e9; --g6:#8b5cf6;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1320; --bg2:#151c2e; --card:#18213a; --text:#e8ecf6; --muted:#97a3bd; --line:#26314d;
+    --primary:#2dd4bf; --primary2:#5eead4; --okbg:#123a26; --badbg:#3f1717; --ok:#4ade80; --bad:#f87171;
+    --sea:#13253f; --land:#2a3245; --landline:#18213a; --country:#2f7d72; --countryHover:#3fa392; --sel:#fbbf24;
+    --shadow:0 6px 24px rgba(0,0,0,.35); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1320; --bg2:#151c2e; --card:#18213a; --text:#e8ecf6; --muted:#97a3bd; --line:#26314d;
+  --primary:#2dd4bf; --primary2:#5eead4; --okbg:#123a26; --badbg:#3f1717; --ok:#4ade80; --bad:#f87171;
+  --sea:#13253f; --land:#2a3245; --landline:#18213a; --country:#2f7d72; --countryHover:#3fa392; --sel:#fbbf24;
+  --shadow:0 6px 24px rgba(0,0,0,.35); color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:Vazirmatn,Tahoma,"Segoe UI",sans-serif;line-height:1.7;min-height:100vh;
+  background-image:radial-gradient(circle at 100% 0,rgba(99,102,241,.12),transparent 40%),radial-gradient(circle at 0 30%,rgba(20,184,166,.12),transparent 40%);background-attachment:fixed}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px 40px}
+header.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 80%,transparent);border-bottom:1px solid var(--line)}
+header.top .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px}
+.logo{font-weight:900;font-size:1.2rem;display:flex;align-items:center;gap:8px;flex:1}
+.logo span.dot{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--g3),var(--g1));display:grid;place-items:center;color:#fff;font-size:1rem}
+.iconbtn{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:1.1rem}
+.screen{display:none;animation:fade .25s ease}
+.screen.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h1,h2,h3{line-height:1.4;margin:0}
+.hero{margin:22px 0 18px;padding:22px;border-radius:24px;color:#fff;background:linear-gradient(135deg,#0f766e,#4f46e5 60%,#db2777);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero h1{font-size:1.6rem;font-weight:900}
+.hero p{margin:6px 0 0;opacity:.92}
+.hero .globe{position:absolute;left:-20px;bottom:-30px;font-size:7rem;opacity:.18}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:14px;font-weight:700;background:var(--primary);color:#fff;transition:transform .1s, filter .2s}
+:root[data-theme="dark"] .btn, .btn{}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--card);color:var(--text);border:1px solid var(--line)}
+.btn.big{width:100%;padding:16px;font-size:1.05rem}
+.learnbtn{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:right;margin-bottom:18px}
+.learnbtn .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.6rem;background:linear-gradient(135deg,var(--g5),var(--g3));flex:none}
+.learnbtn b{display:block;font-size:1.1rem}
+.learnbtn small{color:var(--muted)}
+.sec-title{font-weight:900;font-size:1.1rem;margin:6px 0 10px}
+.modes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:640px){.modes{grid-template-columns:repeat(3,1fr)}}
+.mode{padding:16px 14px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:right;position:relative;overflow:hidden;transition:transform .12s}
+.mode:active{transform:scale(.97)}
+.mode .ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:1.35rem;color:#fff;margin-bottom:8px}
+.mode b{display:block;font-size:1rem}
+.mode small{display:block;color:var(--muted);font-size:.8rem}
+.mode .best{margin-top:8px;font-size:.78rem;color:var(--muted)}
+.mode .best em{font-style:normal;color:var(--accent);font-weight:700}
+.mode.mixed{grid-column:1/-1;background:linear-gradient(135deg,color-mix(in srgb,var(--g1) 18%,var(--card)),color-mix(in srgb,var(--g2) 18%,var(--card)))}
+/* map */
+.mapbox{position:relative;border-radius:var(--r);overflow:hidden;background:var(--sea);border:1px solid var(--line);box-shadow:var(--shadow)}
+.mapbox svg{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.mapbox .zoom{position:absolute;left:8px;top:8px;display:flex;flex-direction:column;gap:6px}
+.mapbox .zoom button{width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--line);font-size:1.1rem;font-weight:700;box-shadow:var(--shadow)}
+.m-other{fill:var(--land);stroke:var(--landline);stroke-width:.6}
+.m-c{fill:var(--country);stroke:var(--landline);stroke-width:.9;cursor:pointer;transition:fill .15s}
+.m-c:hover{fill:var(--countryHover)}
+.m-c.sel{fill:var(--sel)}
+.m-c.ok{fill:var(--ok)}
+.m-c.bad{fill:var(--bad)}
+.m-c.dim{fill:color-mix(in srgb,var(--country) 55%,var(--land))}
+.m-hit{fill:transparent;cursor:pointer}
+.m-ring{fill:none;stroke:var(--sel);stroke-width:2.5;pointer-events:none}
+.m-ring.ok{stroke:var(--ok)}.m-ring.bad{stroke:var(--bad)}
+.m-lbl{font-family:Vazirmatn,Tahoma,sans-serif;font-weight:700;fill:var(--text);paint-order:stroke;stroke:color-mix(in srgb,var(--bg) 80%,transparent);stroke-width:3px;stroke-linejoin:round;pointer-events:none;text-anchor:middle;dominant-baseline:middle}
+.m-lead{stroke:var(--muted);stroke-width:.8;pointer-events:none}
+.m-sea{font-family:Vazirmatn,Tahoma,sans-serif;font-style:italic;fill:color-mix(in srgb,var(--primary) 60%,var(--muted));opacity:.75;font-size:12px;text-anchor:middle;pointer-events:none}
+.nolabels .m-lbl,.nolabels .m-lead{display:none}
+.maphint{font-size:.85rem;color:var(--muted);margin:8px 2px 14px}
+/* learn */
+.searchbar{display:flex;gap:8px;margin:16px 0 12px}
+.searchbar input{flex:1;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--text);font:inherit;outline:none}
+.searchbar input:focus{border-color:var(--primary)}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:640px){.cards{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:860px){.cards{grid-template-columns:repeat(4,1fr)}}
+.ccard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);text-align:right;transition:transform .12s}
+.ccard:active{transform:scale(.97)}
+.ccard .fl{aspect-ratio:3/2;display:grid;place-items:center;background:var(--bg2);padding:12px}
+.ccard .fl svg{max-width:100%;max-height:100%;width:auto;height:100%;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.ccard .tx{padding:10px 12px}
+.ccard b{display:block}
+.ccard small{color:var(--muted)}
+.flag svg{display:block;width:100%;height:100%;}
+/* sheet */
+.overlay{position:fixed;inset:0;background:rgba(5,10,25,.55);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.overlay.on{display:flex;animation:fade .2s}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 18px 24px;box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+@media(min-width:640px){.overlay{align-items:center}.sheet{border-radius:24px}}
+.sheet .grab{width:44px;height:5px;border-radius:5px;background:var(--line);margin:-6px auto 12px}
+.det-flag{height:150px;display:grid;place-items:center;margin-bottom:12px}
+.det-flag svg{height:100%;width:auto;max-width:100%;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.det-name{font-size:1.5rem;font-weight:900;text-align:center}
+.det-en{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:12px;direction:ltr}
+.rows{display:grid;gap:10px}
+.row{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:14px;background:var(--bg2)}
+.row .k{font-size:1.3rem;line-height:1.3}
+.row small{color:var(--muted);display:block;font-size:.8rem}
+.row b{font-weight:700}
+.row .note{font-size:.8rem;color:var(--muted);margin-top:2px}
+.facts{margin:0;padding:0 18px 0 0}
+.facts li{margin:4px 0}
+.det-nav{display:flex;gap:8px;margin-top:14px}
+.det-nav .btn{flex:1}
+.mini{margin-top:12px}
+/* quiz */
+.qtop{display:flex;align-items:center;gap:8px;margin:14px 0 8px;flex-wrap:wrap}
+.chip{padding:5px 11px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:.85rem;font-weight:700;white-space:nowrap}
+.chip.score{background:linear-gradient(135deg,var(--g4),#f97316);color:#fff;border:0}
+.chip.okc{color:var(--ok)}.chip.badc{color:var(--bad)}
+.chip.streak{color:#f97316}
+.prog{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin-bottom:14px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--g3),var(--g1));width:0;transition:width .3s}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+.qtag{display:inline-block;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:999px;color:#fff;margin-bottom:8px}
+.qtext{font-size:1.2rem;font-weight:900;margin-bottom:12px}
+.qflag{height:140px;display:grid;place-items:center;margin:6px 0 14px}
+.qflag svg{height:100%;width:auto;max-width:100%;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.qfact{font-size:1.05rem;padding:14px 16px;border-radius:16px;background:var(--bg2);border-right:5px solid var(--g6);margin-bottom:14px}
+.opts{display:grid;gap:10px}
+@media(min-width:560px){.opts{grid-template-columns:1fr 1fr}}
+.opt{padding:14px 16px;border-radius:16px;background:var(--bg2);border:2px solid transparent;text-align:right;font-weight:700;font-size:1rem;display:flex;align-items:center;gap:10px;transition:transform .1s, background .2s}
+.opt:active{transform:scale(.98)}
+.opt .n{width:28px;height:28px;flex:none;border-radius:9px;background:var(--card);display:grid;place-items:center;font-size:.85rem;color:var(--muted)}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}
+.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.opt[disabled]{cursor:default}
+.opts.flags{grid-template-columns:1fr 1fr}
+.opt.fopt{justify-content:center;padding:10px;aspect-ratio:3/2}
+.opt.fopt svg{max-height:100%;max-width:100%;height:100%;width:auto;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.fb{margin-top:14px;padding:12px 14px;border-radius:14px;font-weight:700;display:none}
+.fb.on{display:block;animation:fade .2s}
+.fb.ok{background:var(--okbg);color:var(--ok)}
+.fb.bad{background:var(--badbg);color:var(--bad)}
+.fb .why{display:block;font-weight:500;color:var(--text);font-size:.9rem;margin-top:2px}
+.next{margin-top:14px;display:none}
+.next.on{display:flex}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(6px)}50%{transform:translateX(-6px)}75%{transform:translateX(3px)}}
+.pop{animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.04)}}
+/* result */
+.res-hero{text-align:center;padding:24px 18px;border-radius:24px;background:linear-gradient(135deg,#4f46e5,#db2777);color:#fff;margin:18px 0;box-shadow:var(--shadow)}
+.res-hero .big{font-size:3rem;font-weight:900;line-height:1.2}
+.res-hero .rec{display:inline-block;margin-top:8px;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:999px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.stat b{display:block;font-size:1.4rem}
+.stat small{color:var(--muted)}
+.review{display:grid;gap:10px;margin:10px 0 18px}
+.rv{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;gap:12px;align-items:center}
+.rv .rf{width:64px;flex:none}
+.rv .rf svg{width:100%;height:auto;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.rv .q{font-weight:700;font-size:.92rem}
+.rv .a{font-size:.85rem}
+.rv .a .u{color:var(--bad)}.rv .a .c{color:var(--ok)}
+.btns{display:grid;gap:10px}
+.allgood{text-align:center;padding:18px;border-radius:16px;background:var(--okbg);color:var(--ok);font-weight:700;margin-bottom:16px}
+.countpick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 6px}
+.countpick button{padding:16px 8px;border-radius:16px;background:var(--bg2);border:2px solid var(--line);font-weight:900;font-size:1.15rem}
+.countpick button small{display:block;font-weight:500;font-size:.75rem;color:var(--muted)}
+.countpick button:active{border-color:var(--primary)}
+.sheet h3{font-size:1.2rem;text-align:center}
+.sheet p.c{color:var(--muted);text-align:center;margin:4px 0 0;font-size:.9rem}
+.foot{text-align:center;color:var(--muted);font-size:.78rem;margin-top:26px}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <button class="logo" id="goHome" aria-label="خانه"><span class="dot">🌍</span>خاورمیانه‌شناس</button>
+  <button class="iconbtn" id="themeBtn" aria-label="تغییر حالت روشن و تیره">🌙</button>
+</div></header>
+
+<main class="wrap">
+  <!-- HOME -->
+  <section class="screen on" id="sHome">
+    <div class="hero">
+      <div class="globe">🗺️</div>
+      <h1>کشورهای خاورمیانه را بشناس!</h1>
+      <p>پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ۱۷ کشور — اول یاد بگیر، بعد خودت را محک بزن.</p>
+    </div>
+    <button class="learnbtn" id="goLearn">
+      <span class="ic">📚</span>
+      <span><b>حالت یادگیری</b><small>نقشهٔ تعاملی و کارت همهٔ کشورها برای مرور</small></span>
+    </button>
+    <div class="sec-title">کوییزها</div>
+    <div class="modes" id="modes"></div>
+    <div class="foot">مرزهای نقشه: Natural Earth · امتیازها فقط روی همین دستگاه ذخیره می‌شوند</div>
+  </section>
+
+  <!-- LEARN -->
+  <section class="screen" id="sLearn">
+    <div class="searchbar">
+      <input id="search" type="search" placeholder="جستجوی کشور، پایتخت یا زبان…" autocomplete="off">
+    </div>
+    <div class="mapbox" id="learnMap"></div>
+    <div class="maphint">👆 روی هر کشور بزن تا کارتش باز شود. با دو انگشت یا دکمه‌های + و − بزرگ‌نمایی کن.</div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen" id="sQuiz">
+    <div class="qtop">
+      <span class="chip" id="qProg"></span>
+      <span class="chip score" id="qScore"></span>
+      <span class="chip okc" id="qOk"></span>
+      <span class="chip badc" id="qBad"></span>
+      <span class="chip streak" id="qStreak" hidden></span>
+    </div>
+    <div class="prog"><i id="qBar"></i></div>
+    <div class="qcard" id="qCard"></div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="sResult"></section>
+</main>
+
+<div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
+
+<script>
+"use strict";
+const MAP = /*MAP_DATA*/;
+
+/* ================== داده‌های کشورها ================== */
+// x: کشورهایی که نباید گزینهٔ غلطِ آن نکته باشند (چون نکته دربارهٔ آن‌ها هم صدق می‌کند)
+const C = [
+ {id:"ir", fa:"ایران", en:"Iran", cap:"تهران", lang:["فارسی"],
+  facts:[{t:"تخت جمشید (پرسپولیس)، پایتخت تشریفاتی هخامنشیان، از مهم‌ترین آثار باستانی آن است."},
+         {t:"نوروز، جشن آغاز سال نو در اول بهار، ریشه در فرهنگ باستانی این کشور دارد.", x:["iq","tr"]},
+         {t:"دارای دومین ذخایر گاز طبیعی جهان، پس از روسیه.", x:["qa"]}]},
+ {id:"iq", fa:"عراق", en:"Iraq", cap:"بغداد", lang:["عربی","کردی"],
+  facts:[{t:"سرزمین میان‌رودان (بین‌النهرین) میان دو رود دجله و فرات است؛ از نخستین خاستگاه‌های تمدن و خط میخی.", x:["sy","tr"]},
+         {t:"شهرهای زیارتی کربلا و نجف در این کشورند."},
+         {t:"بابل باستان، با «باغ‌های معلق» افسانه‌ای، در این سرزمین بود."}]},
+ {id:"tr", fa:"ترکیه", en:"Turkey (Türkiye)", cap:"آنکارا", lang:["ترکی"],
+  facts:[{t:"استانبول، بزرگ‌ترین شهرش، روی دو قارهٔ اروپا و آسیا و دو سوی تنگهٔ بسفر قرار دارد.", x:["eg"]},
+         {t:"جمهوری آن در سال ۱۹۲۳ به رهبری مصطفی کمال آتاتورک بنیان‌گذاری شد."},
+         {t:"ایاصوفیه و دودکش‌های پریان کاپادوکیا از جاذبه‌های مشهور آن هستند."}]},
+ {id:"sy", fa:"سوریه", en:"Syria", cap:"دمشق", lang:["عربی"],
+  facts:[{t:"پایتختش دمشق از کهن‌ترین شهرهای جهان است که پیوسته در آن سکونت بوده است.", x:["ps","lb","iq","jo"]},
+         {t:"شهر باستانی پالمیرا (تدمر) و مسجد جامع اموی از آثار مشهور آن است."},
+         {t:"حلب، با بازار سرپوشیده و ارگ تاریخی‌اش، از شهرهای بزرگ آن است."}]},
+ {id:"lb", fa:"لبنان", en:"Lebanon", cap:"بیروت", lang:["عربی"],
+  facts:[{t:"درخت سرو (سدر) نماد این کشور است و وسط پرچمش نقش بسته است."},
+         {t:"سرزمین فنیقی‌ها بود؛ مردمانی دریانورد که الفبای فنیقی را پدید آوردند.", x:["sy"]},
+         {t:"۱۸ فرقهٔ دینی رسمی دارد و قدرت سیاسی میان آن‌ها تقسیم شده است."}]},
+ {id:"jo", fa:"اردن", en:"Jordan", cap:"امّان", lang:["عربی"],
+  facts:[{t:"شهر باستانی پترا، تراشیده در دل صخره‌های سرخ، از عجایب هفت‌گانهٔ جدید جهان است."},
+         {t:"کشوری پادشاهی به رهبری خاندان هاشمی است.", x:["sa","bh","om","kw","qa","ae"]},
+         {t:"بیابان وادی رم، معروف به «درهٔ ماه»، در جنوب آن است."}]},
+ {id:"ps", fa:"فلسطین", en:"Palestine", cap:"قدس شرقی",
+  capNote:"پایتخت اعلام‌شده قدس شرقی است؛ مقر دولت در رام‌الله قرار دارد.", lang:["عربی"],
+  facts:[{t:"از دو بخش جدا از هم تشکیل شده است: کرانهٔ باختری و نوار غزه.", x:["il"]},
+         {t:"شهر بیت‌لحم، بنا بر سنت مسیحی زادگاه حضرت عیسی، در آن قرار دارد.", x:["il"]},
+         {t:"اریحا از کهن‌ترین شهرهای جهان و پست‌ترین شهر روی زمین است.", x:["il","jo","sy"]}]},
+ {id:"il", fa:"اسرائیل", en:"Israel", cap:"اورشلیم (بیت‌المقدس)",
+  capNote:"اسرائیل اورشلیم را پایتخت خود می‌داند، اما بیشتر کشورها آن را به رسمیت نمی‌شناسند و سفارتشان در تل‌آویو است.",
+  lang:["عبری"], langNote:"عربی هم «جایگاه ویژه» دارد.",
+  facts:[{t:"در سال ۱۹۴۸ میلادی تشکیل شد.", x:["ps"]},
+         {t:"زبان رسمی‌اش نمونهٔ کم‌نظیر زنده‌شدن یک زبان کهن و تبدیلش به زبان گفتار روزمره است."},
+         {t:"تل‌آویو، مرکز اقتصادی آن، به شرکت‌های نوپای فناوری (استارتاپ‌ها) معروف است.", x:["ps"]}]},
+ {id:"sa", fa:"عربستان سعودی", en:"Saudi Arabia", cap:"ریاض", lang:["عربی"],
+  facts:[{t:"مکه و مدینه، دو شهر مقدس اسلام، در آن هستند و هر سال میلیون‌ها نفر برای حج به آن سفر می‌کنند."},
+         {t:"بزرگ‌ترین کشور شبه‌جزیرهٔ عربستان است؛ حدود ۲٫۱۵ میلیون کیلومتر مربع.", x:["ye","om","ae","qa","kw","bh"]},
+         {t:"بیشتر ربع‌الخالی، بزرگ‌ترین بیابان شنی پیوستهٔ جهان، در خاک آن است.", x:["om","ae","ye"]}]},
+ {id:"kw", fa:"کویت", en:"Kuwait", cap:"کویت (شهر کویت)", lang:["عربی"],
+  facts:[{t:"واحد پولش (دینار) باارزش‌ترین واحد پول جهان است."},
+         {t:"در سال ۱۹۹۰ عراق به آن حمله کرد که به جنگ خلیج فارس در ۱۹۹۱ انجامید.", x:["iq"]},
+         {t:"برج‌های سه‌گانهٔ مشهورش با گوی‌های آبی، نماد این کشور است."}]},
+ {id:"bh", fa:"بحرین", en:"Bahrain", cap:"منامه", lang:["عربی"],
+  facts:[{t:"کوچک‌ترین کشور خاورمیانه است؛ مجمع‌الجزایری با ده‌ها جزیره."},
+         {t:"پل ملک فهد آن را از راه دریا به عربستان سعودی وصل می‌کند.", x:["sa"]},
+         {t:"از دوران باستان (تمدن دیلمون) به صید مروارید مشهور بوده است.", x:["qa","ae","kw"]}]},
+ {id:"qa", fa:"قطر", en:"Qatar", cap:"دوحه", lang:["عربی"],
+  facts:[{t:"میزبان جام جهانی فوتبال ۲۰۲۲، نخستین جام جهانی در خاورمیانه، بود."},
+         {t:"شبه‌جزیره‌ای کوچک است که فقط با عربستان سعودی مرز زمینی دارد.", x:["sa"]},
+         {t:"از بزرگ‌ترین صادرکنندگان گاز مایع (LNG) است؛ میدان گازی‌اش با ایران مشترک است (پارس جنوبی).", x:["ir"]}]},
+ {id:"ae", fa:"امارات متحده عربی", en:"United Arab Emirates", cap:"ابوظبی", lang:["عربی"],
+  facts:[{t:"برج خلیفه در دبی، بلندترین ساختمان جهان (۸۲۸ متر)، در آن است."},
+         {t:"اتحادیه‌ای از هفت امارت است که در سال ۱۹۷۱ تشکیل شد."},
+         {t:"دبی، یکی از امارت‌هایش، از قطب‌های بزرگ گردشگری و تجارت جهان است."}]},
+ {id:"om", fa:"عمان", en:"Oman", cap:"مسقط", lang:["عربی"],
+  facts:[{t:"شبه‌جزیرهٔ مسندم آن بر تنگهٔ هرمز مشرف است.", x:["ir","ae"]},
+         {t:"کُندر (لُبان) منطقهٔ ظفار در جنوب آن از دوران باستان مشهور بوده است.", x:["ye"]},
+         {t:"سلطان‌نشینی با قلعه‌های تاریخی فراوان، مانند قلعهٔ نزوا، است."}]},
+ {id:"ye", fa:"یمن", en:"Yemen", cap:"صنعا",
+  capNote:"پایتخت قانونی صنعاست؛ به‌دلیل جنگ داخلی، دولت به‌رسمیت‌شناخته‌شده در عدن مستقر شده است.", lang:["عربی"],
+  facts:[{t:"شهر شِبام با برج‌های خشتی چندطبقه‌اش «منهتن بیابان» نام گرفته است."},
+         {t:"قهوهٔ «موکا» نامش را از بندر مَخا در این کشور گرفته است."},
+         {t:"تنگهٔ باب‌المندب، میان دریای سرخ و خلیج عدن، در کنار آن است.", x:["sa","eg"]}]},
+ {id:"eg", fa:"مصر", en:"Egypt", cap:"قاهره", lang:["عربی"],
+  facts:[{t:"هرم بزرگ جیزه تنها بازماندهٔ عجایب هفت‌گانهٔ جهان باستان است."},
+         {t:"رود نیل، از طولانی‌ترین رودهای جهان، از آن می‌گذرد و به مدیترانه می‌ریزد."},
+         {t:"کانال سوئز در آن، دریای مدیترانه را به دریای سرخ وصل می‌کند."}]},
+ {id:"cy", fa:"قبرس", en:"Cyprus", cap:"نیکوزیا", lang:["یونانی","ترکی"],
+  facts:[{t:"سومین جزیرهٔ بزرگ دریای مدیترانه است و نقشهٔ جزیره روی پرچمش آمده است."},
+         {t:"از سال ۱۹۷۴ میان جنوبِ یونانی‌نشین و شمالِ ترک‌نشین تقسیم شده است.", x:["tr"]},
+         {t:"از سال ۲۰۰۴ عضو اتحادیهٔ اروپا است.", x:["tr"]}]}
+];
+const BY = Object.fromEntries(C.map(c=>[c.id,c]));
+const langStr = c => c.lang.join(" و ");
+
+/* ================== ابزارها ================== */
+const $ = s => document.querySelector(s);
+const fa = n => String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
+const pick = a => a[Math.random()*a.length|0];
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ================== پرچم‌ها (SVG) ================== */
+function starPts(cx,cy,R,r,n,rot){
+  let p=[]; for(let i=0;i<2*n;i++){ const a=rot+Math.PI*i/n, rr=i%2?r:R; p.push((cx+rr*Math.cos(a)).toFixed(2)+","+(cy+rr*Math.sin(a)).toFixed(2)); }
+  return p.join(" ");
+}
+const tri3 = (w,h,a,b,c) => `<rect width="${w}" height="${h/3+.5}" fill="${a}"/><rect y="${h/3}" width="${w}" height="${h/3+.5}" fill="${b}"/><rect y="${2*h/3}" width="${w}" height="${h/3}" fill="${c}"/>`;
+const svgw = (w,h,body,label) => `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${label||"پرچم"}" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
+const FLAG = {
+  ir(){ // سبز، سفید، سرخ + نشان و ۲۲ تکبیر
+    let tk=""; for(let i=0;i<11;i++){ const x=i*57.27+14;
+      tk+=`<g fill="#fff"><rect x="${x}" y="113" width="30" height="3"/><rect x="${x+3}" y="106" width="3" height="8"/><rect x="${x+13}" y="108" width="3" height="6"/><rect x="${x+24}" y="105" width="3" height="9"/></g>`;
+      tk+=`<g fill="#fff"><rect x="${x}" y="244" width="30" height="3"/><rect x="${x+3}" y="247" width="3" height="8"/><rect x="${x+13}" y="247" width="3" height="6"/><rect x="${x+24}" y="247" width="3" height="9"/></g>`; }
+    const em=`<g fill="none" stroke="#da0000" stroke-width="7" stroke-linecap="round"><path d="M303,148 Q282,180 303,212"/><path d="M327,148 Q348,180 327,212"/><path d="M293,140 Q258,182 298,222"/><path d="M337,140 Q372,182 332,222"/></g><path d="M315,132 L320,142 L319,214 L311,214 L310,142 Z" fill="#da0000"/><rect x="306" y="134" width="18" height="4" rx="2" fill="#da0000"/>`;
+    return svgw(630,360, tri3(630,360,"#239f40","#fff","#da0000")+tk+em, "پرچم ایران");
+  },
+  iq(){ return svgw(300,200, tri3(300,200,"#ce1126","#fff","#000")+`<text x="150" y="102" fill="#007a3d" font-size="44" font-weight="900" text-anchor="middle" dominant-baseline="middle" font-family="Vazirmatn,Tahoma,sans-serif" direction="rtl">الله أكبر</text>`, "پرچم عراق"); },
+  tr(){ return svgw(300,200, `<rect width="300" height="200" fill="#e30a17"/><circle cx="100" cy="100" r="50" fill="#fff"/><circle cx="112.5" cy="100" r="40" fill="#e30a17"/><polygon fill="#fff" points="${starPts(155,100,25,10,5,Math.PI)}"/>`, "پرچم ترکیه"); },
+  sy(){ return svgw(300,200, tri3(300,200,"#007a3d","#fff","#000")+[95,150,205].map(x=>`<polygon fill="#ce1126" points="${starPts(x,100,18,7.2,5,-Math.PI/2)}"/>`).join(""), "پرچم سوریه"); },
+  lb(){ return svgw(300,200, `<rect width="300" height="200" fill="#fff"/><rect width="300" height="50" fill="#ed1c24"/><rect y="150" width="300" height="50" fill="#ed1c24"/><path fill="#00a651" d="M150,54 L168,74 L160,74 L180,94 L168,94 L190,116 L172,116 L194,138 L106,138 L128,116 L110,116 L132,94 L120,94 L140,74 L132,74 Z"/><rect x="145" y="136" width="10" height="12" fill="#00a651"/>`, "پرچم لبنان"); },
+  jo(){ return svgw(400,200, tri3(400,200,"#000","#fff","#007a3d")+`<polygon points="0,0 200,100 0,200" fill="#ce1126"/><polygon fill="#fff" points="${starPts(66,100,20,9,7,-Math.PI/2)}"/>`, "پرچم اردن"); },
+  ps(){ return svgw(400,200, tri3(400,200,"#000","#fff","#009639")+`<polygon points="0,0 133.3,100 0,200" fill="#ed2e38"/>`, "پرچم فلسطین"); },
+  il(){ const s=`M110,48 L137.7,96 L82.3,96 Z M110,112 L82.3,64 L137.7,64 Z`;
+    return svgw(220,160, `<rect width="220" height="160" fill="#fff"/><rect y="15" width="220" height="25" fill="#0038b8"/><rect y="120" width="220" height="25" fill="#0038b8"/><path d="${s}" fill="none" stroke="#0038b8" stroke-width="5.5" stroke-linejoin="miter"/>`, "پرچم اسرائیل"); },
+  sa(){ return svgw(300,200, `<rect width="300" height="200" fill="#006c35"/><text x="150" y="86" fill="#fff" font-size="22" font-weight="700" text-anchor="middle" dominant-baseline="middle" font-family="Vazirmatn,Tahoma,sans-serif" direction="rtl">لا إله إلا الله محمد رسول الله</text><path fill="#fff" d="M70,128 Q76,122 90,122 L205,122 L205,128 Z"/><rect x="205" y="116" width="5" height="18" rx="2" fill="#fff"/><rect x="210" y="122" width="22" height="6" rx="3" fill="#fff"/>`, "پرچم عربستان سعودی"); },
+  kw(){ return svgw(400,200, tri3(400,200,"#007a3d","#fff","#ce1126")+`<polygon points="0,0 100,66.7 100,133.3 0,200" fill="#000"/>`, "پرچم کویت"); },
+  bh(){ let p="0,0 125,0"; for(let i=0;i<5;i++){ p+=` 200,${i*60+30} 125,${i*60+60}`; } p+=" 0,300";
+    return svgw(500,300, `<rect width="500" height="300" fill="#ce1126"/><polygon points="${p}" fill="#fff"/>`, "پرچم بحرین"); },
+  qa(){ const s=220/9; let p="0,0 150,0"; for(let i=0;i<9;i++){ p+=` 200,${(i*s+s/2).toFixed(2)} 150,${((i+1)*s).toFixed(2)}`; } p+=" 0,220";
+    return svgw(560,220, `<rect width="560" height="220" fill="#8a1538"/><polygon points="${p}" fill="#fff"/>`, "پرچم قطر"); },
+  ae(){ return svgw(400,200, tri3(400,200,"#00732f","#fff","#000")+`<rect width="100" height="200" fill="#ff0000"/>`, "پرچم امارات"); },
+  om(){ return svgw(300,150, `<rect width="300" height="150" fill="#db161b"/><rect x="75" width="225" height="50" fill="#fff"/><rect x="75" y="100" width="225" height="50" fill="#008000"/><g stroke="#fff" stroke-width="3.2" stroke-linecap="round" fill="none"><path d="M22,14 L53,46"/><path d="M53,14 L22,46"/><path d="M37.5,13 L37.5,36 Q37.5,46 44,49"/><path d="M29,22 L46,22"/></g><circle cx="37.5" cy="12" r="3" fill="#fff"/>`, "پرچم عمان"); },
+  ye(){ return svgw(300,200, tri3(300,200,"#ce1126","#fff","#000"), "پرچم یمن"); },
+  eg(){ return svgw(300,200, tri3(300,200,"#ce1126","#fff","#000")+`<g fill="#c09300"><circle cx="150" cy="76" r="5.5"/><path d="M150,82 L116,76 L122,90 L117,103 L133,99 L150,120 L167,99 L183,103 L178,90 L184,76 Z"/><rect x="134" y="121" width="32" height="6" rx="2"/></g><rect x="144" y="88" width="12" height="18" rx="2" fill="#fff" stroke="#c09300" stroke-width="2"/>`, "پرچم مصر"); },
+  cy(){ let lv=""; const leaf=(x,y,a)=>`<ellipse cx="${x}" cy="${y}" rx="7" ry="2.8" transform="rotate(${a} ${x} ${y})"/>`;
+    for(let i=0;i<6;i++){ const t=i/5, x=104+t*40, y=168-t*14+t*t*4; lv+=leaf(x,y-5,-30-t*10)+leaf(x+3,y+5,20); const xr=300-x; lv+=leaf(xr,y-5,30+t*10)+leaf(xr-3,y+5,-20); }
+    return svgw(300,200, `<rect width="300" height="200" fill="#fff"/><path fill="#d57800" d="M112.4,83.6L115.6,84.3L121.3,82.9L123.8,76.7L124.5,69.4L134,71.6L143.8,72.6L151.7,73L159.4,71.8L183.2,64.1L190,59.5L194.4,57.9L201.5,54.1L209.1,52L204.4,56.4L177,75.8L175.1,81.6L176.4,85.5L180.2,90.4L181.1,91.6L182.7,95.3L176.6,96.4L170.8,96.7L167.4,96.3L164.2,96.4L154.5,106.9L149.2,110.5L143,112.6L136.8,113.8L133.6,113.9L130.7,115.3L128.9,117.7L128.9,120.1L127.9,122L124.5,121.6L123,117.8L120.6,116.1L114.5,117L111.5,116.9L101.7,113.3L98.7,111.8L96.8,108.7L91.7,97.5L90.9,89.2L95.6,91.3L100,88.7L104.3,84.5L109.4,82.8Z"/><path d="M104,168 Q125,160 146,156 M196,168 Q175,160 154,156" stroke="#4e5b31" stroke-width="2.4" fill="none"/><g fill="#4e5b31">${lv}</g>`, "پرچم قبرس"); }
+};
+const flagCache = {};
+const flag = id => flagCache[id] || (flagCache[id] = FLAG[id]());
+
+/* ================== نقشه ================== */
+// جای برچسب کشورهای کوچک (با خط راهنما)
+const LBL = { lb:{p:[280.7,261.8],a:[310.4,256.3]}, il:{p:[258,289.1],a:[295.6,294.5]}, ps:{p:[256,312],a:[301.3,308]},
+              bh:{p:[636,434],a:[651.9,459.6]}, om:{p:[794.6,581.8]}, cy:{p:[256.1,219]} };
+const SEAS = [["دریای مدیترانه",159.7,250.8],["دریای سرخ",376.7,611.1,-58],["خلیج فارس",712,452,-35],["دریای خزر",662,40],["دریای عرب",905,670],["خلیج عدن",600,792],["دریای سیاه",275,14],["دریای عمان",842,512,-30]];
+let mapUid=0;
+function makeMap(host, opt){
+  opt = opt || {};
+  const W=MAP.W, H=MAP.H, NS="http://www.w3.org/2000/svg";
+  const uid = ++mapUid;
+  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="${NS}" aria-label="نقشهٔ خاورمیانه"><rect x="-2000" y="-2000" width="5000" height="5000" fill="var(--sea)"/>`;
+  s += `<path class="m-other" d="${MAP.others}"/>`;
+  s += `<g class="m-cs">` + C.map(c=>`<path class="m-c" data-id="${c.id}" d="${MAP.targets[c.id].d}"><title>${c.fa}</title></path>`).join("") + `</g>`;
+  s += SEAS.map(([t,x,y,r])=>`<text class="m-sea" x="${x}" y="${y}"${r?` transform="rotate(${r} ${x} ${y})"`:""}>${t}</text>`).join("");
+  s += `<circle class="m-hit" data-id="bh" cx="651.9" cy="460.5" r="11"/><g class="m-rings"></g><g class="m-lbls">`;
+  for (const c of C){
+    const t = MAP.targets[c.id], L = LBL[c.id] || {}, p = L.p || t.c;
+    const fs = Math.max(10, Math.min(22, t.r/7));
+    if (L.a) s += `<line class="m-lead" x1="${p[0]}" y1="${p[1]}" x2="${L.a[0]}" y2="${L.a[1]}"/>`;
+    s += `<text class="m-lbl" x="${p[0]}" y="${p[1]}" font-size="${L.a?10:fs}">${c.fa}</text>`;
+  }
+  s += `</g></svg><div class="zoom"><button data-z="in" aria-label="بزرگ‌نمایی">+</button><button data-z="out" aria-label="کوچک‌نمایی">−</button><button data-z="reset" aria-label="بازنشانی" style="font-size:.9rem">⟲</button></div>`;
+  host.innerHTML = s;
+  host.classList.toggle("nolabels", !!opt.noLabels);
+  const svg = host.querySelector("svg"), rings = host.querySelector(".m-rings");
+  let vb = {x:0,y:0,w:W,h:H};
+  const apply = () => svg.setAttribute("viewBox", `${vb.x} ${vb.y} ${vb.w} ${vb.h}`);
+  const clamp = () => { vb.w=Math.min(W,Math.max(110,vb.w)); vb.h=vb.w*H/W; vb.x=Math.min(W-vb.w,Math.max(0,vb.x)); vb.y=Math.min(H-vb.h,Math.max(0,vb.y)); };
+  const zoomAt = (f,px,py) => { const nw=vb.w/f; const nwc=Math.min(W,Math.max(110,nw)); const k=nwc/vb.w; vb.x=px-(px-vb.x)*k; vb.y=py-(py-vb.y)*k; vb.w=nwc; clamp(); apply(); };
+  const toSvg = (cx,cy) => { const r=svg.getBoundingClientRect(); return [vb.x+(cx-r.left)/r.width*vb.w, vb.y+(cy-r.top)/r.height*vb.h]; };
+  host.querySelector(".zoom").addEventListener("click", e=>{
+    const z = e.target.closest("button")?.dataset.z; if(!z) return;
+    if (z==="reset"){ vb={x:0,y:0,w:W,h:H}; apply(); }
+    else zoomAt(z==="in"?1.6:1/1.6, vb.x+vb.w/2, vb.y+vb.h/2);
+  });
+  svg.addEventListener("wheel", e=>{ e.preventDefault(); const [x,y]=toSvg(e.clientX,e.clientY); zoomAt(e.deltaY<0?1.25:0.8,x,y); }, {passive:false});
+  const pts = new Map(); let moved=false, downTarget=null, startDist=0, startW=0, last=null;
+  svg.addEventListener("pointerdown", e=>{
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if (pts.size===1){ moved=false; downTarget=e.target.closest("[data-id]"); last={x:e.clientX,y:e.clientY}; }
+    if (pts.size===2){ const [a,b]=[...pts.values()]; startDist=Math.hypot(a.x-b.x,a.y-b.y); startW=vb.w; moved=true; }
+    try{ svg.setPointerCapture(e.pointerId); }catch(_){}
+  });
+  svg.addEventListener("pointermove", e=>{
+    if (!pts.has(e.pointerId)) return;
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    const r = svg.getBoundingClientRect();
+    if (pts.size===1){
+      const dx=e.clientX-last.x, dy=e.clientY-last.y;
+      if (!moved && Math.hypot(e.clientX-last.x,e.clientY-last.y)<6 && vb.w===W) return;
+      if (!moved && Math.hypot(dx,dy)<6) return;
+      moved=true; vb.x-=dx/r.width*vb.w; vb.y-=dy/r.height*vb.h; clamp(); apply(); last={x:e.clientX,y:e.clientY};
+    } else if (pts.size===2){
+      const [a,b]=[...pts.values()]; const d=Math.hypot(a.x-b.x,a.y-b.y); if(!startDist) return;
+      const [cx,cy]=toSvg((a.x+b.x)/2,(a.y+b.y)/2); const target=startW*startDist/d; zoomAt(vb.w/target,cx,cy);
+    }
+  });
+  const up = e=>{
+    if (!pts.has(e.pointerId)) return;
+    pts.delete(e.pointerId);
+    if (pts.size===0){
+      if (!moved && downTarget && opt.onSelect) opt.onSelect(downTarget.dataset.id);
+      downTarget=null; startDist=0;
+    } else if (pts.size===1){ const v=[...pts.values()][0]; last={x:v.x,y:v.y}; startDist=0; }
+  };
+  svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", e=>{ pts.delete(e.pointerId); downTarget=null; });
+  const pathOf = id => svg.querySelector(`.m-c[data-id="${id}"]`);
+  return {
+    clear(){ svg.querySelectorAll(".m-c").forEach(p=>p.classList.remove("sel","ok","bad","dim")); rings.innerHTML=""; },
+    mark(id, cls){ // cls: sel | ok | bad
+      const p = pathOf(id); if(!p) return; p.classList.remove("sel","ok","bad"); p.classList.add(cls);
+      const t = MAP.targets[id];
+      if (t.r < 60){ const a=(LBL[id]&&LBL[id].a)||t.c; rings.insertAdjacentHTML("beforeend", `<circle class="m-ring ${cls}" cx="${a[0]}" cy="${a[1]}" r="${Math.max(14,t.r*0.7)}"/>`); }
+    },
+    dimOthers(id){ svg.querySelectorAll(".m-c").forEach(p=>{ if(p.dataset.id!==id) p.classList.add("dim"); }); },
+    focus(id){ // بزرگ‌نمایی ملایم روی یک کشور
+      const t=MAP.targets[id]; const w=Math.min(W, Math.max(260, t.r*3.2)); vb={w, h:w*H/W, x:t.c[0]-w/2, y:t.c[1]-w*H/W/2}; clamp(); apply();
+    },
+    reset(){ vb={x:0,y:0,w:W,h:H}; apply(); },
+    disable(v){ opt.disabled=v; svg.style.pointerEvents=""; },
+    setSelect(fn){ opt.onSelect=fn; }
+  };
+}
+
+/* ================== تم ================== */
+function applyTheme(t){
+  if (t) document.documentElement.setAttribute("data-theme", t); else document.documentElement.removeAttribute("data-theme");
+  const dark = t ? t==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  $("#themeBtn").textContent = dark ? "☀️" : "🌙";
+}
+applyTheme(store.get("me-theme", null));
+$("#themeBtn").onclick = () => {
+  const cur = document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+  const nt = cur==="dark" ? "light" : "dark"; store.set("me-theme", nt); applyTheme(nt);
+};
+
+/* ================== صفحه‌ها ================== */
+function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id===id)); window.scrollTo({top:0}); }
+const MODES = [
+  {id:"flag", t:"پرچم‌ها", d:"این پرچم مال کدام کشور است؟", ic:"🚩", g:"var(--g2)"},
+  {id:"cap", t:"پایتخت‌ها", d:"پایتخت هر کشور کجاست؟", ic:"🏛️", g:"var(--g1)"},
+  {id:"map", t:"روی نقشه", d:"کشور را روی نقشه پیدا کن", ic:"📍", g:"var(--g3)"},
+  {id:"lang", t:"زبان‌ها", d:"زبان رسمی هر کشور", ic:"🗣️", g:"var(--g5)"},
+  {id:"fact", t:"نکته‌ها", d:"این نکته مال کدام کشور است؟", ic:"💡", g:"var(--g4)"},
+  {id:"mix", t:"کوییز ترکیبی", d:"سؤال‌هایی از همهٔ بخش‌ها، قاطی و تصادفی", ic:"🎯", g:"linear-gradient(135deg,var(--g1),var(--g2))"}
+];
+const MODE = Object.fromEntries(MODES.map(m=>[m.id,m]));
+const allCount = m => m==="mix" ? C.length*5 : C.length;
+const bestKey = (m,n) => `me-best-${m}-${n}`;
+function renderHome(){
+  $("#modes").innerHTML = MODES.map(m=>{
+    const b = [10,20,"all"].map(n=>store.get(bestKey(m.id,n),null)).filter(v=>v!=null);
+    const best = b.length ? Math.max(...b) : null;
+    return `<button class="mode${m.id==="mix"?" mixed":""}" data-m="${m.id}"><div class="ic" style="background:${m.g}">${m.ic}</div><b>${m.t}</b><small>${m.d}</small><div class="best">${best!=null?`🏆 بهترین امتیاز: <em>${fa(best)}</em>`:"هنوز بازی نکرده‌ای"}</div></button>`;
+  }).join("");
+}
+$("#modes").addEventListener("click", e=>{ const b=e.target.closest("[data-m]"); if(b) chooseCount(b.dataset.m); });
+$("#goHome").onclick = () => { closeSheet(); renderHome(); show("sHome"); };
+$("#goLearn").onclick = () => { show("sLearn"); initLearn(); };
+
+/* ================== Sheet ================== */
+function openSheet(html){ $("#sheet").innerHTML = `<div class="grab"></div>`+html; $("#ov").classList.add("on"); $("#sheet").scrollTop=0; }
+function closeSheet(){ $("#ov").classList.remove("on"); }
+$("#ov").addEventListener("click", e=>{ if(e.target.id==="ov") closeSheet(); });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeSheet(); });
+
+function chooseCount(m){
+  const M = MODE[m];
+  const best = n => { const v=store.get(bestKey(m,n),null); return v==null?"—":"🏆 "+fa(v); };
+  openSheet(`<h3>${M.ic} ${M.t}</h3><p class="c">چند سؤال؟</p>
+   <div class="countpick">
+    <button data-n="10">${fa(10)}<small>${best(10)}</small></button>
+    <button data-n="20">${fa(20)}<small>${best(20)}</small></button>
+    <button data-n="all">همه (${fa(allCount(m))})<small>${best("all")}</small></button>
+   </div>`);
+  $("#sheet").querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{ closeSheet(); startQuiz(m, b.dataset.n); });
+}
+
+/* ================== یادگیری ================== */
+let learnMap=null, detIdx=0, shownIds=C.map(c=>c.id);
+function initLearn(){
+  if (!learnMap){
+    learnMap = makeMap($("#learnMap"), {onSelect: id=>openDetail(id)});
+    $("#search").addEventListener("input", renderCards);
+    $("#cards").addEventListener("click", e=>{ const b=e.target.closest("[data-id]"); if(b) openDetail(b.dataset.id); });
+  }
+  learnMap.clear(); renderCards();
+}
+function renderCards(){
+  const q = $("#search").value.trim();
+  const list = C.filter(c=>!q || [c.fa,c.en,c.cap,langStr(c)].some(v=>v.toLowerCase().includes(q.toLowerCase())));
+  shownIds = list.map(c=>c.id);
+  learnMap && learnMap.clear();
+  if (q && list.length) list.forEach(c=>learnMap.mark(c.id,"sel"));
+  $("#cards").innerHTML = list.length ? list.map(c=>`<button class="ccard" data-id="${c.id}"><div class="fl">${flag(c.id)}</div><div class="tx"><b>${c.fa}</b><small>🏛️ ${c.cap}</small></div></button>`).join("")
+    : `<p style="grid-column:1/-1;color:var(--muted);text-align:center">کشوری پیدا نشد.</p>`;
+}
+function detailHTML(c){
+  return `<div class="det-flag">${flag(c.id)}</div><div class="det-name">${c.fa}</div><div class="det-en">${c.en}</div>
+   <div class="rows">
+    <div class="row"><span class="k">🏛️</span><div><small>پایتخت</small><b>${c.cap}</b>${c.capNote?`<div class="note">${c.capNote}</div>`:""}</div></div>
+    <div class="row"><span class="k">🗣️</span><div><small>زبان رسمی</small><b>${langStr(c)}</b>${c.langNote?`<div class="note">${c.langNote}</div>`:""}</div></div>
+    <div class="row"><span class="k">💡</span><div><small>نکته‌های مهم</small><ul class="facts">${c.facts.map(f=>`<li>${f.t}</li>`).join("")}</ul></div></div>
+   </div>
+   <div class="mapbox mini nolabels" id="miniMap"></div>`;
+}
+function openDetail(id){
+  const ids = shownIds.includes(id) ? shownIds : C.map(c=>c.id);
+  detIdx = ids.indexOf(id);
+  const c = BY[id];
+  openSheet(detailHTML(c) + `<div class="det-nav"><button class="btn ghost" id="dPrev">→ قبلی</button><button class="btn ghost" id="dClose">بستن</button><button class="btn ghost" id="dNext">بعدی ←</button></div>`);
+  const mm = makeMap($("#miniMap"), {noLabels:true});
+  mm.mark(id,"sel"); mm.focus(id);
+  if (learnMap){ learnMap.clear(); learnMap.mark(id,"sel"); }
+  const go = d => openDetail(ids[(detIdx+d+ids.length)%ids.length]);
+  $("#dPrev").onclick=()=>go(-1); $("#dNext").onclick=()=>go(1); $("#dClose").onclick=()=>{ closeSheet(); learnMap&&learnMap.clear(); };
+}
+
+/* ================== ساخت سؤال‌ها ================== */
+const PS_IL = {ps:["il"], il:["ps"]};
+function others(c, n, excl){
+  excl = new Set([c.id].concat(excl||[]));
+  return shuffle(C.filter(o=>!excl.has(o.id))).slice(0,n);
+}
+function q4(cat, c, prompt, correct, wrongs, extra){
+  const opts = shuffle([{v:correct, ok:true}].concat(wrongs.map(v=>({v, ok:false}))));
+  return Object.assign({cat, id:c.id, prompt, opts, answer:correct}, extra||{});
+}
+const GEN = {
+  flag(c){
+    if (Math.random()<.65) return q4("flag", c, "این پرچم مال کدام کشور است؟", c.fa, others(c,3).map(o=>o.fa), {flag:c.id});
+    const ws = others(c,3);
+    return Object.assign(q4("flag", c, `پرچم «${c.fa}» کدام است؟`, c.id, ws.map(o=>o.id), {flagOpts:true}), {answerText:c.fa});
+  },
+  cap(c){
+    if (Math.random()<.6) return q4("cap", c, `پایتخت «${c.fa}» کجاست؟`, c.cap, others(c,3,PS_IL[c.id]).map(o=>o.cap));
+    return q4("cap", c, `«${c.cap}» پایتخت کدام کشور است؟`, c.fa, others(c,3,PS_IL[c.id]).map(o=>o.fa));
+  },
+  map(c){
+    if (Math.random()<.5) return {cat:"map", id:c.id, prompt:`«${c.fa}» را روی نقشه پیدا کن و رویش بزن.`, tap:true, answer:c.fa};
+    return q4("map", c, "کشورِ رنگی‌شده روی نقشه کدام است؟", c.fa, others(c,3).map(o=>o.fa), {showMap:true});
+  },
+  lang(c){
+    const L = langStr(c);
+    const uniq = C.filter(o=>langStr(o)===L).length===1;
+    if (uniq && Math.random()<.45){
+      const ws = others(c,3,C.filter(o=>o.lang.some(l=>c.lang.includes(l))).map(o=>o.id));
+      return q4("lang", c, `زبان رسمی کدام کشور «${L}» است؟`, c.fa, ws.map(o=>o.fa));
+    }
+    const pool = [...new Set(C.map(langStr).concat(["کردی","انگلیسی","فرانسوی","ارمنی","آذری","عربی و انگلیسی","عربی و فارسی"]))].filter(v=>v!==L);
+    // گزینه‌های غلط: ترجیحاً زبان‌های واقعی منطقه
+    const real = shuffle(pool.filter(v=>C.some(o=>langStr(o)===v))), fake = shuffle(pool.filter(v=>!C.some(o=>langStr(o)===v)));
+    const ws = real.slice(0,2).concat(fake).slice(0,3);
+    return q4("lang", c, `زبان رسمی «${c.fa}» چیست؟`, L, ws);
+  },
+  fact(c, used){
+    const avail = c.facts.filter(f=>!used || !used.has(f.t));
+    const f = pick(avail.length?avail:c.facts); used && used.add(f.t);
+    return q4("fact", c, "این نکته مال کدام کشور است؟", c.fa, others(c,3,f.x).map(o=>o.fa), {fact:f.t});
+  }
+};
+function buildQuiz(mode, nSel){
+  const total = nSel==="all" ? allCount(mode) : +nSel;
+  const used = new Set(), qs = [];
+  if (mode==="mix"){
+    let pairs = []; for (const c of C) for (const k of ["flag","cap","map","lang","fact"]) pairs.push([k,c]);
+    pairs = shuffle(pairs);
+    if (nSel!=="all"){ // پخش‌کردن: هر بخش تقریباً به یک اندازه
+      const cats=["flag","cap","map","lang","fact"]; const picked=[]; let i=0;
+      const byCat = Object.fromEntries(cats.map(k=>[k, pairs.filter(p=>p[0]===k)]));
+      while (picked.length<total){ const k=cats[i++%5]; picked.push(byCat[k].pop()); }
+      pairs = shuffle(picked);
+    }
+    for (const [k,c] of pairs) qs.push(GEN[k](c, used));
+  } else {
+    let cs = [];
+    while (cs.length<total){ let s=shuffle(C); if (cs.length && s[0].id===cs[cs.length-1].id) s.push(s.shift()); cs = cs.concat(s); }
+    cs = cs.slice(0,total);
+    for (const c of cs) qs.push(GEN[mode](c, used));
+  }
+  return qs;
+}
+
+/* ================== اجرای کوییز ================== */
+let Q = null, quizMap = null;
+const CAT = {flag:["پرچم","var(--g2)"], cap:["پایتخت","var(--g1)"], map:["نقشه","var(--g3)"], lang:["زبان","var(--g5)"], fact:["نکته","var(--g4)"]};
+function startQuiz(mode, nSel, preset){
+  Q = {mode, nSel, qs: preset || buildQuiz(mode,nSel), i:0, score:0, ok:0, bad:0, streak:0, bestStreak:0, wrong:[], retry:!!preset};
+  show("sQuiz"); renderQ();
+}
+function updateTop(){
+  $("#qProg").textContent = `سؤال ${fa(Q.i+1)} از ${fa(Q.qs.length)}`;
+  $("#qScore").textContent = `⭐ ${fa(Q.score)}`;
+  $("#qOk").textContent = `✔ ${fa(Q.ok)}`;
+  $("#qBad").textContent = `✘ ${fa(Q.bad)}`;
+  const st=$("#qStreak"); st.hidden = Q.streak<2; st.textContent = `🔥 ${fa(Q.streak)} پشت سر هم`;
+  $("#qBar").style.width = (Q.i/Q.qs.length*100)+"%";
+}
+function renderQ(){
+  const q = Q.qs[Q.i]; updateTop();
+  const [tag,col] = CAT[q.cat];
+  let h = `<span class="qtag" style="background:${col}">${tag}</span><div class="qtext">${q.prompt}</div>`;
+  if (q.flag) h += `<div class="qflag">${flag(q.flag)}</div>`;
+  if (q.fact) h += `<div class="qfact">${q.fact}</div>`;
+  if (q.showMap || q.tap) h += `<div class="mapbox${q.showMap?" nolabels":" nolabels"}" id="qMap" style="margin-bottom:14px"></div>`;
+  if (q.opts){
+    h += `<div class="opts${q.flagOpts?" flags":""}">` + q.opts.map((o,k)=> q.flagOpts
+      ? `<button class="opt fopt" data-k="${k}" aria-label="گزینهٔ ${fa(k+1)}">${flag(o.v)}</button>`
+      : `<button class="opt" data-k="${k}"><span class="n">${fa(k+1)}</span>${esc(o.v)}</button>`).join("") + `</div>`;
+  }
+  h += `<div class="fb" id="fb"></div><button class="btn big next" id="nextBtn">${Q.i+1<Q.qs.length?"سؤال بعدی ←":"دیدن نتیجه 🏁"}</button>`;
+  const card = $("#qCard"); card.innerHTML = h; card.classList.remove("pop","shake");
+  if (q.showMap || q.tap){
+    quizMap = makeMap($("#qMap"), {noLabels:true});
+    if (q.showMap){ quizMap.mark(q.id,"sel"); }
+    else quizMap.setSelect(id=>{ if(!Q.answered) answer(id===q.id, BY[id].fa, id); });
+  }
+  Q.answered = false;
+  card.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    if (Q.answered) return; const o=q.opts[+b.dataset.k];
+    answer(o.ok, q.flagOpts?BY[o.v].fa:o.v, null, b);
+  });
+  $("#nextBtn").onclick = next;
+}
+function answer(ok, given, tapId, btn){
+  const q = Q.qs[Q.i]; Q.answered = true;
+  const card = $("#qCard");
+  card.querySelectorAll(".opt").forEach((b,k)=>{ b.disabled=true; if (q.opts[k].ok) b.classList.add("ok"); });
+  let pts = 0;
+  if (ok){ Q.ok++; Q.streak++; Q.bestStreak=Math.max(Q.bestStreak,Q.streak); pts = 10 + Math.min(Q.streak-1,5)*2; Q.score += pts; }
+  else { Q.bad++; Q.streak=0; if (btn) btn.classList.add("bad"); Q.wrong.push({q, given}); }
+  if (quizMap && q.tap){ quizMap.mark(q.id, ok?"ok":"bad"); if(!ok && tapId){ quizMap.mark(tapId,"sel"); } quizMap.focus(q.id); }
+  if (quizMap && q.showMap) quizMap.mark(q.id, ok?"ok":"bad");
+  const c = BY[q.id], correctText = q.answerText || q.answer;
+  const why = `${c.fa} · پایتخت: ${c.cap} · زبان: ${langStr(c)}`;
+  const fb = $("#fb");
+  fb.className = "fb on " + (ok?"ok":"bad");
+  fb.innerHTML = ok ? `🎉 آفرین! درست بود. <span style="float:left">+${fa(pts)}</span><span class="why">${why}</span>`
+    : `❌ اشتباه بود${given&&q.tap?` (زدی روی «${given}»)`:""}. جواب درست: «${esc(correctText)}»<span class="why">${why}</span>`;
+  card.classList.add(ok?"pop":"shake");
+  $("#nextBtn").classList.add("on");
+  Q.i < Q.qs.length && ($("#qBar").style.width = ((Q.i+1)/Q.qs.length*100)+"%");
+  updateTopCounts();
+  $("#nextBtn").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+function updateTopCounts(){ $("#qScore").textContent=`⭐ ${fa(Q.score)}`; $("#qOk").textContent=`✔ ${fa(Q.ok)}`; $("#qBad").textContent=`✘ ${fa(Q.bad)}`; const st=$("#qStreak"); st.hidden=Q.streak<2; st.textContent=`🔥 ${fa(Q.streak)} پشت سر هم`; }
+function next(){ Q.i++; quizMap=null; if (Q.i>=Q.qs.length) result(); else { renderQ(); window.scrollTo({top:0,behavior:"smooth"}); } }
+
+function result(){
+  const M = MODE[Q.mode], n = Q.qs.length, pct = Math.round(Q.ok/n*100);
+  let rec = false, prev = null;
+  if (!Q.retry){ const k=bestKey(Q.mode,Q.nSel); prev=store.get(k,null); if (prev==null || Q.score>prev){ store.set(k,Q.score); rec = prev!=null || Q.score>0; } }
+  const msg = pct===100?"عالی! همه را درست جواب دادی 🌟": pct>=80?"خیلی خوب بود! 👏": pct>=50?"خوب بود، با کمی مرور بهتر هم می‌شود 💪":"اشکالی ندارد؛ کمی در حالت یادگیری مرور کن و دوباره امتحان کن 📚";
+  let h = `<div class="res-hero"><div>${M.ic} ${M.t}${Q.retry?" · تمرین اشتباه‌ها":""}</div><div class="big">⭐ ${fa(Q.score)}</div><div>${msg}</div>
+    ${rec?`<div class="rec">🏆 رکورد تازه!</div>`:(!Q.retry && prev!=null?`<div class="rec">بهترین امتیاز: ${fa(Math.max(prev,Q.score))}</div>`:"")}</div>
+    <div class="stats"><div class="stat"><b style="color:var(--ok)">${fa(Q.ok)}</b><small>درست</small></div><div class="stat"><b style="color:var(--bad)">${fa(Q.bad)}</b><small>غلط</small></div><div class="stat"><b>${fa(pct)}٪</b><small>دقت</small></div></div>`;
+  if (Q.wrong.length){
+    h += `<div class="sec-title">مرور اشتباه‌ها (${fa(Q.wrong.length)})</div><div class="review">` + Q.wrong.map(({q,given})=>{
+      const c=BY[q.id]; const qt = q.fact ? `«${q.fact}»` : q.prompt;
+      return `<div class="rv"><div class="rf">${flag(c.id)}</div><div><div class="q">${qt}</div><div class="a">جواب تو: <span class="u">${esc(given||"—")}</span><br>جواب درست: <span class="c">${esc(q.answerText||q.answer)}</span></div></div></div>`;
+    }).join("") + `</div>`;
+  } else h += `<div class="allgood">🎯 هیچ اشتباهی نداشتی!</div>`;
+  h += `<div class="btns">${Q.wrong.length?`<button class="btn big" id="rRetry">🔁 تمرین دوبارهٔ اشتباه‌ها</button>`:""}
+    <button class="btn big ${Q.wrong.length?"ghost":""}" id="rAgain">▶ دوباره بازی کن</button>
+    <button class="btn big ghost" id="rLearn">📚 حالت یادگیری</button>
+    <button class="btn big ghost" id="rHome">🏠 خانه</button></div>`;
+  $("#sResult").innerHTML = h; show("sResult");
+  const wrongQs = Q.wrong.map(w=>GEN[w.q.cat](BY[w.q.id]));
+  const m=Q.mode, ns=Q.nSel;
+  $("#rRetry") && ($("#rRetry").onclick=()=>startQuiz(m, ns, shuffle(wrongQs)));
+  $("#rAgain").onclick=()=>startQuiz(m, ns);
+  $("#rLearn").onclick=()=>{ show("sLearn"); initLearn(); };
+  $("#rHome").onclick=()=>{ renderHome(); show("sHome"); };
+}
+
+renderHome();
+</script>
+</body>
+</html>
