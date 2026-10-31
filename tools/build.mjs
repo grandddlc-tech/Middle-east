@@ -15,7 +15,7 @@ const proj = geoMercator().fitExtent([[0,0],[W,H]], {type:"MultiPoint",
 proj.clipExtent([[-20,-20],[W+20,H+20]]);
 const path = geoPath(proj).digits(1);
 
-const out = {W, H, targets:{}, others:""};
+const out = {W, H, proj:{k: +proj.scale().toFixed(4), t: proj.translate().map(v => +v.toFixed(4))}, targets:{}, others:""};
 for (const [k,n] of Object.entries(targets)) {
   let gs = byName(n);
   if (k === "cy") gs = gs.concat(byName("N. Cyprus")); // کل جزیره (مرز شناخته‌شدهٔ بین‌المللی)
