@@ -1,0 +1,6 @@
+{
+  "appId": "com.grandddlc.countryballs",
+  "appName": "Countryball Explorer",
+  "webDir": "www",
+  "android": { "backgroundColor": "#4f46e5" }
+}

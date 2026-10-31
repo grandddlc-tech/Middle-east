@@ -36,3 +36,11 @@ node icons.cjs   # ساخت دوبارهٔ آیکون‌ها (اختیاری)
 ```
 
 فونت: [Vazirmatn](https://github.com/rastikerdar/vazirmatn) (مجوز OFL، در پوشهٔ `fonts/`).
+
+## نسخهٔ اندروید (APK)
+با هر push، گردش‌کار `.github/workflows/android.yml` بازی را با Capacitor به یک اپ اندروید تبدیل می‌کند و در Releases منتشر می‌کند.
+لینک دانلود آخرین نسخه:
+https://github.com/grandddlc-tech/Middle-east/releases/latest/download/Countryballs.apk
+
+پروژهٔ اندروید در `native/` است (آیکون و صفحهٔ شروع در `native/assets/`، ساخته‌شده با `tools/icons.cjs`).
+هر نسخه باید با یک کلید ثابت امضا شود تا روی نسخهٔ قبلی نصب شود. اگر در Secrets مخزن `ANDROID_KEYSTORE_BASE64` و `ANDROID_KEYSTORE_PASSWORD` تعریف شده باشد از آن استفاده می‌شود؛ وگرنه کلید در اولین ساخت تولید و در کش خصوصی GitHub Actions نگه داشته می‌شود (کلید هیچ‌وقت در مخزن عمومی قرار نمی‌گیرد).

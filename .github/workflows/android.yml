@@ -1,0 +1,108 @@
+# Builds the Android APK (Capacitor wrapper around the web game) and publishes it as a GitHub release.
+# Download link for the newest build:
+#   https://github.com/grandddlc-tech/Middle-east/releases/latest/download/Countryballs.apk
+name: Android APK
+
+on:
+  push:
+    branches: [claude/middle-east-countries-game-zjuc8m]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-apk
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: native
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install Capacitor
+        run: npm install --no-audit --no-fund
+
+      - name: Copy the web game into the app
+        run: |
+          mkdir -p www
+          cp -r ../index.html ../manifest.webmanifest ../sw.js ../fonts ../icons ../audio www/
+
+      - name: Create the Android project, icons and splash screen
+        run: |
+          npx cap add android
+          npx @capacitor/assets generate --android --iconBackgroundColor '#4f46e5' --splashBackgroundColor '#4f46e5' --splashBackgroundColorDark '#1e1b4b'
+          npx cap sync android
+
+      - name: Set version (versionCode = build number, so each build installs over the previous one)
+        run: |
+          sed -i "s/versionCode 1$/versionCode ${{ github.run_number }}/; s/versionName \"1.0\"/versionName \"1.${{ github.run_number }}\"/" android/app/build.gradle
+          grep -E "versionCode|versionName" android/app/build.gradle
+
+      - name: Build release APK
+        run: cd android && ./gradlew assembleRelease --no-daemon
+
+      # Each build must be signed with the SAME key, or Android refuses to install it over the previous version.
+      # Preferred: a key stored in the repository secrets (ANDROID_KEYSTORE_BASE64 + ANDROID_KEYSTORE_PASSWORD).
+      # Without those secrets, a key is generated on the first build and kept in the private Actions cache.
+      - name: Restore signing key from cache
+        uses: actions/cache/restore@v4
+        with:
+          path: native/release.jks
+          key: android-signing-key-v1
+
+      - name: Prepare signing key
+        env:
+          KS_SECRET: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          if [ -n "$KS_SECRET" ]; then
+            echo "$KS_SECRET" | base64 -d > release.jks
+            echo "KS_PASS=$KS_PASS" >> $GITHUB_ENV
+          else
+            if [ ! -f release.jks ]; then
+              echo "No saved key yet: generating a new one"
+              keytool -genkeypair -keystore release.jks -alias countryballs -keyalg RSA -keysize 2048 -validity 10000 \
+                -storepass countryballs -keypass countryballs -dname "CN=Countryball Explorer"
+              echo "NEW_KEY=1" >> $GITHUB_ENV
+            fi
+            echo "KS_PASS=countryballs" >> $GITHUB_ENV
+          fi
+
+      - name: Save signing key to cache
+        if: ${{ env.NEW_KEY == '1' }}
+        uses: actions/cache/save@v4
+        with:
+          path: native/release.jks
+          key: android-signing-key-v1
+
+      - name: Sign APK
+        run: |
+          BT=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -1)
+          ALIAS=$(keytool -list -keystore release.jks -storepass "$KS_PASS" 2>/dev/null | grep -m1 PrivateKeyEntry | cut -d, -f1)
+          $BT/apksigner sign --ks release.jks --ks-key-alias "$ALIAS" --ks-pass env:KS_PASS --key-pass env:KS_PASS \
+            --out Countryballs.apk android/app/build/outputs/apk/release/app-release-unsigned.apk
+          $BT/apksigner verify Countryballs.apk
+          ls -la Countryballs.apk
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "build-${{ github.run_number }}" Countryballs.apk \
+            --repo "${{ github.repository }}" --target "${{ github.sha }}" \
+            --title "Countryball Explorer 1.${{ github.run_number }}" \
+            --notes "Android APK build ${{ github.run_number }} (commit ${{ github.sha }}). Download Countryballs.apk below and open it on your phone to install."

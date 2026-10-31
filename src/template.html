@@ -1730,13 +1730,15 @@ addEventListener("popstate", e => {
 });
 
 /* ================== نصب به‌صورت برنامه (PWA) ================== */
-const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+// Inside the Android app (Capacitor) there is nothing to install and no service worker is needed
+const NATIVE = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+const standalone = NATIVE || matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
 let deferredPrompt = null;
 const showInstall = () => { if (!standalone && !store.get("me-install-hide", false)) $("#installBox").classList.add("on"); };
 window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferredPrompt = e; showInstall(); });
 window.addEventListener("appinstalled", () => { $("#installBox").classList.remove("on"); deferredPrompt = null; });
-if (isIOS && location.protocol.startsWith("http")) showInstall();
+if (isIOS && !NATIVE && location.protocol.startsWith("http")) showInstall();
 $("#installX").onclick = () => { store.set("me-install-hide", true); $("#installBox").classList.remove("on"); };
 $("#installBtn").onclick = async () => {
   if (deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; $("#installBox").classList.remove("on"); return; }
@@ -1748,7 +1750,7 @@ $("#installBtn").onclick = async () => {
     : T(`<h3>📲 نصب روی گوشی</h3><ol class="ios-steps"><li>منوی مرورگر (⋮) را باز کن.</li><li><b>Install app</b> یا <b>Add to Home screen</b> را بزن.</li></ol>`,
       `<h3>📲 Install on your phone</h3><ol class="ios-steps"><li>Open the browser menu (⋮).</li><li>Tap <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>`));
 };
-if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+if (!NATIVE && "serviceWorker" in navigator && location.protocol.startsWith("http")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
   // وقتی نسخهٔ تازه نصب شد، صفحه یک‌بار تازه شود
   if (navigator.serviceWorker.controller){ let done=false; navigator.serviceWorker.addEventListener("controllerchange", () => { if (!done){ done=true; location.reload(); } }); }
