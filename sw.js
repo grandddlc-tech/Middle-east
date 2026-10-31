@@ -1,0 +1,24 @@
+// کش آفلاین: فایل‌های برنامه یک‌بار ذخیره می‌شوند و بعد بدون اینترنت هم کار می‌کند.
+// با هر تغییر در فایل‌ها، VERSION را بالا ببرید تا نسخهٔ تازه جایگزین شود.
+const VERSION = "v1";
+const CACHE = "me-game-" + VERSION;
+const FILES = ["./", "index.html", "manifest.webmanifest", "fonts/Vazirmatn-Variable.woff2",
+  "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png"];
+
+self.addEventListener("install", e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
+});
+self.addEventListener("activate", e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+    .then(() => self.clients.claim()));
+});
+// اول از کش، و در پس‌زمینه به‌روزرسانی از شبکه
+self.addEventListener("fetch", e => {
+  const req = e.request;
+  if (req.method !== "GET" || new URL(req.url).origin !== location.origin) return;
+  e.respondWith(caches.open(CACHE).then(async c => {
+    const hit = await c.match(req, {ignoreSearch: true});
+    const net = fetch(req).then(r => { if (r.ok) c.put(req, r.clone()); return r; }).catch(() => hit);
+    return hit || net;
+  }));
+});

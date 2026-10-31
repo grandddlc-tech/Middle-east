@@ -8,9 +8,22 @@
 
 فقط `index.html` را در مرورگر باز کنید.
 
+## نصب روی گوشی (مثل یک برنامه)
+بازی یک PWA است: بعد از انتشار روی GitHub Pages، آیکون روی صفحهٔ اصلی گوشی می‌گیرد، تمام‌صفحه باز می‌شود و آفلاین هم کار می‌کند.
+
+1. در GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch**، شاخهٔ اصلی و پوشهٔ `/ (root)` را انتخاب و Save کنید.
+2. نشانی `https://grandddlc-tech.github.io/Middle-east/` را در گوشی باز کنید.
+3. **اندروید (Chrome):** دکمهٔ «نصب» داخل بازی، یا منوی ⋮ ← Install app.
+   **آیفون (Safari):** دکمهٔ اشتراک‌گذاری ← Add to Home Screen.
+
+با هر تغییر در فایل‌ها، مقدار `VERSION` در `sw.js` را بالا ببرید تا گوشی‌ها نسخهٔ تازه را بگیرند.
+
 ## ساخت دوباره
 `index.html` از `src/template.html` و داده‌های مرزی Natural Earth (بستهٔ `world-atlas`) ساخته می‌شود:
 
 ```
 cd tools && npm install && node build.mjs
+node icons.cjs   # ساخت دوبارهٔ آیکون‌ها (اختیاری)
 ```
+
+فونت: [Vazirmatn](https://github.com/rastikerdar/vazirmatn) (مجوز OFL، در پوشهٔ `fonts/`).

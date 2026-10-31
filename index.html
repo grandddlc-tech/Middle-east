@@ -5,10 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f766e">
 <title>خاورمیانه‌شناس</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+<meta name="description" content="بازی آموزشی کشورهای خاورمیانه: پرچم، پایتخت، زبان، نقشه و نکته‌ها">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="خاورمیانه‌شناس">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
+@font-face{font-family:Vazirmatn;src:url("fonts/Vazirmatn-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
 :root{
   --bg:#f4f6fb; --bg2:#e9eef8; --card:#ffffff; --text:#1d2433; --muted:#667085; --line:#dde3ee;
   --primary:#0f766e; --primary2:#14b8a6; --accent:#f59e0b; --ok:#16a34a; --okbg:#dcfce7; --bad:#dc2626; --badbg:#fee2e2;
@@ -33,12 +39,14 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
+body{overscroll-behavior-y:none}
 body{background:var(--bg);color:var(--text);font-family:Vazirmatn,Tahoma,"Segoe UI",sans-serif;line-height:1.7;min-height:100vh;
   background-image:radial-gradient(circle at 100% 0,rgba(99,102,241,.12),transparent 40%),radial-gradient(circle at 0 30%,rgba(20,184,166,.12),transparent 40%);background-attachment:fixed}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-.wrap{max-width:960px;margin:0 auto;padding:0 16px 40px}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px calc(40px + env(safe-area-inset-bottom))}
 header.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 80%,transparent);border-bottom:1px solid var(--line)}
-header.top .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px}
+header.top{padding-top:env(safe-area-inset-top)}
+header.top .in{max-width:960px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right)) 10px max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:10px}
 .logo{font-weight:900;font-size:1.2rem;display:flex;align-items:center;gap:8px;flex:1}
 .logo span.dot{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--g3),var(--g1));display:grid;place-items:center;color:#fff;font-size:1rem}
 .iconbtn{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:1.1rem}
@@ -185,6 +193,13 @@ h1,h2,h3{line-height:1.4;margin:0}
 .countpick button:active{border-color:var(--primary)}
 .sheet h3{font-size:1.2rem;text-align:center}
 .sheet p.c{color:var(--muted);text-align:center;margin:4px 0 0;font-size:.9rem}
+.installbox{display:none;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--r);margin-bottom:18px;background:color-mix(in srgb,var(--g4) 16%,var(--card));border:1px solid color-mix(in srgb,var(--g4) 45%,var(--line))}
+.installbox.on{display:flex}
+.installbox .tx{flex:1;font-size:.9rem}
+.installbox b{display:block;font-size:1rem}
+.installbox .x{color:var(--muted);font-size:1.2rem;padding:4px 8px}
+.ios-steps{margin:12px 0 0;padding:0 22px 0 0;list-style:persian}
+.ios-steps li{margin:8px 0}
 .foot{text-align:center;color:var(--muted);font-size:.78rem;margin-top:26px}
 </style>
 </head>
@@ -201,6 +216,12 @@ h1,h2,h3{line-height:1.4;margin:0}
       <div class="globe">🗺️</div>
       <h1>کشورهای خاورمیانه را بشناس!</h1>
       <p>پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ۱۷ کشور — اول یاد بگیر، بعد خودت را محک بزن.</p>
+    </div>
+    <div class="installbox" id="installBox">
+      <span style="font-size:1.8rem">📲</span>
+      <div class="tx"><b>نصب روی گوشی</b>مثل یک برنامه روی صفحهٔ اصلی، حتی بدون اینترنت</div>
+      <button class="btn" id="installBtn">نصب</button>
+      <button class="x" id="installX" aria-label="بستن">✕</button>
     </div>
     <button class="learnbtn" id="goLearn">
       <span class="ic">📚</span>
@@ -707,6 +728,27 @@ function result(){
   $("#rAgain").onclick=()=>startQuiz(m, ns);
   $("#rLearn").onclick=()=>{ show("sLearn"); initLearn(); };
   $("#rHome").onclick=()=>{ renderHome(); show("sHome"); };
+}
+
+/* ================== نصب به‌صورت برنامه (PWA) ================== */
+const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
+let deferredPrompt = null;
+const showInstall = () => { if (!standalone && !store.get("me-install-hide", false)) $("#installBox").classList.add("on"); };
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferredPrompt = e; showInstall(); });
+window.addEventListener("appinstalled", () => { $("#installBox").classList.remove("on"); deferredPrompt = null; });
+if (isIOS && location.protocol.startsWith("http")) showInstall();
+$("#installX").onclick = () => { store.set("me-install-hide", true); $("#installBox").classList.remove("on"); };
+$("#installBtn").onclick = async () => {
+  if (deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; $("#installBox").classList.remove("on"); return; }
+  openSheet(isIOS ? `<h3>📲 نصب روی آیفون / آیپد</h3><ol class="ios-steps">
+      <li>این صفحه را در <b>Safari</b> باز کن.</li>
+      <li>دکمهٔ <b>اشتراک‌گذاری</b> (مربعی با فلش رو به بالا، پایین صفحه) را بزن.</li>
+      <li>گزینهٔ <b>Add to Home Screen</b> (افزودن به صفحهٔ اصلی) را انتخاب کن و <b>Add</b> را بزن.</li></ol>`
+    : `<h3>📲 نصب روی گوشی</h3><ol class="ios-steps"><li>منوی مرورگر (⋮) را باز کن.</li><li><b>Install app</b> یا <b>Add to Home screen</b> را بزن.</li></ol>`);
+};
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
 }
 
 renderHome();
