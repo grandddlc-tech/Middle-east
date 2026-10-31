@@ -307,6 +307,41 @@ h1,h2,h3{line-height:1.4;margin:0}
 .dance{display:flex;justify-content:center;gap:2px;margin-top:12px}
 .dance .cbw{width:54px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+/* کلمه‌ها */
+.wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+@media(min-width:640px){.wgrid{grid-template-columns:repeat(5,1fr)}}
+.wgrid button{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:8px 4px 10px;box-shadow:var(--shadow);font-weight:700;font-size:.88rem;line-height:1.4}
+.wgrid .cbw{width:74px;margin:0 auto}
+.wgrid small{display:block;color:var(--muted);font-weight:500;font-size:.72rem}
+.w-intro{margin:16px 0 8px;color:var(--muted)}
+.w-intro b{display:block;color:var(--text);font-size:1.2rem}
+.w-head{display:flex;align-items:center;gap:14px;margin:16px 0 10px}
+.w-head .cbw{width:128px;flex:none;cursor:pointer}
+.say{flex:1;min-width:0;position:relative;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:12px 14px;box-shadow:var(--shadow);min-height:100px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.say::before{content:"";position:absolute;right:-12px;top:42%;border:10px solid transparent;border-right:0;border-left-color:var(--line)}
+.say .nat{font-size:1.7rem;font-weight:900;line-height:1.35;overflow-wrap:anywhere}
+.say .pr{color:var(--primary);font-weight:700}
+.say .mn{color:var(--muted);font-size:.85rem}
+.w-title{font-weight:900;font-size:1.15rem;margin:4px 0 8px}
+.ltabs{display:flex;gap:8px;margin:0 0 10px;flex-wrap:wrap}
+.ltabs button{padding:6px 14px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);font-weight:700}
+.ltabs button.on{background:var(--primary);color:#fff;border-color:transparent}
+.notice{font-size:.82rem;color:var(--muted);margin:4px 2px 10px}
+.notice:empty{display:none}
+.words{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:640px){.words{grid-template-columns:repeat(3,1fr)}}
+.wcard{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 12px;text-align:right;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center;transition:background .2s,border-color .2s}
+.wcard .em{font-size:1.7rem;flex:none}
+.wcard b{display:block;font-size:1rem}
+.wcard .nt{display:block;font-size:1rem;color:var(--primary);font-weight:700;overflow-wrap:anywhere}
+.wcard .pr{display:block;color:var(--muted);font-size:.78rem}
+.wcard.playing{border-color:var(--g4);background:color-mix(in srgb,var(--g4) 12%,var(--card))}
+.wcard.ok{border-color:var(--ok);background:var(--okbg)}
+.wcard.bad{border-color:var(--bad);background:var(--badbg)}
+.quizzing .nt,.quizzing .pr{visibility:hidden}
+.cb.talk .m-smile,.cb.talk .m-sad{display:none}
+.cb.talk .m-happy{display:inline;animation:talk .15s ease-in-out infinite alternate;transform-origin:60px 90px;transform-box:view-box}
+@keyframes talk{from{transform:scaleY(.2)}to{transform:scaleY(1.1)}}
 </style>
 </head>
 <body>
@@ -343,6 +378,10 @@ h1,h2,h3{line-height:1.4;margin:0}
       <span class="ic" style="background:linear-gradient(135deg,var(--g2),var(--g4))">🤝</span>
       <span><b>دوستی پرچم‌ها</b><small>دو کشور را کنار هم بگذار: پرچم ترکیبی، اسم دوستی و نکته‌های مشترک</small></span>
     </button>
+    <button class="learnbtn" id="goWords">
+      <span class="ic" style="background:linear-gradient(135deg,var(--g1),var(--g5))">🗣️</span>
+      <span><b>کلمه‌های ساده</b><small>کانتری‌بال‌ها به زبان خودشان کلمه یادت می‌دهند (با صدا)</small></span>
+    </button>
     <div class="sec-title">کوییزها</div>
     <div class="modes" id="modes"></div>
     <div class="foot">مرزهای نقشه: Natural Earth · امتیازها فقط روی همین دستگاه ذخیره می‌شوند</div>
@@ -368,6 +407,13 @@ h1,h2,h3{line-height:1.4;margin:0}
     <div class="fr-stage" id="frStage"></div>
     <button class="btn big shine" id="frQuiz" style="margin-top:16px">🧬 کوییز ترکیب پرچم‌ها</button>
   </section>
+
+  <!-- WORDS -->
+  <section class="screen" id="sWords">
+    <div class="w-intro"><b>🗣️ کدام کشور یادت بدهد؟</b>یک کانتری‌بال انتخاب کن تا چند کلمهٔ ساده به زبان خودش بگوید.</div>
+    <div class="wgrid" id="wpGrid"></div>
+  </section>
+  <section class="screen" id="sWord"></section>
 
   <!-- QUIZ -->
   <section class="screen" id="sQuiz">
@@ -732,7 +778,16 @@ $("#themeBtn").onclick = () => {
 };
 
 /* ================== صفحه‌ها ================== */
-function show(id){ document.querySelectorAll(".sbubble").forEach(b=>b.remove()); document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id===id)); window.scrollTo({top:0}); }
+let curScreen = "sHome", sheetOpen = false, afterSheet = null;
+const quizRunning = () => Q && Q.i < Q.qs.length;
+// رفتن به یک صفحه و ثبت در تاریخچه تا دکمهٔ برگشت گوشی کار کند
+function nav(id, replace){
+  const i = (history.state && history.state.i) || 0;
+  if (id === "sHome"){ show(id); renderHome(); if (i > 0) history.go(-i); return; }
+  if (replace) history.replaceState({s:id, i}, ""); else history.pushState({s:id, i:i+1}, "");
+  show(id);
+}
+function show(id){ curScreen = id; typeof TTS !== "undefined" && TTS.stop(); document.querySelectorAll(".sbubble").forEach(b=>b.remove()); document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id===id)); window.scrollTo({top:0}); }
 const MODES = [
   {id:"flag", t:"پرچم‌ها", d:"این پرچم مال کدام کشور است؟", ic:"🚩", g:"var(--g2)"},
   {id:"cap", t:"پایتخت‌ها", d:"پایتخت هر کشور کجاست؟", ic:"🏛️", g:"var(--g1)"},
@@ -753,12 +808,24 @@ function renderHome(){
   }).join("");
 }
 $("#modes").addEventListener("click", e=>{ const b=e.target.closest("[data-m]"); if(b) chooseCount(b.dataset.m); });
-$("#goHome").onclick = () => { closeSheet(); renderHome(); show("sHome"); };
-$("#goLearn").onclick = () => { show("sLearn"); initLearn(); };
+$("#goHome").onclick = () => closeSheet(() => {
+  if (curScreen === "sQuiz" && quizRunning() && !confirm("از کوییز خارج می‌شوی؟ امتیاز این دور ذخیره نمی‌شود.")) return;
+  nav("sHome");
+});
+$("#goLearn").onclick = () => { nav("sLearn"); initLearn(); };
 
 /* ================== Sheet ================== */
-function openSheet(html){ $("#sheet").innerHTML = `<div class="grab"></div>`+html; $("#ov").classList.add("on"); $("#sheet").scrollTop=0; }
-function closeSheet(){ $("#ov").classList.remove("on"); }
+function openSheet(html){
+  $("#sheet").innerHTML = `<div class="grab"></div>`+html; $("#ov").classList.add("on"); $("#sheet").scrollTop=0;
+  if (!sheetOpen){ sheetOpen = true; history.pushState({s:curScreen, i:((history.state && history.state.i) || 0)+1, sheet:true}, ""); }
+}
+// بستن برگه؛ اگر کاری بعدش باید انجام شود، بعد از برگشت تاریخچه اجرا می‌شود
+function closeSheet(then){
+  if (!sheetOpen){ if (then) then(); return; }
+  $("#ov").classList.remove("on");
+  if (history.state && history.state.sheet){ afterSheet = then || null; history.back(); }
+  else { sheetOpen = false; if (then) then(); }
+}
 $("#ov").addEventListener("click", e=>{ if(e.target.id==="ov") closeSheet(); });
 document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeSheet(); });
 
@@ -771,7 +838,7 @@ function chooseCount(m){
     <button data-n="20">${fa(20)}<small>${best(20)}</small></button>
     <button data-n="all">همه (${fa(allCount(m))})<small>${best("all")}</small></button>
    </div>`);
-  $("#sheet").querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{ closeSheet(); startQuiz(m, b.dataset.n); });
+  $("#sheet").querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{ closeSheet(() => startQuiz(m, b.dataset.n)); });
 }
 
 /* ================== یادگیری ================== */
@@ -801,6 +868,7 @@ function detailHTML(c){
     <div class="row"><span class="k">👒</span><div><small>کلاه سنتیِ کانتری‌بالش</small><b>${c.hat}</b></div></div>
     <div class="row"><span class="k">💡</span><div><small>نکته‌های مهم</small><ul class="facts">${c.facts.map(f=>`<li>${f.t}</li>`).join("")}</ul></div></div>
    </div>
+   <button class="btn big shine" id="dWords" style="margin-top:12px">🗣️ چند کلمه به ${langsOf(c.id).map(k=>LANGS[k].name).join(" و ")} یاد بگیر</button>
    <div class="mapbox mini nolabels" id="miniMap"></div>`;
 }
 function openDetail(id){
@@ -812,7 +880,8 @@ function openDetail(id){
   mm.mark(id,"sel"); mm.focus(id);
   if (learnMap){ learnMap.clear(); learnMap.mark(id,"sel"); }
   const go = d => openDetail(ids[(detIdx+d+ids.length)%ids.length]);
-  $("#dPrev").onclick=()=>go(-1); $("#dNext").onclick=()=>go(1); $("#dClose").onclick=()=>{ closeSheet(); learnMap&&learnMap.clear(); };
+  $("#dPrev").onclick=()=>go(-1); $("#dNext").onclick=()=>go(1); $("#dClose").onclick=()=>closeSheet(()=>learnMap&&learnMap.clear());
+  $("#dWords").onclick=()=>closeSheet(()=>openWords(id));
 }
 
 /* ================== ساخت سؤال‌ها ================== */
@@ -895,9 +964,9 @@ function buildQuiz(mode, nSel){
 /* ================== اجرای کوییز ================== */
 let Q = null, quizMap = null;
 const CAT = {flag:["پرچم","var(--g2)"], cap:["پایتخت","var(--g1)"], map:["نقشه","var(--g3)"], lang:["زبان","var(--g5)"], fact:["نکته","var(--g4)"], fuse:["ترکیب پرچم","var(--g6)"]};
-function startQuiz(mode, nSel, preset){
+function startQuiz(mode, nSel, preset, replace){
   Q = {mode, nSel, qs: preset || buildQuiz(mode,nSel), i:0, score:0, ok:0, bad:0, streak:0, bestStreak:0, wrong:[], retry:!!preset};
-  show("sQuiz"); renderQ();
+  nav("sQuiz", !!replace); renderQ();
 }
 function updateTop(){
   $("#qProg").textContent = `سؤال ${fa(Q.i+1)} از ${fa(Q.qs.length)}`;
@@ -986,7 +1055,7 @@ function result(){
     <button class="btn big ${Q.wrong.length?"ghost":""}" id="rAgain">▶ دوباره بازی کن</button>
     <button class="btn big ghost" id="rLearn">📚 حالت یادگیری</button>
     <button class="btn big ghost" id="rHome">🏠 خانه</button></div>`;
-  $("#sResult").innerHTML = h; show("sResult");
+  $("#sResult").innerHTML = h; nav("sResult", true);
   { const wrongSet = new Set(Q.wrong.map(w=>w.q)), good = [...new Set(Q.qs.filter(q=>!wrongSet.has(q)).map(q=>q.id))].slice(0,5);
     const ids = good.length ? good : [...new Set(Q.wrong.map(w=>w.q.id))].slice(0,3);
     $("#sResult .res-hero").insertAdjacentHTML("beforeend", `<div class="dance">${ids.map((id,i)=>`<div class="cbw" data-id="${id}" style="--d:-${i*.18}s">${ball(id, good.length?"happy dance":"sad")}</div>`).join("")}</div>`);
@@ -998,10 +1067,10 @@ function result(){
   }
   const wrongQs = Q.wrong.map(w=>GEN[w.q.cat](BY[w.q.id]));
   const m=Q.mode, ns=Q.nSel;
-  $("#rRetry") && ($("#rRetry").onclick=()=>startQuiz(m, ns, shuffle(wrongQs)));
-  $("#rAgain").onclick=()=>startQuiz(m, ns);
-  $("#rLearn").onclick=()=>{ show("sLearn"); initLearn(); };
-  $("#rHome").onclick=()=>{ renderHome(); show("sHome"); };
+  $("#rRetry") && ($("#rRetry").onclick=()=>startQuiz(m, ns, shuffle(wrongQs), true));
+  $("#rAgain").onclick=()=>startQuiz(m, ns, null, true);
+  $("#rLearn").onclick=()=>{ nav("sLearn"); initLearn(); };
+  $("#rHome").onclick=()=>nav("sHome");
 }
 
 /* ================== صدا (ساخته‌شده با Web Audio، بدون فایل) ================== */
@@ -1028,6 +1097,7 @@ const SND = (() => {
     streak(){ [784,988,1175,1568,1976].forEach((f,i)=>tone(f,i*.07,.2,"triangle",.15)); },
     boing(){ tone(260,0,.35,"sine",.25,820); tone(520,.02,.2,"triangle",.05,1400); },
     pop(){ tone(520,0,.09,"sine",.2,1300); },
+    babble(n){ for (let i=0;i<(n||4);i++) tone(260+Math.random()*320, i*.13, .09, "square", .045, 200+Math.random()*500); },
     sparkle(){ for (let i=0;i<7;i++) tone(1400+Math.random()*1800, i*.045, .14, "sine", .05); },
     finish(){ [523,659,784,1047].forEach((f,i)=>tone(f,i*.12,.3,"triangle",.18)); tone(1047,.5,.7,"triangle",.16); tone(1319,.5,.7,"sine",.06); },
     record(){ [523,659,784,1047,784,1047,1319,1568].forEach((f,i)=>tone(f,i*.1,.28,"triangle",.17)); tone(2093,.85,.9,"sine",.08); },
@@ -1050,6 +1120,7 @@ const SND = (() => {
   }
   return {
     play(n){ if (on() && FXS[n]) try { FXS[n](); } catch(e){} },
+    babble(n){ if (on()) try { FXS.babble(n); } catch(e){} },
     unlock(){ if (on()) ac(); },
     music(){ musicStart(); }, musicStop,
     mood(m){ if (minor !== !!m){ minor = !!m; if (mt) musicStart(); } }
@@ -1307,14 +1378,14 @@ function pickFriend(slot){
   $("#sheet").querySelectorAll("[data-pick]").forEach(b => b.onclick = () => {
     const id = b.dataset.pick, other = slot==="a" ? "b" : "a";
     if (FR[other] === id) FR[other] = FR[slot];
-    FR[slot] = id; closeSheet(); renderFriends(); celebratePair();
+    FR[slot] = id; closeSheet(() => { renderFriends(); celebratePair(); });
   });
 }
 $("#slotA").onclick = () => pickFriend("a");
 $("#slotB").onclick = () => pickFriend("b");
 $("#frDice").onclick = () => { randPair(); FR.style = pick(FSTYLES)[0]; renderFriends(); celebratePair(); };
 $("#frQuiz").onclick = () => chooseCount("fuse");
-$("#goFriends").onclick = () => { show("sFriends"); renderFriends(); setTimeout(celebratePair, 250); };
+$("#goFriends").onclick = () => { nav("sFriends"); renderFriends(); setTimeout(celebratePair, 250); };
 
 /* ================== رژهٔ کانتری‌بال‌ها و ستاره‌های چشمک‌زن ================== */
 (function decorateHero(){
@@ -1323,6 +1394,142 @@ $("#goFriends").onclick = () => { show("sFriends"); renderFriends(); setTimeout(
   let tw = ""; for (let i=0;i<9;i++) tw += `<span class="twinkle" style="top:${5+Math.random()*50}%;left:${3+Math.random()*92}%;animation-delay:${(Math.random()*2.6).toFixed(2)}s">✦</span>`;
   $("#hero").insertAdjacentHTML("beforeend", tw);
 })();
+
+
+/* ================== کلمه‌های ساده با صدای کانتری‌بال ================== */
+const MEAN = [["🙋","سلام"],["😊","حالت چطوره؟"],["🙏","ممنون"],["👍","بله"],["👎","نه"],["🤲","لطفاً"],["👋","خداحافظ"],["🤝","دوست"],["💧","آب"],["🔢","یک، دو، سه"]];
+// هر کلمه: [نوشته به زبان خودش، تلفظ با حروف فارسی، نکته]
+const LANGS = {
+  fa:{name:"فارسی", tts:"fa-IR", note:"زبان خودمان! 😄", w:[["سلام"],["حالت چطوره؟"],["ممنون"],["بله"],["نه"],["لطفاً"],["خداحافظ"],["دوست"],["آب"],["یک، دو، سه"]]},
+  ar:{name:"عربی", tts:"ar-SA", w:[["مرحبا","مَرحَبا"],["كيف حالك؟","کَیفَ حالُک؟"],["شكراً","شُکراً"],["نعم","نَعَم"],["لا","لا"],["من فضلك","مِن فَضلِک"],["مع السلامة","مَعَ السَّلامه"],["صديق","صَدیق"],["ماء","ماء"],["واحد، اثنان، ثلاثة","واحِد، اِثنان، ثَلاثه"]]},
+  ku:{name:"کردی (سورانی)", tts:"ckb-IQ", w:[["سڵاو","سِلاو"],["چۆنی؟","چُونی؟"],["سوپاس","سوپاس"],["بەڵێ","بَلِه"],["نەخێر","نَخِیر"],["تکایە","تِکایه"],["خوات لەگەڵ","خوات لَگَل"],["هاوڕێ","هاوری"],["ئاو","آو"],["یەک، دوو، سێ","یَک، دو، سِه"]]},
+  tr:{name:"ترکی", tts:"tr-TR", w:[["Merhaba","مِرحَبا"],["Nasılsın?","ناسِلسِن؟"],["Teşekkürler","تِشِکّورلِر"],["Evet","اِوِت"],["Hayır","هایِر"],["Lütfen","لوتفِن"],["Hoşça kal","هوشچا کال"],["Arkadaş","آرکاداش"],["Su","سو"],["Bir, iki, üç","بیر، ایکی، اوچ"]]},
+  he:{name:"عبری", tts:"he-IL", w:[["שלום","شالوم"],["מה שלומך?","ما شلومْخا؟"],["תודה","تودا"],["כן","کِن"],["לא","لو"],["בבקשה","بِواَکاشا"],["להתראות","لِهیتْرائوت"],["חבר","خاوِر"],["מים","مَییم"],["אחת, שתיים, שלוש","اَخَت، شْتَییم، شالوش"]]},
+  el:{name:"یونانی", tts:"el-GR", w:[["Γεια σου","یا سو"],["Τι κάνεις;","تی کانیس؟"],["Ευχαριστώ","اِفخاریستو"],["Ναι","نه","جالبه! «نه» در یونانی یعنی «بله» 😄"],["Όχι","اوخی"],["Παρακαλώ","پاراکالو"],["Αντίο","آندیو"],["Φίλος","فیلوس"],["Νερό","نِرو"],["Ένα, δύο, τρία","اِنا، ذیو، تریا"]]}
+};
+// «حالت چطوره؟» به لهجهٔ محلی کشورهای عرب‌زبان
+const AR_HOW = {iq:["شلونك؟","شْلونَک؟"], kw:["شلونك؟","شْلونَک؟"], bh:["شلونك؟","شْلونَک؟"], qa:["شلونك؟","شْلونَک؟"], ae:["شلونك؟","شْلونَک؟"],
+  sy:["كيفك؟","کیفَک؟"], lb:["كيفك؟","کیفَک؟"], jo:["كيفك؟","کیفَک؟"], ps:["كيفك؟","کیفَک؟"], eg:["إزيّك؟","اِزَّیَک؟"]};
+const COUNTRY_LANGS = {ir:["fa"], iq:["ar","ku"], tr:["tr"], cy:["el","tr"], il:["he"]};
+const langsOf = id => COUNTRY_LANGS[id] || ["ar"];
+const ttsLang = (cid, lk) => lk==="ar" && cid==="eg" ? "ar-EG" : LANGS[lk].tts;
+function wordsFor(cid, lk){
+  return LANGS[lk].w.map((w,i) => {
+    let [nat, pr, note] = w;
+    if (lk==="ar" && i===1 && AR_HOW[cid]){ [nat, pr] = AR_HOW[cid]; note = "به لهجهٔ محلی"; }
+    return {em:MEAN[i][0], mn:MEAN[i][1], nat, pr:pr||"", note};
+  });
+}
+const TTS = (() => {
+  const ok = "speechSynthesis" in window;
+  let voices = [];
+  const load = () => { if (ok) voices = speechSynthesis.getVoices(); };
+  if (ok && speechSynthesis.addEventListener) speechSynthesis.addEventListener("voiceschanged", () => { load(); if (W.c) updateVoiceNote(); });
+  load();
+  const find = lang => { const l = lang.toLowerCase(), p = l.split("-")[0];
+    return voices.find(v => v.lang.replace("_","-").toLowerCase() === l) || voices.find(v => v.lang.toLowerCase().split(/[-_]/)[0] === p); };
+  return {
+    has(lang){ if (!voices.length) load(); return ok && !!find(lang); },
+    stop(){ if (ok) speechSynthesis.cancel(); },
+    say(text, lang, onstart, onend){
+      const v = ok && find(lang);
+      if (!v) return false;
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text); u.voice = v; u.lang = v.lang; u.rate = .85;
+      u.onstart = onstart; u.onend = u.onerror = onend;
+      speechSynthesis.speak(u); return true;
+    }
+  };
+})();
+const W = {c:null, lk:null, practice:null};
+function renderWordPick(){
+  $("#wpGrid").innerHTML = C.map((c,i)=>`<button data-w="${c.id}"><div class="cbw" style="--d:-${(i*.37%2.2).toFixed(2)}s">${ball(c.id, i%3?"":"happy")}</div>${c.short||c.fa}<small>${langsOf(c.id).map(k=>LANGS[k].name).join(" · ")}</small></button>`).join("");
+}
+$("#wpGrid").addEventListener("click", e => { const b = e.target.closest("[data-w]"); if (b) openWords(b.dataset.w); });
+function openWords(id, lk){ W.c = id; W.lk = lk || langsOf(id)[0]; W.practice = null; nav("sWord"); renderWord(); }
+function setSay(o){
+  const el = $("#wSay"); if (!el) return;
+  el.innerHTML = `<span class="nat" dir="auto">${esc(o.nat)}</span>${o.pr && o.pr!==o.nat ? `<span class="pr">«${esc(o.pr)}»</span>` : ""}<span class="mn">${o.mn ? esc(o.mn) : ""}${o.note ? ` · ${esc(o.note)}` : ""}</span>`;
+  el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop");
+}
+function updateVoiceNote(){
+  const el = $("#wVoice"); if (!el || !W.c) return;
+  const L = LANGS[W.lk];
+  el.textContent = TTS.has(ttsLang(W.c, W.lk)) ? "" : `🔈 صدای ${L.name} روی این گوشی نصب نیست؛ کانتری‌بال با صدای بامزهٔ خودش حرف می‌زند. تلفظ را از روی نوشتهٔ داخل «» بخوان.`;
+}
+function renderWord(){
+  const c = BY[W.c], L = LANGS[W.lk], langs = langsOf(c.id), ws = wordsFor(c.id, W.lk);
+  $("#sWord").innerHTML = `
+    <div class="w-head"><div class="cbw" id="wBall">${ball(c.id,"happy")}</div><div class="say" id="wSay"></div></div>
+    <div class="w-title">${c.fa} · ${L.name}</div>
+    ${langs.length>1 ? `<div class="ltabs">${langs.map(k=>`<button data-l="${k}" class="${k===W.lk?"on":""}">${LANGS[k].name}</button>`).join("")}</div>` : ""}
+    ${L.note ? `<p class="notice">${L.note}</p>` : ""}<p class="notice" id="wVoice"></p>
+    <div class="words" id="wList">${ws.map((w,i)=>`<button class="wcard" data-i="${i}"><span class="em">${w.em}</span><span><b>${w.mn}</b><span class="nt" dir="auto">${esc(w.nat)}</span>${w.pr && w.pr!==w.nat ? `<small class="pr">«${esc(w.pr)}»</small>` : ""}</span></button>`).join("")}</div>
+    <div class="btns" id="wBtns" style="margin-top:16px"></div>`;
+  setSay({nat:W.lk==="fa" ? "سلام!" : ws[0].nat, pr:ws[0].pr, mn:"روی هر کلمه بزن تا بگویمش!"});
+  updateVoiceNote(); renderWordBtns();
+  $("#sWord").querySelectorAll("[data-l]").forEach(b => b.onclick = () => { W.lk = b.dataset.l; W.practice = null; TTS.stop(); renderWord(); });
+  $("#wBall").onclick = () => speakWord(0);
+  $("#wList").onclick = e => { const b = e.target.closest(".wcard"); if (b) wordTap(+b.dataset.i, b); };
+}
+function renderWordBtns(){
+  $("#wBtns").innerHTML = W.practice
+    ? `<button class="btn big shine" id="wAgain">🔁 دوباره بگو</button><button class="btn big ghost" id="wStop">✋ پایان تمرین (${fa(W.practice.score)} امتیاز)</button>`
+    : `<button class="btn big shine" id="wPractice">🎧 تمرین: گوش بده و پیدا کن</button>`;
+  $("#wList").classList.toggle("quizzing", !!W.practice);
+  if (W.practice){ $("#wAgain").onclick = () => speakWord(W.practice.i, true); $("#wStop").onclick = () => { W.practice = null; renderWordBtns(); setSay({nat:"👏", mn:"آفرین! هر وقت خواستی دوباره تمرین کن."}); }; }
+  else $("#wPractice").onclick = () => { W.practice = {i:-1, score:0}; renderWordBtns(); nextPractice(); };
+}
+function nextPractice(){
+  const n = LANGS[W.lk].w.length; let i; do { i = Math.random()*n|0; } while (i === W.practice.i);
+  W.practice.i = i; speakWord(i, true);
+}
+function speakWord(i, quiz){
+  const w = wordsFor(W.c, W.lk)[i], lang = ttsLang(W.c, W.lk), svg = $("#wBall .cb"), canHear = TTS.has(lang) && store.get("me-sound", true);
+  document.querySelectorAll(".wcard").forEach(b => b.classList.toggle("playing", +b.dataset.i===i && !quiz));
+  if (quiz) setSay(canHear ? {nat:"🎧 ؟", mn:"گوش بده! کدام کلمه بود؟"} : {nat:w.nat, pr:w.pr, mn:"این یعنی چه؟ پیدایش کن!"});
+  else setSay(w);
+  let done = false;
+  const start = () => svg && svg.classList.add("talk");
+  const end = () => { if (done) return; done = true; svg && svg.classList.remove("talk"); document.querySelectorAll(".wcard.playing").forEach(b => b.classList.remove("playing")); };
+  if (!(canHear && TTS.say(w.nat, lang, start, end))){
+    const n = Math.max(2, Math.min(8, Math.round((w.pr || w.nat).length/2.5)));
+    start(); SND.babble(n); setTimeout(end, n*130 + 150);
+  }
+  setTimeout(end, 6000);
+}
+function wordTap(i, btn){
+  if (!W.practice) return speakWord(i);
+  const w = wordsFor(W.c, W.lk)[i];
+  if (i === W.practice.i){
+    W.practice.score++; btn.classList.add("ok"); SND.play("ok");
+    const r = btn.getBoundingClientRect(); FX.confetti(r.left+r.width/2, r.top+r.height/2, 30); FX.sparkles(r.left+r.width/2, r.top+r.height/2, 10);
+    const svg = $("#wBall .cb"); svg.classList.add("jump"); setTimeout(() => svg.classList.remove("jump"), 700);
+    setSay(Object.assign({}, w, {mn:`آفرین! «${w.mn}» بود 🎉`}));
+    renderWordBtns();
+    setTimeout(() => { btn.classList.remove("ok"); if (W.practice) nextPractice(); }, 1500);
+  } else {
+    btn.classList.add("bad", "shake"); SND.play("bad");
+    setTimeout(() => btn.classList.remove("bad", "shake"), 600);
+  }
+}
+$("#goWords").onclick = () => { nav("sWords"); renderWordPick(); };
+
+/* ================== دکمهٔ برگشت گوشی (History API) ================== */
+history.replaceState({s:"sHome", i:0}, "");
+addEventListener("popstate", e => {
+  const st = e.state || {s:"sHome", i:0};
+  if (sheetOpen){
+    sheetOpen = false; $("#ov").classList.remove("on");
+    const f = afterSheet; afterSheet = null; if (f) f();
+    return;
+  }
+  if (curScreen === "sQuiz" && quizRunning() && st.s !== "sQuiz"){
+    if (!confirm("از کوییز خارج می‌شوی؟ امتیاز این دور ذخیره نمی‌شود.")){ history.pushState({s:"sQuiz", i:st.i+1}, ""); return; }
+  }
+  show(st.s);
+  if (st.s === "sHome") renderHome();
+});
 
 /* ================== نصب به‌صورت برنامه (PWA) ================== */
 const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
