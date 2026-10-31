@@ -1294,12 +1294,12 @@ function openSettings(){
   const row = (k, t, d) => `<button class="setrow" data-k="${k}"><span>${t}</span><i class="sw ${store.get(k,d)?"on":""}"></i></button>`;
   const cur = festPreview === undefined ? "auto" : (festPreview || "none");
   openSheet(`<h3>⚙️ تنظیمات</h3><p class="c">امروز: ${today}${auto ? ` · ${FESTS[auto].e[0]} ${FESTS[auto].name}` : ""}</p>
-    ${row("me-sound","🔊 صداها",true)}${row("me-music","🎵 موسیقی پس‌زمینه",false)}${row("me-fx","✨ افکت‌ها و ذرات",true)}${row("me-fest","🎉 افکت جشن‌ها در روزهای خاص",true)}
+    ${row("me-sound","🔊 صداها",true)}${row("me-music","🎵 موسیقی پس‌زمینه",false)}${row("me-fx","✨ افکت‌ها و ذرات",true)}${row("me-ttsdev","🗣️ صدای طبیعی گوشی برای کلمه‌ها (اگر نصب باشد)",false)}${row("me-fest","🎉 افکت جشن‌ها در روزهای خاص",true)}
     <div class="sec-title" style="margin-top:18px">🎉 پیش‌نمایش جشن‌ها</div>
     <p style="margin:0;color:var(--muted);font-size:.85rem">هر جشن در روز خودش خودکار فعال می‌شود. برای دیدنش همین حالا، یکی را بزن:</p>
     <div class="fchips"><button data-f="auto" class="${cur==="auto"?"on":""}">📅 خودکار (امروز)</button><button data-f="none" class="${cur==="none"?"on":""}">بدون جشن</button>${Object.entries(FESTS).map(([k,F])=>`<button data-f="${k}" class="${cur===k?"on":""}">${F.e[0]} ${F.name}</button>`).join("")}</div>`);
   $("#sheet").querySelectorAll("[data-k]").forEach(b => b.onclick = () => {
-    const k = b.dataset.k, v = !store.get(k, k!=="me-music"); store.set(k, v); b.querySelector(".sw").classList.toggle("on", v);
+    const k = b.dataset.k, v = !store.get(k, k!=="me-music" && k!=="me-ttsdev"); store.set(k, v); b.querySelector(".sw").classList.toggle("on", v);
     if (k==="me-sound"){ syncSoundBtn(); v ? SND.music() : SND.musicStop(); }
     if (k==="me-music"){ v ? SND.music() : SND.musicStop(); }
     if (k==="me-fx" || k==="me-fest") applyFest();
@@ -1454,9 +1454,12 @@ function setSay(o){
 }
 function updateVoiceNote(){
   const el = $("#wVoice"); if (!el || !W.c) return;
-  const L = LANGS[W.lk];
-  el.textContent = TTS.has(ttsLang(W.c, W.lk)) ? "" : `🔈 صدای ${L.name} روی این گوشی نصب نیست؛ کانتری‌بال با صدای بامزهٔ خودش حرف می‌زند. تلفظ را از روی نوشتهٔ داخل «» بخوان.`;
+  el.textContent = store.get("me-sound", true) ? "" : "🔇 صدای بازی خاموش است؛ برای شنیدن کلمه‌ها، دکمهٔ 🔊 بالای صفحه را بزن.";
 }
+// فایل صوتی هر کلمه (ساخته‌شده با tools/make_audio.py)
+const HOW_FILE = {iq:"iq", kw:"iq", bh:"iq", qa:"iq", ae:"iq", sy:"lev", lb:"lev", jo:"lev", ps:"lev", eg:"eg"};
+const audioSrc = (cid, lk, i) => `audio/${lk==="ar" && i===1 && HOW_FILE[cid] ? "ar-how-"+HOW_FILE[cid] : lk+"-"+i}.mp3`;
+const wordAudio = new Audio(); wordAudio.preload = "auto";
 function renderWord(){
   const c = BY[W.c], L = LANGS[W.lk], langs = langsOf(c.id), ws = wordsFor(c.id, W.lk);
   $("#sWord").innerHTML = `
@@ -1485,17 +1488,23 @@ function nextPractice(){
   W.practice.i = i; speakWord(i, true);
 }
 function speakWord(i, quiz){
-  const w = wordsFor(W.c, W.lk)[i], lang = ttsLang(W.c, W.lk), svg = $("#wBall .cb"), canHear = TTS.has(lang) && store.get("me-sound", true);
+  const w = wordsFor(W.c, W.lk)[i], lang = ttsLang(W.c, W.lk), svg = $("#wBall .cb"), canHear = store.get("me-sound", true);
   document.querySelectorAll(".wcard").forEach(b => b.classList.toggle("playing", +b.dataset.i===i && !quiz));
   if (quiz) setSay(canHear ? {nat:"🎧 ؟", mn:"گوش بده! کدام کلمه بود؟"} : {nat:w.nat, pr:w.pr, mn:"این یعنی چه؟ پیدایش کن!"});
   else setSay(w);
   let done = false;
   const start = () => svg && svg.classList.add("talk");
   const end = () => { if (done) return; done = true; svg && svg.classList.remove("talk"); document.querySelectorAll(".wcard.playing").forEach(b => b.classList.remove("playing")); };
-  if (!(canHear && TTS.say(w.nat, lang, start, end))){
-    const n = Math.max(2, Math.min(8, Math.round((w.pr || w.nat).length/2.5)));
-    start(); SND.babble(n); setTimeout(end, n*130 + 150);
-  }
+  const babble = () => { const n = Math.max(2, Math.min(8, Math.round((w.pr || w.nat).length/2.5))); start(); SND.babble(n); setTimeout(end, n*130 + 150); };
+  const playFile = () => {
+    wordAudio.pause(); wordAudio.src = audioSrc(W.c, W.lk, i);
+    wordAudio.onplaying = start; wordAudio.onended = end;
+    wordAudio.onerror = () => { end(); done = false; babble(); };
+    const p = wordAudio.play(); if (p && p.catch) p.catch(() => { done = false; babble(); });
+  };
+  if (!canHear) babble();
+  // صدای طبیعی گوشی فقط اگر در تنظیمات روشن باشد و برای این زبان نصب باشد؛ وگرنه فایل صوتی خود بازی
+  else if (!(store.get("me-ttsdev", false) && TTS.has(lang) && TTS.say(w.nat, lang, start, end))) playFile();
   setTimeout(end, 6000);
 }
 function wordTap(i, btn){

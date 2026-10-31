@@ -1,9 +1,12 @@
 // کش آفلاین: فایل‌های برنامه یک‌بار ذخیره می‌شوند و بعد بدون اینترنت هم کار می‌کند.
 // با هر تغییر در فایل‌ها، VERSION را بالا ببرید تا نسخهٔ تازه جایگزین شود.
-const VERSION = "v3";
+const VERSION = "v4";
 const CACHE = "me-game-" + VERSION;
 const FILES = ["./", "index.html", "manifest.webmanifest", "fonts/Vazirmatn-Variable.woff2",
-  "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png"];
+  "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png",
+  "audio/ar-how-iq.mp3", "audio/ar-how-lev.mp3", "audio/ar-how-eg.mp3"];
+// صدای کلمه‌ها (۱۰ کلمه برای هر زبان)
+for (const l of ["fa", "ar", "ku", "tr", "he", "el"]) for (let i = 0; i < 10; i++) FILES.push(`audio/${l}-${i}.mp3`);
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
