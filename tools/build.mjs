@@ -39,6 +39,45 @@ const REGIONS = {
     seas: [["دریای مدیترانه","Mediterranean Sea",29,34],["دریای سرخ","Red Sea",38.5,20,-58],["خلیج فارس","Persian Gulf",53.1,26.4,-35],
       ["دریای خزر","Caspian Sea",51,41.5],["دریای عرب","Arabian Sea",62,18],["خلیج عدن","Gulf of Aden",48.3,12.4],["دریای سیاه","Black Sea",34,42.2],["دریای عمان","Gulf of Oman",58.9,24.4,-30]]
   },
+  ea: {
+    W: 1000,
+    targets: {cn:["China","Hong Kong","Macao"], jp:"Japan", kr:"South Korea", kp:"North Korea", mn:"Mongolia", tw:"Taiwan"},
+    proj: () => geoConicConformal().parallels([25, 47]).rotate([-110, 0]),
+    fit: {type:"MultiPoint", coordinates:[[73,40],[78,30],[96,21],[110,18],[122,21],[146,30],[146,45],[132,53],[110,53],[90,51]]},
+    caps: {cn:[116.4074,39.9042], jp:[139.6917,35.6895], kr:[126.978,37.5665], kp:[125.7625,39.0392], mn:[106.9057,47.8864], tw:[121.5654,25.033]},
+    labels: {kr:{p:[127.9,36.2]}, kp:{p:[127.0,40.2]}, tw:{p:[124.8,23.2],a:[121.0,23.8]}},
+    seas: [["دریای ژاپن (دریای شرق)","Sea of Japan (East Sea)",134.5,40.5],["دریای زرد","Yellow Sea",123.3,35.6],["دریای چین شرقی","East China Sea",125.5,29.5],
+      ["اقیانوس آرام","Pacific Ocean",143,30],["دریای چین جنوبی","South China Sea",115,19.5]]
+  },
+  sea: {
+    W: 1000,
+    targets: {id:"Indonesia", my:"Malaysia", sg:"Singapore", th:"Thailand", vn:"Vietnam", ph:"Philippines", mm:"Myanmar", kh:"Cambodia", la:"Laos", bn:"Brunei", tl:"Timor-Leste"},
+    proj: () => geoMercator(),
+    fit: {type:"MultiPoint", coordinates:[[92,-11],[141.5,-11],[141.5,28.6],[92,28.6]]},
+    caps: {id:[106.8456,-6.2088], my:[101.6869,3.139], sg:[103.8198,1.3521], th:[100.5018,13.7563], vn:[105.8342,21.0278], ph:[120.9842,14.5995],
+      mm:[96.1297,19.7633], kh:[104.8921,11.5564], la:[102.6331,17.9757], bn:[114.9398,4.9031], tl:[125.5603,-8.5569]},
+    labels: {mm:{p:[97.8,22.3]}, sg:{p:[105.8,-0.4],a:[103.82,1.35]}, bn:{p:[112.6,6.9],a:[114.7,4.6]}, tl:{p:[126.6,-10.3],a:[125.9,-8.9]}, la:{p:[103.2,19.4]}, kh:{p:[104.9,12.8]}},
+    seas: [["دریای چین جنوبی","South China Sea",113,12],["دریای آندامان","Andaman Sea",95.8,10.5],["خلیج تایلند","Gulf of Thailand",101.6,9.5,-60],
+      ["دریای تیمور","Timor Sea",129,-10.8],["دریای جاوه","Java Sea",111,-5],["دریای فیلیپین","Philippine Sea",132,16]]
+  },
+  sa: {
+    W: 1000,
+    targets: {in:"India", pk:"Pakistan", bd:"Bangladesh", lk:"Sri Lanka", np:"Nepal", bt:"Bhutan", mv:"Maldives", af:"Afghanistan"},
+    proj: () => geoMercator(),
+    fit: {type:"MultiPoint", coordinates:[[60,-1],[97.5,-1],[97.5,38.6],[60,38.6]]},
+    caps: {in:[77.209,28.6139], pk:[73.0479,33.6844], bd:[90.4125,23.8103], lk:[79.9022,6.8868], np:[85.324,27.7172], bt:[89.6386,27.4728], mv:[73.5093,4.1755], af:[69.2075,34.5553]},
+    labels: {mv:{p:[68.6,1.6],a:[73.3,3.6]}, bt:{p:[92.3,29.6],a:[90.4,27.4]}, np:{p:[84.0,28.3]}},
+    seas: [["دریای عرب","Arabian Sea",65,15],["خلیج بنگال","Bay of Bengal",89,15],["اقیانوس هند","Indian Ocean",84,2]]
+  },
+  ca: {
+    W: 1000,
+    targets: {kz:"Kazakhstan", uz:"Uzbekistan", tm:"Turkmenistan", kg:"Kyrgyzstan", tj:"Tajikistan", ge:"Georgia", am:"Armenia", az:"Azerbaijan"},
+    proj: () => geoConicConformal().parallels([38, 50]).rotate([-62, 0]),
+    fit: {type:"MultiPoint", coordinates:[[39.5,41],[41,38.5],[52,35.5],[62,35],[75,36.5],[88,46],[87,50],[78,54.5],[62,56],[50,52.5],[46,47]]},
+    caps: {kz:[71.4704,51.1605], uz:[69.2401,41.2995], tm:[58.3261,37.9601], kg:[74.5698,42.8746], tj:[68.7791,38.5598], ge:[44.8271,41.7151], am:[44.5152,40.1872], az:[49.8671,40.4093]},
+    labels: {am:{p:[43.4,38.6],a:[44.9,40.2]}, ge:{p:[43.6,42.3]}, az:{p:[48.0,40.6]}, tj:{p:[70.5,38.6]}, kg:{p:[74.6,41.6]}},
+    seas: [["دریای خزر","Caspian Sea",51,42],["دریاچهٔ آرال","Aral Sea",59.6,45.2],["دریای سیاه","Black Sea",40.3,43.3]]
+  },
   eu: {
     W: 1000,
     targets: {al:"Albania", ad:"Andorra", at:"Austria", by:"Belarus", be:"Belgium", ba:"Bosnia and Herz.", bg:"Bulgaria", hr:"Croatia",
@@ -92,6 +131,6 @@ for (const [rid, R] of Object.entries(REGIONS)) {
 
 const root = new URL("../", import.meta.url);
 const tpl = fs.readFileSync(new URL("src/template.html", root), "utf8");
-const eu = fs.readFileSync(new URL("src/europe.js", root), "utf8") + "\n" + fs.readFileSync(new URL("src/europe_words.js", root), "utf8");
-fs.writeFileSync(new URL("index.html", root), tpl.replace("/*MAP_DATA*/", JSON.stringify(maps)).replace("/*EUROPE_DATA*/", () => eu));
+const data = ["europe.js", "europe_words.js", "asia.js", "asia_words.js"].map(f => fs.readFileSync(new URL("src/" + f, root), "utf8")).join("\n");
+fs.writeFileSync(new URL("index.html", root), tpl.replace("/*MAP_DATA*/", JSON.stringify(maps)).replace("/*REGION_DATA*/", () => data));
 console.log("index.html built");

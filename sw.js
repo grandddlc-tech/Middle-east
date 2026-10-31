@@ -1,6 +1,6 @@
 // کش آفلاین: فایل‌های برنامه یک‌بار ذخیره می‌شوند و بعد بدون اینترنت هم کار می‌کند.
 // با هر تغییر در فایل‌ها، VERSION را بالا ببرید تا نسخهٔ تازه جایگزین شود.
-const VERSION = "v7";
+const VERSION = "v8";
 const CACHE = "me-game-" + VERSION;
 const FILES = ["./", "index.html", "manifest.webmanifest", "fonts/Vazirmatn-Variable.woff2",
   "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png",

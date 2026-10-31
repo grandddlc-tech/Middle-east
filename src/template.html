@@ -329,6 +329,9 @@ h1,h2,h3{line-height:1.4;margin:0}
 .region .em{position:absolute;top:10px;inset-inline-start:14px;font-size:3.6rem;opacity:.25}
 .rballs{display:flex;gap:2px;margin:0 -6px 8px;direction:ltr}
 .rballs .cbw{width:58px;flex:none}
+#asiaList .region{min-height:150px}
+#asiaList .region b{font-size:1.35rem}
+#asiaList .rballs .cbw{width:50px}
 .regchip{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:.85rem;box-shadow:var(--shadow)}
 /* کلمه‌ها */
 .wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
@@ -384,9 +387,15 @@ h1,h2,h3{line-height:1.4;margin:0}
   <section class="screen on" id="sRegions">
     <div class="reg-hero"><h1 id="regTitle">Countryball Explorer</h1><p id="regSub">Where do you want to explore today?</p></div>
     <div class="regions">
-      <button class="region me" data-r="me"><span class="em">🕌</span><span class="go">→</span><div class="rballs" id="rbMe"></div><b id="rnMe">Middle East</b><small id="rcMe"></small></button>
+      <button class="region me" data-r="asia"><span class="em">🏯</span><span class="go">→</span><div class="rballs" id="rbAsia"></div><b id="rnAsia">Asia</b><small id="rcAsia"></small></button>
       <button class="region eu" data-r="eu"><span class="em">🏰</span><span class="go">→</span><div class="rballs" id="rbEu"></div><b id="rnEu">Europe</b><small id="rcEu"></small></button>
     </div>
+  </section>
+
+  <!-- ASIA: its sections -->
+  <section class="screen" id="sAsia">
+    <div class="reg-hero"><h1 id="asiaTitle">Asia</h1><p id="asiaSub"></p></div>
+    <div class="regions" id="asiaList"></div>
   </section>
 
   <!-- HOME -->
@@ -474,7 +483,7 @@ h1,h2,h3{line-height:1.4;margin:0}
 "use strict";
 const MAPS = /*MAP_DATA*/;
 // Which region's data is loaded (Middle East or Europe); switching region reloads the page
-const REGION = (() => { try { return JSON.parse(localStorage.getItem("me-region")) === "eu" ? "eu" : "me"; } catch(e){ return "me"; } })();
+const REGION = (() => { let r; try { r = JSON.parse(localStorage.getItem("me-region")); } catch(e){} return MAPS[r] ? r : "me"; })();
 const MAP = MAPS[REGION];
 
 /* ================== Language (English / Persian) ================== */
@@ -805,19 +814,34 @@ function fusedFlag(a, b, style){
 }
 
 
-/*EUROPE_DATA*/
+/*REGION_DATA*/
+
+/* ================== Region registry ================== */
+// Every region: countries (C, except the Middle East whose data is above), borders, seas, look-alike flags, word languages, wrong-answer languages.
+const REG = {
+  me: {name:["خاورمیانه","Middle East"], parent:"asia", title:["خاورمیانه‌شناس","MidEast Explorer"], h1:["کشورهای خاورمیانه را بشناس!","Discover the Middle East!"], grad:["#0f766e","#4f46e5"]},
+  eu: {C:EU_C, name:["اروپا","Europe"], title:["اروپاشناس","Europe Explorer"], borders:EU_BORDERS, seas:EU_SEAS, sim:EU_SIM, langs:EU_COUNTRY_LANGS, fake:EU_FAKE_LANGS},
+  ...Object.fromEntries(Object.entries(ASIA_REGIONS).map(([k, v]) => [k, {...v, parent:"asia"}]))
+};
+Object.assign(REG.ea, {grad:["#b91c1c","#f59e0b"]}); Object.assign(REG.sea, {grad:["#047857","#0ea5e9"]});
+Object.assign(REG.sa, {grad:["#ea580c","#db2777"]}); Object.assign(REG.ca, {grad:["#4338ca","#0891b2"]});
+const R = REG[REGION];
+const ASIA_KEYS = ["me", "ea", "sea", "sa", "ca"];
+const regionCountries = k => k === "me" ? ME_C : REG[k].C;
+const HOME_I = R.parent ? 2 : 1;   // history depth of a region's home: picker → (Asia →) home
 
 /* ================== Active region's countries ================== */
-const C = REGION === "eu"
-  ? EU_C.map(e => ({id:e.id, fa:T(...e.n), en:T(e.n[1], e.n[0]), short:e.short && T(...e.short), cap:T(...e.cap), capNote:e.capNote && T(...e.capNote),
-      lang:T(...e.lang), hi:e.hi, hat:T(...e.hat), facts:e.f.map(f => ({t:T(f[0], f[1]), x:f[2]}))}))
-  : ME_C;
+const C = REGION === "me" ? ME_C
+  : R.C.map(e => ({id:e.id, fa:T(...e.n), en:T(e.n[1], e.n[0]), short:e.short && T(...e.short), cap:T(...e.cap), capNote:e.capNote && T(...e.capNote),
+      note:e.note && T(...e.note), lang:T(...e.lang), hi:e.hi, hat:T(...e.hat), facts:e.f.map(f => ({t:T(f[0], f[1]), x:f[2]}))}));
 const BY = Object.fromEntries(C.map(c=>[c.id,c]));
-const RG = REGION === "eu"
-  ? {title:T("اروپاشناس","Europe Explorer"), name:T("اروپا","Europe"), h1:T("کشورهای اروپا را بشناس!","Discover Europe!"),
-     p:T("پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ۴۴ کشور، همراه با کانتری‌بال‌های بامزه — روی هرکدام بزن تا سلام کند!","Flags, capitals, languages, places on the map and fun facts about 44 countries — with cute countryballs. Tap one to say hi!")}
-  : {title:T("خاورمیانه‌شناس","MidEast Explorer"), name:T("خاورمیانه","Middle East"), h1:T("کشورهای خاورمیانه را بشناس!","Discover the Middle East!"),
-     p:T("پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ۱۷ کشور، همراه با کانتری‌بال‌های بامزه — روی هرکدام بزن تا سلام کند!","Flags, capitals, languages, places on the map and fun facts about 17 countries — with cute countryballs. Tap one to say hi!")};
+const RG = {
+  title: R.title ? T(...R.title) : T(`کاوشگر ${R.name[0]}`, `${R.name[1]} Explorer`),
+  name: T(...R.name),
+  h1: R.h1 ? T(...R.h1) : T(`کشورهای ${R.name[0]} را بشناس!`, `Discover ${R.name[1]}!`),
+  p: T(`پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ${fa(C.length)} کشور، همراه با کانتری‌بال‌های بامزه — روی هرکدام بزن تا سلام کند!`,
+       `Flags, capitals, languages, places on the map and fun facts about ${C.length} countries — with cute countryballs. Tap one to say hi!`)
+};
 const APP_TITLE = T("کاوشگر کانتری‌بال","Countryball Explorer");
 
 /* ================== نقشه ================== */
@@ -925,11 +949,16 @@ const quizRunning = () => Q && Q.i < Q.qs.length;
 // رفتن به یک صفحه و ثبت در تاریخچه تا دکمهٔ برگشت گوشی کار کند
 function nav(id, replace){
   const i = (history.state && history.state.i) || 0;
-  if (id === "sHome"){ show(id); renderHome(); if (i > 1) history.go(-(i-1)); else if (i === 0) history.pushState({s:"sHome", i:1}, ""); return; }
+  if (id === "sHome"){
+    show(id); renderHome();
+    if (i > HOME_I) history.go(-(i - HOME_I));
+    else if (i < HOME_I){ if (R.parent && i === 0) history.pushState({s:"sAsia", i:1}, ""); history.pushState({s:"sHome", i:HOME_I}, ""); }
+    return;
+  }
   if (replace) history.replaceState({s:id, i}, ""); else history.pushState({s:id, i:i+1}, "");
   show(id);
 }
-function show(id){ curScreen = id; $("#appName").textContent = id === "sRegions" ? APP_TITLE : RG.title; document.title = id === "sRegions" ? APP_TITLE : RG.title; typeof TTS !== "undefined" && TTS.stop(); document.querySelectorAll(".sbubble").forEach(b=>b.remove()); document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id===id)); window.scrollTo({top:0}); }
+function show(id){ curScreen = id; const ttl = id === "sRegions" ? APP_TITLE : id === "sAsia" ? T("آسیا","Asia") : RG.title; $("#appName").textContent = ttl; document.title = ttl; typeof TTS !== "undefined" && TTS.stop(); document.querySelectorAll(".sbubble").forEach(b=>b.remove()); document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id===id)); window.scrollTo({top:0}); }
 const MODES = [
   {id:"flag", t:T("پرچم‌ها","Flags"), d:T("این پرچم مال کدام کشور است؟","Which country does this flag belong to?"), ic:"🚩", g:"var(--g2)"},
   {id:"cap", t:T("پایتخت‌ها","Capitals"), d:T("پایتخت هر کشور کجاست؟","What is each country's capital?"), ic:"🏛️", g:"var(--g1)"},
@@ -1003,7 +1032,7 @@ function renderCards(){
     : `<p style="grid-column:1/-1;color:var(--muted);text-align:center">${T("کشوری پیدا نشد.","No country found.")}</p>`;
 }
 function detailHTML(c){
-  return `<div class="det-top"><div class="det-flag">${flag(c.id)}</div><div class="cbw" data-id="${c.id}">${ball(c.id,"happy")}</div></div><div class="det-name">${c.fa}</div><div class="det-en">${c.en}</div>${c.flagNote?`<div class="det-note">🏳️ ${c.flagNote}</div>`:""}
+  return `<div class="det-top"><div class="det-flag">${flag(c.id)}</div><div class="cbw" data-id="${c.id}">${ball(c.id,"happy")}</div></div><div class="det-name">${c.fa}</div><div class="det-en">${c.en}</div>${c.flagNote?`<div class="det-note">🏳️ ${c.flagNote}</div>`:""}${c.note?`<div class="det-note">ℹ️ ${c.note}</div>`:""}
    <div class="rows">
     <div class="row"><span class="k">🏛️</span><div><small>${T("پایتخت","Capital")}</small><b>${c.cap}</b>${c.capNote?`<div class="note">${c.capNote}</div>`:""}</div></div>
     <div class="row"><span class="k">🗣️</span><div><small>${T("زبان رسمی","Official language")}</small><b>${langStr(c)}</b>${c.langNote?`<div class="note">${c.langNote}</div>`:""}</div></div>
@@ -1039,7 +1068,7 @@ function q4(cat, c, prompt, correct, wrongs, extra){
 const GEN = {
   fuse(c){
     // پرچم‌های خیلی شبیه به هم با هم ترکیب نشوند
-    const SIM = (REGION === "eu" ? EU_SIM : ["eg ye iq sy","jo ps kw ae","bh qa"]).map(g=>g.split(" ")), sim = (SIM.find(g=>g.includes(c.id))||[]).filter(x=>x!==c.id);
+    const SIM = (REGION === "me" ? ["eg ye iq sy","jo ps kw ae","bh qa"] : R.sim).map(g=>g.split(" ")), sim = (SIM.find(g=>g.includes(c.id))||[]).filter(x=>x!==c.id);
     const b = others(c,1,sim)[0], style = pick(FSTYLES)[0];
     const nm = (x,y) => `${x.fa} + ${y.fa}`, key = (x,y) => [x.id,y.id].sort().join();
     const used = new Set([key(c,b)]), ws = [];
@@ -1069,7 +1098,7 @@ const GEN = {
       const ws = others(c,3,C.filter(o=>o.lang.some(l=>c.lang.includes(l))).map(o=>o.id));
       return q4("lang", c, T(`زبان رسمی کدام کشور «${L}» است؟`,`Which country's official language is ${L}?`), c.fa, ws.map(o=>o.fa));
     }
-    const pool = [...new Set(C.map(langStr).concat(REGION === "eu" ? T(...EU_FAKE_LANGS) : T(["کردی","انگلیسی","فرانسوی","ارمنی","آذری","عربی و انگلیسی","عربی و فارسی"],["Kurdish","English","French","Armenian","Azerbaijani","Arabic & English","Arabic & Persian"])))].filter(v=>v!==L);
+    const pool = [...new Set(C.map(langStr).concat(REGION !== "me" ? T(...R.fake) : T(["کردی","انگلیسی","فرانسوی","ارمنی","آذری","عربی و انگلیسی","عربی و فارسی"],["Kurdish","English","French","Armenian","Azerbaijani","Arabic & English","Arabic & Persian"])))].filter(v=>v!==L);
     // گزینه‌های غلط: ترجیحاً زبان‌های واقعی منطقه
     const real = shuffle(pool.filter(v=>C.some(o=>langStr(o)===v))), fake = shuffle(pool.filter(v=>!C.some(o=>langStr(o)===v)));
     const ws = real.slice(0,2).concat(fake).slice(0,3);
@@ -1463,9 +1492,9 @@ $("#langBtn").textContent = EN ? "فا" : "EN";
 $("#langBtn").onclick = () => { store.set("me-lang", EN ? "fa" : "en"); if (curScreen !== "sRegions") try { sessionStorage.setItem("me-enter", "1"); } catch(e){} location.reload(); };
 
 /* ================== دوستی پرچم‌ها ================== */
-const BORDERS = REGION === "eu" ? EU_BORDERS : {ir:"iq tr", iq:"ir tr sy jo sa kw", tr:"ir iq sy", sy:"tr iq jo il lb", lb:"sy il", jo:"sy iq sa il ps", ps:"il jo eg", il:"lb sy jo eg ps",
+const BORDERS = REGION !== "me" ? R.borders : {ir:"iq tr", iq:"ir tr sy jo sa kw", tr:"ir iq sy", sy:"tr iq jo il lb", lb:"sy il", jo:"sy iq sa il ps", ps:"il jo eg", il:"lb sy jo eg ps",
   sa:"jo iq kw qa ae om ye", kw:"iq sa", bh:"", qa:"sa", ae:"sa om", om:"ae sa ye", ye:"sa om", eg:"il ps", cy:""};
-const SEAS_OF = REGION === "eu" ? EU_SEAS.map(([f,e,ids]) => [T(f,e), ids]) : [[T("خلیج فارس","Persian Gulf"),"ir iq kw sa bh qa ae om"],[T("دریای مدیترانه","Mediterranean Sea"),"tr sy lb il ps eg cy"],[T("دریای سرخ","Red Sea"),"eg sa ye jo il"],[T("دریای عمان","Gulf of Oman"),"ir om ae"],[T("دریای عرب","Arabian Sea"),"om ye"]];
+const SEAS_OF = REGION !== "me" ? R.seas.map(([f,e,ids]) => [T(f,e), ids]) : [[T("خلیج فارس","Persian Gulf"),"ir iq kw sa bh qa ae om"],[T("دریای مدیترانه","Mediterranean Sea"),"tr sy lb il ps eg cy"],[T("دریای سرخ","Red Sea"),"eg sa ye jo il"],[T("دریای عمان","Gulf of Oman"),"ir om ae"],[T("دریای عرب","Arabian Sea"),"om ye"]];
 const has = (list, id) => list.split(" ").includes(id);
 function distKm(a, b){
   const [l1,p1] = MAP.ll[a].map(v=>v*Math.PI/180), [l2,p2] = MAP.ll[b].map(v=>v*Math.PI/180);
@@ -1573,9 +1602,9 @@ const LANGS_EN = {
 const AR_HOW_EN = {"شلونك؟":"shlonak?", "كيفك؟":"keefak?", "إزيّك؟":"izzayyak?"};
 if (EN) for (const k in LANGS){ const e = LANGS_EN[k]; LANGS[k].name = e.name; LANGS[k].note = e.note;
   LANGS[k].w = LANGS[k].w.map((w,i) => [w[0], e.pr[i], k==="el" && i===3 ? e.n3 : undefined]); }
-for (const [k, v] of Object.entries(EU_WORDS))
+for (const [k, v] of Object.entries({...EU_WORDS, ...ASIA_WORDS}))
   LANGS[k] = {name:T(...v.name), tts:v.tts, w:v.w.map((w,i) => [w, EN && k === "en" ? "" : (EN ? v.en[i] : v.fa[i]), v.notes[i] && T(...v.notes[i])])};
-const COUNTRY_LANGS = {ir:["fa"], iq:["ar","ku"], tr:["tr"], cy:["el","tr"], il:["he"], ...EU_COUNTRY_LANGS};
+const COUNTRY_LANGS = Object.assign({ir:["fa"], iq:["ar","ku"], tr:["tr"], cy:["el","tr"], il:["he"]}, EU_COUNTRY_LANGS, ...Object.values(ASIA_REGIONS).map(r => r.langs));
 const langsOf = id => COUNTRY_LANGS[id] || ["ar"];
 const ttsLang = (cid, lk) => lk==="ar" && cid==="eg" ? "ar-EG" : LANGS[lk].tts;
 function wordsFor(cid, lk){
@@ -1632,7 +1661,7 @@ function renderWord(){
     <div class="w-title">${c.fa} · ${L.name}</div>
     ${langs.length>1 ? `<div class="ltabs">${langs.map(k=>`<button data-l="${k}" class="${k===W.lk?"on":""}">${LANGS[k].name}</button>`).join("")}</div>` : ""}
     ${L.note ? `<p class="notice">${L.note}</p>` : ""}<p class="notice" id="wVoice"></p>
-    <div class="words" id="wList">${ws.map((w,i)=>`<button class="wcard" data-i="${i}"><span class="em">${w.em}</span><span><b>${w.mn}</b><span class="nt" dir="auto">${esc(w.nat)}</span>${w.pr && w.pr!==w.nat ? `<small class="pr">«${esc(w.pr)}»</small>` : ""}</span></button>`).join("")}</div>
+    <div class="words" id="wList">${ws.map((w,i)=> w.nat == null ? "" : `<button class="wcard" data-i="${i}"><span class="em">${w.em}</span><span><b>${w.mn}</b><span class="nt" dir="auto">${esc(w.nat)}</span>${w.pr && w.pr!==w.nat ? `<small class="pr">«${esc(w.pr)}»</small>` : ""}</span></button>`).join("")}</div>
     <div class="btns" id="wBtns" style="margin-top:16px"></div>`;
   setSay({nat:W.lk==="fa" ? "سلام!" : ws[0].nat, pr:ws[0].pr, mn:T("روی هر کلمه بزن تا بگویمش!","Tap any word and I'll say it!")});
   updateVoiceNote(); renderWordBtns();
@@ -1649,7 +1678,8 @@ function renderWordBtns(){
   else $("#wPractice").onclick = () => { W.practice = {i:-1, score:0}; renderWordBtns(); nextPractice(); };
 }
 function nextPractice(){
-  const n = LANGS[W.lk].w.length; let i; do { i = Math.random()*n|0; } while (i === W.practice.i);
+  const ok = wordsFor(W.c, W.lk).map((w,i) => w.nat == null ? -1 : i).filter(i => i >= 0 && i !== W.practice.i);
+  const i = pick(ok);
   W.practice.i = i; speakWord(i, true);
 }
 function speakWord(i, quiz){
@@ -1692,29 +1722,35 @@ $("#goWords").onclick = () => { nav("sWords"); renderWordPick(); };
 /* ================== دکمهٔ برگشت گوشی (History API) ================== */
 /* ================== Region picker ================== */
 function renderRegions(){
+  const balls = list => shuffle(list).slice(0, 5).map((c,i)=>`<div class="cbw" style="--d:-${i*.4}s">${ball(c.id, i%2?"":"happy")}</div>`).join("");
+  const asiaAll = ASIA_KEYS.flatMap(regionCountries);
   $("#regTitle").textContent = APP_TITLE;
   $("#regSub").textContent = T("امروز کجا را می‌خواهی بگردی؟","Where do you want to explore today?");
-  $("#rnMe").textContent = T("خاورمیانه","Middle East"); $("#rcMe").textContent = T(`${fa(ME_C.length)} کشور`, `${ME_C.length} countries`);
+  $("#rnAsia").textContent = T("آسیا","Asia"); $("#rcAsia").textContent = T(`${fa(asiaAll.length)} کشور در ${fa(ASIA_KEYS.length)} بخش`, `${asiaAll.length} countries in ${ASIA_KEYS.length} sections`);
   $("#rnEu").textContent = T("اروپا","Europe"); $("#rcEu").textContent = T(`${fa(EU_C.length)} کشور`, `${EU_C.length} countries`);
-  const balls = list => shuffle(list).slice(0, 5).map((c,i)=>`<div class="cbw" style="--d:-${i*.4}s">${ball(c.id, i%2?"":"happy")}</div>`).join("");
-  $("#rbMe").innerHTML = balls(ME_C); $("#rbEu").innerHTML = balls(EU_C);
+  $("#rbAsia").innerHTML = balls(asiaAll); $("#rbEu").innerHTML = balls(EU_C);
+  $("#asiaTitle").textContent = T("آسیا","Asia");
+  $("#asiaSub").textContent = T("کدام بخش آسیا؟","Which part of Asia?");
+  $("#asiaList").innerHTML = ASIA_KEYS.map(k => { const g = REG[k].grad, list = regionCountries(k);
+    return `<button class="region" data-r="${k}" style="background:linear-gradient(135deg,${g[0]},${g[1]})"><span class="go"></span><div class="rballs">${balls(list)}</div><b>${T(...REG[k].name)}</b><small>${T(`${fa(list.length)} کشور`, `${list.length} countries`)}</small></button>`; }).join("");
   document.querySelectorAll(".region .go").forEach(g => g.textContent = EN ? "→" : "←");
 }
-document.querySelectorAll(".region").forEach(b => b.onclick = () => {
-  const r = b.dataset.r;
+function pickRegion(r){
+  if (r === "asia") return nav("sAsia");
   if (r === REGION) return nav("sHome");
   store.set("me-region", r);
   try { sessionStorage.setItem("me-enter", "1"); } catch(e){}
   location.reload();
-});
+}
+document.addEventListener("click", e => { const b = e.target.closest(".region[data-r]"); if (b) pickRegion(b.dataset.r); });
 $("#goRegions").innerHTML = `🌍 ${RG.name} · ${T("عوض کن","change")}`;
-$("#goRegions").onclick = () => history.go(-((history.state && history.state.i) || 0));
+$("#goRegions").onclick = () => { const i = (history.state && history.state.i) || 0, target = R.parent ? 1 : 0; if (i > target) history.go(-(i - target)); };
 $("#hero h1").textContent = RG.h1; $("#hero p").textContent = RG.p;
 renderRegions();
 
 history.replaceState({s:"sRegions", i:0}, "");
 let enterRegion = false; try { enterRegion = !!sessionStorage.getItem("me-enter"); sessionStorage.removeItem("me-enter"); } catch(e){}
-if (enterRegion){ history.pushState({s:"sHome", i:1}, ""); show("sHome"); } else show("sRegions");
+if (enterRegion){ if (R.parent) history.pushState({s:"sAsia", i:1}, ""); history.pushState({s:"sHome", i:HOME_I}, ""); show("sHome"); } else show("sRegions");
 addEventListener("popstate", e => {
   const st = e.state || {s:"sRegions", i:0};
   if (sheetOpen){
