@@ -1,15 +1,18 @@
 // کش آفلاین: فایل‌های برنامه یک‌بار ذخیره می‌شوند و بعد بدون اینترنت هم کار می‌کند.
 // با هر تغییر در فایل‌ها، VERSION را بالا ببرید تا نسخهٔ تازه جایگزین شود.
-const VERSION = "v5";
+const VERSION = "v6";
 const CACHE = "me-game-" + VERSION;
 const FILES = ["./", "index.html", "manifest.webmanifest", "fonts/Vazirmatn-Variable.woff2",
   "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png",
-  "audio/ar-how-iq.mp3", "audio/ar-how-lev.mp3", "audio/ar-how-eg.mp3"];
-// صدای کلمه‌ها (۱۰ کلمه برای هر زبان)
-for (const l of ["fa", "ar", "ku", "tr", "he", "el"]) for (let i = 0; i < 10; i++) FILES.push(`audio/${l}-${i}.mp3`);
+  "audio/list.json"];
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
+  // the app files first, then every word's audio (listed in audio/list.json); a missing audio file doesn't block the install
+  e.waitUntil(caches.open(CACHE).then(async c => {
+    await c.addAll(FILES);
+    const list = await (await c.match("audio/list.json")).json();
+    await Promise.allSettled(list.map(f => c.add("audio/" + f)));
+  }).then(() => self.skipWaiting()));
 });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))

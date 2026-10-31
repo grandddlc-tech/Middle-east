@@ -1,7 +1,7 @@
 {
-  "name": "MidEast Explorer",
-  "short_name": "MidEast",
-  "description": "Educational game about the countries of the Middle East: flags, capitals, languages, map and fun facts",
+  "name": "Countryball Explorer",
+  "short_name": "Countryballs",
+  "description": "Educational game about the countries of the Middle East and Europe: flags, capitals, languages, maps, words and fun facts",
   "id": "./",
   "start_url": "./",
   "scope": "./",

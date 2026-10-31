@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f766e">
-<title>MidEast Explorer</title>
+<title>Countryball Explorer</title>
 <script>try{var ml=JSON.parse(localStorage.getItem("me-lang"))}catch(e){}if(ml!=="fa")ml="en";document.documentElement.lang=ml;document.documentElement.dir=ml==="en"?"ltr":"rtl";</script>
 <meta name="description" content="Educational game about the countries of the Middle East: flags, capitals, languages, map and fun facts">
 <link rel="manifest" href="manifest.webmanifest">
@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="MidEast Explorer">
+<meta name="apple-mobile-web-app-title" content="Countryball Explorer">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
 @font-face{font-family:Vazirmatn;src:url("fonts/Vazirmatn-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
@@ -313,6 +313,23 @@ h1,h2,h3{line-height:1.4;margin:0}
 .dance{display:flex;justify-content:center;gap:2px;margin-top:12px}
 .dance .cbw{width:54px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+/* انتخاب منطقه — region picker */
+.reg-hero{text-align:center;margin:26px 0 18px}
+.reg-hero h1{font-size:1.7rem;font-weight:900;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g4),var(--g3),var(--g1));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 7s linear infinite}
+.reg-hero p{color:var(--muted);margin:6px 0 0}
+.regions{display:grid;gap:16px}
+@media(min-width:640px){.regions{grid-template-columns:1fr 1fr}}
+.region{position:relative;overflow:hidden;border-radius:26px;padding:20px 18px 18px;color:#fff;text-align:start;box-shadow:var(--shadow);transition:transform .12s;min-height:210px;display:flex;flex-direction:column;justify-content:flex-end}
+.region:active{transform:scale(.97)}
+.region.me{background:linear-gradient(135deg,#0f766e,#4f46e5 60%,#7c3aed)}
+.region.eu{background:linear-gradient(135deg,#1d4ed8,#9333ea 55%,#db2777)}
+.region b{font-size:1.6rem;font-weight:900;display:block;line-height:1.3}
+.region small{opacity:.9;font-size:.95rem}
+.region .go{position:absolute;top:16px;inset-inline-end:16px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:1.2rem}
+.region .em{position:absolute;top:10px;inset-inline-start:14px;font-size:3.6rem;opacity:.25}
+.rballs{display:flex;gap:2px;margin:0 -6px 8px;direction:ltr}
+.rballs .cbw{width:58px;flex:none}
+.regchip{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:.85rem;box-shadow:var(--shadow)}
 /* کلمه‌ها */
 .wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
 @media(min-width:640px){.wgrid{grid-template-columns:repeat(5,1fr)}}
@@ -353,7 +370,7 @@ h1,h2,h3{line-height:1.4;margin:0}
 </head>
 <body>
 <header class="top"><div class="in">
-  <button class="logo" id="goHome" aria-label="Home"><span class="dot">🌍</span><span data-fa="خاورمیانه‌شناس">MidEast Explorer</span></button>
+  <button class="logo" id="goHome" aria-label="Home"><span class="dot">🌍</span><span id="appName">Countryball Explorer</span></button>
   <div class="hdr-btns">
     <button class="iconbtn" id="langBtn" aria-label="فارسی / English">فا</button>
     <button class="iconbtn" id="soundBtn" aria-label="Sound on/off">🔊</button>
@@ -363,8 +380,18 @@ h1,h2,h3{line-height:1.4;margin:0}
 </div></header>
 
 <main class="wrap">
+  <!-- REGION PICKER -->
+  <section class="screen on" id="sRegions">
+    <div class="reg-hero"><h1 id="regTitle">Countryball Explorer</h1><p id="regSub">Where do you want to explore today?</p></div>
+    <div class="regions">
+      <button class="region me" data-r="me"><span class="em">🕌</span><span class="go">→</span><div class="rballs" id="rbMe"></div><b id="rnMe">Middle East</b><small id="rcMe"></small></button>
+      <button class="region eu" data-r="eu"><span class="em">🏰</span><span class="go">→</span><div class="rballs" id="rbEu"></div><b id="rnEu">Europe</b><small id="rcEu"></small></button>
+    </div>
+  </section>
+
   <!-- HOME -->
-  <section class="screen on" id="sHome">
+  <section class="screen" id="sHome">
+    <button class="regchip" id="goRegions"></button>
     <button class="festbar" id="festBar"></button>
     <div class="hero" id="hero">
       <div class="globe">🗺️</div>
@@ -445,7 +472,10 @@ h1,h2,h3{line-height:1.4;margin:0}
 
 <script>
 "use strict";
-const MAP = /*MAP_DATA*/;
+const MAPS = /*MAP_DATA*/;
+// Which region's data is loaded (Middle East or Europe); switching region reloads the page
+const REGION = (() => { try { return JSON.parse(localStorage.getItem("me-region")) === "eu" ? "eu" : "me"; } catch(e){ return "me"; } })();
+const MAP = MAPS[REGION];
 
 /* ================== Language (English / Persian) ================== */
 const EN = document.documentElement.lang !== "fa";
@@ -458,7 +488,7 @@ if (!EN){
 
 /* ================== داده‌های کشورها ================== */
 // x: کشورهایی که نباید گزینهٔ غلطِ آن نکته باشند (چون نکته دربارهٔ آن‌ها هم صدق می‌کند)
-const C = [
+const ME_C = [
  {id:"ir", fa:"ایران", en:"Iran", cap:"تهران", lang:["فارسی"],
   facts:[{t:"تخت جمشید (پرسپولیس)، پایتخت تشریفاتی هخامنشیان، از مهم‌ترین آثار باستانی آن است."},
          {t:"نوروز، جشن آغاز سال نو در اول بهار، ریشه در فرهنگ باستانی این کشور دارد.", x:["iq","tr"]},
@@ -532,7 +562,6 @@ const C = [
          {t:"از سال ۱۹۷۴ میان جنوبِ یونانی‌نشین و شمالِ ترک‌نشین تقسیم شده است.", x:["tr"]},
          {t:"از سال ۲۰۰۴ عضو اتحادیهٔ اروپا است.", x:["tr"]}]}
 ];
-const BY = Object.fromEntries(C.map(c=>[c.id,c]));
 const langStr = c => c.lang.join(T(" و ", " & "));
 
 /* ================== ابزارها ================== */
@@ -621,7 +650,7 @@ const EXTRA = {
  eg:{hi:"إزيّك؟", hat:"نِمِس (سربند فرعونی)", ll:[30.0444,31.2357]},
  cy:{hi:"Γεια σου!", hat:"تاج زیتون", ll:[35.1856,33.3823]}
 };
-for (const c of C) Object.assign(c, EXTRA[c.id]);
+for (const c of ME_C) Object.assign(c, EXTRA[c.id]);
 
 /* ================== English version of the data ================== */
 // Applied when the app runs in English: overwrites the Persian fields, so the rest of the code works unchanged
@@ -697,7 +726,7 @@ const EN_DATA = {
         "Since 1974 it has been divided between the Greek Cypriot south and the Turkish Cypriot north.",
         "It has been a member of the European Union since 2004."]}
 };
-if (EN) for (const c of C){
+if (EN) for (const c of ME_C){
   const e = EN_DATA[c.id];
   c.en = e.sub ? `${c.fa} · ${e.sub}` : c.fa;   // subtitle shows the local (Persian) name
   c.fa = e.n; c.short = e.short; c.cap = e.cap; c.capNote = e.capNote; c.lang = e.lang; c.langNote = e.langNote; c.hat = e.hat;
@@ -776,29 +805,42 @@ function fusedFlag(a, b, style){
 }
 
 
+/*EUROPE_DATA*/
+
+/* ================== Active region's countries ================== */
+const C = REGION === "eu"
+  ? EU_C.map(e => ({id:e.id, fa:T(...e.n), en:T(e.n[1], e.n[0]), short:e.short && T(...e.short), cap:T(...e.cap), capNote:e.capNote && T(...e.capNote),
+      lang:T(...e.lang), hi:e.hi, hat:T(...e.hat), facts:e.f.map(f => ({t:T(f[0], f[1]), x:f[2]}))}))
+  : ME_C;
+const BY = Object.fromEntries(C.map(c=>[c.id,c]));
+const RG = REGION === "eu"
+  ? {title:T("اروپاشناس","Europe Explorer"), name:T("اروپا","Europe"), h1:T("کشورهای اروپا را بشناس!","Discover Europe!"),
+     p:T("پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ۴۴ کشور، همراه با کانتری‌بال‌های بامزه — روی هرکدام بزن تا سلام کند!","Flags, capitals, languages, places on the map and fun facts about 44 countries — with cute countryballs. Tap one to say hi!")}
+  : {title:T("خاورمیانه‌شناس","MidEast Explorer"), name:T("خاورمیانه","Middle East"), h1:T("کشورهای خاورمیانه را بشناس!","Discover the Middle East!"),
+     p:T("پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ۱۷ کشور، همراه با کانتری‌بال‌های بامزه — روی هرکدام بزن تا سلام کند!","Flags, capitals, languages, places on the map and fun facts about 17 countries — with cute countryballs. Tap one to say hi!")};
+const APP_TITLE = T("کاوشگر کانتری‌بال","Countryball Explorer");
+
 /* ================== نقشه ================== */
-// جای برچسب کشورهای کوچک (با خط راهنما)
-const LBL = { lb:{p:[280.7,261.8],a:[310.4,256.3]}, il:{p:[258,289.1],a:[295.6,294.5]}, ps:{p:[256,312],a:[301.3,308]},
-              bh:{p:[636,434],a:[651.9,459.6]}, om:{p:[794.6,581.8]}, cy:{p:[256.1,219]} };
-const SEAS = [[T("دریای مدیترانه","Mediterranean Sea"),159.7,250.8],[T("دریای سرخ","Red Sea"),376.7,611.1,-58],[T("خلیج فارس","Persian Gulf"),712,452,-35],[T("دریای خزر","Caspian Sea"),662,40],[T("دریای عرب","Arabian Sea"),905,670],[T("خلیج عدن","Gulf of Aden"),600,792],[T("دریای سیاه","Black Sea"),275,14],[T("دریای عمان","Gulf of Oman"),842,512,-30]];
+const LBL = MAP.lbl;   // label positions for small countries (with leader lines)
+const SEAS = MAP.seas.map(([f,e,x,y,r]) => [T(f,e),x,y,r]);
 let mapUid=0;
-// تبدیل [عرض، طول] به مختصات نقشه (همان مرکاتور ساخته‌شده در build)
-function projLL([lat, lon]){ const r=Math.PI/180, P=MAP.proj; return [P.t[0]+P.k*lon*r, P.t[1]-P.k*Math.log(Math.tan(Math.PI/4+lat*r/2))]; }
-const capsSvg = () => `<g>${C.map(c=>{ const [x,y]=projLL(c.ll); return `<polygon class="m-cap" points="${starPts(x,y,6,2.6,5,-Math.PI/2)}"><title>${c.cap}</title></polygon>`; }).join("")}</g>`;
+const capsSvg = () => `<g>${C.map(c=>{ const [x,y]=MAP.caps[c.id]; return `<polygon class="m-cap" points="${starPts(x,y,6,2.6,5,-Math.PI/2)}"><title>${c.cap}</title></polygon>`; }).join("")}</g>`;
 function makeMap(host, opt){
   opt = opt || {};
   const W=MAP.W, H=MAP.H, NS="http://www.w3.org/2000/svg";
   const uid = ++mapUid;
-  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="${NS}" aria-label="Map of the Middle East"><rect x="-2000" y="-2000" width="5000" height="5000" fill="var(--sea)"/>`;
+  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="${NS}" aria-label="Map"><rect x="-2000" y="-2000" width="5000" height="5000" fill="var(--sea)"/>`;
   s += `<path class="m-other" d="${MAP.others}"/>`;
   s += `<g class="m-cs">` + C.map(c=>`<path class="m-c" data-id="${c.id}" d="${MAP.targets[c.id].d}"><title>${c.fa}</title></path>`).join("") + `</g>`;
   s += SEAS.map(([t,x,y,r])=>`<text class="m-sea" x="${x}" y="${y}"${r?` transform="rotate(${r} ${x} ${y})"`:""}>${t}</text>`).join("");
-  s += `<circle class="m-hit" data-id="bh" cx="651.9" cy="460.5" r="11"/><g class="m-rings"></g>${opt.caps?capsSvg():""}<g class="m-lbls">`;
+  // bigger invisible tap targets for tiny countries
+  s += C.filter(c => MAP.targets[c.id].r < 18).map(c => { const a = (LBL[c.id] && LBL[c.id].a) || MAP.targets[c.id].c; return `<circle class="m-hit" data-id="${c.id}" cx="${a[0]}" cy="${a[1]}" r="11"/>`; }).join("");
+  s += `<g class="m-rings"></g>${opt.caps?capsSvg():""}<g class="m-lbls">`;
   for (const c of C){
     const t = MAP.targets[c.id], L = LBL[c.id] || {}, p = L.p || t.c;
     const fs = Math.max(10, Math.min(22, t.r/7));
     if (L.a) s += `<line class="m-lead" x1="${p[0]}" y1="${p[1]}" x2="${L.a[0]}" y2="${L.a[1]}"/>`;
-    s += `<text class="m-lbl" x="${p[0]}" y="${p[1]}" font-size="${L.a?10:fs}">${c.fa}</text>`;
+    s += `<text class="m-lbl" x="${p[0]}" y="${p[1]}" font-size="${L.a?10:fs}">${c.short||c.fa}</text>`;
   }
   s += `</g></svg><div class="zoom"><button data-z="in" aria-label="Zoom in">+</button><button data-z="out" aria-label="Zoom out">−</button><button data-z="reset" aria-label="Reset" style="font-size:.9rem">⟲</button></div>`;
   host.innerHTML = s;
@@ -853,7 +895,7 @@ function makeMap(host, opt){
       const t = MAP.targets[id];
       if (t.r < 60){ const a=(LBL[id]&&LBL[id].a)||t.c; rings.insertAdjacentHTML("beforeend", `<circle class="m-ring ${cls}" cx="${a[0]}" cy="${a[1]}" r="${Math.max(14,t.r*0.7)}"/>`); }
     },
-    link(a, b){ const p=projLL(BY[a].ll), q=projLL(BY[b].ll), mx=(p[0]+q[0])/2, my=(p[1]+q[1])/2-Math.hypot(q[0]-p[0],q[1]-p[1])*.3;
+    link(a, b){ const p=MAP.caps[a], q=MAP.caps[b], mx=(p[0]+q[0])/2, my=(p[1]+q[1])/2-Math.hypot(q[0]-p[0],q[1]-p[1])*.3;
       rings.insertAdjacentHTML("beforeend", `<path class="m-link" d="M${p} Q${mx},${my} ${q}"/>`); },
     dimOthers(id){ svg.querySelectorAll(".m-c").forEach(p=>{ if(p.dataset.id!==id) p.classList.add("dim"); }); },
     focus(id){ // بزرگ‌نمایی ملایم روی یک کشور
@@ -878,16 +920,16 @@ $("#themeBtn").onclick = () => {
 };
 
 /* ================== صفحه‌ها ================== */
-let curScreen = "sHome", sheetOpen = false, afterSheet = null;
+let curScreen = "sRegions", sheetOpen = false, afterSheet = null;
 const quizRunning = () => Q && Q.i < Q.qs.length;
 // رفتن به یک صفحه و ثبت در تاریخچه تا دکمهٔ برگشت گوشی کار کند
 function nav(id, replace){
   const i = (history.state && history.state.i) || 0;
-  if (id === "sHome"){ show(id); renderHome(); if (i > 0) history.go(-i); return; }
+  if (id === "sHome"){ show(id); renderHome(); if (i > 1) history.go(-(i-1)); else if (i === 0) history.pushState({s:"sHome", i:1}, ""); return; }
   if (replace) history.replaceState({s:id, i}, ""); else history.pushState({s:id, i:i+1}, "");
   show(id);
 }
-function show(id){ curScreen = id; typeof TTS !== "undefined" && TTS.stop(); document.querySelectorAll(".sbubble").forEach(b=>b.remove()); document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id===id)); window.scrollTo({top:0}); }
+function show(id){ curScreen = id; $("#appName").textContent = id === "sRegions" ? APP_TITLE : RG.title; document.title = id === "sRegions" ? APP_TITLE : RG.title; typeof TTS !== "undefined" && TTS.stop(); document.querySelectorAll(".sbubble").forEach(b=>b.remove()); document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id===id)); window.scrollTo({top:0}); }
 const MODES = [
   {id:"flag", t:T("پرچم‌ها","Flags"), d:T("این پرچم مال کدام کشور است؟","Which country does this flag belong to?"), ic:"🚩", g:"var(--g2)"},
   {id:"cap", t:T("پایتخت‌ها","Capitals"), d:T("پایتخت هر کشور کجاست؟","What is each country's capital?"), ic:"🏛️", g:"var(--g1)"},
@@ -899,7 +941,7 @@ const MODES = [
 ];
 const MODE = Object.fromEntries(MODES.map(m=>[m.id,m]));
 const allCount = m => m==="mix" ? C.length*5 : C.length;
-const bestKey = (m,n) => `me-best-${m}-${n}`;
+const bestKey = (m,n) => REGION === "me" ? `me-best-${m}-${n}` : `me-best-${REGION}-${m}-${n}`;
 function renderHome(){
   $("#modes").innerHTML = MODES.map(m=>{
     const b = [10,20,"all"].map(n=>store.get(bestKey(m.id,n),null)).filter(v=>v!=null);
@@ -985,7 +1027,7 @@ function openDetail(id){
 }
 
 /* ================== ساخت سؤال‌ها ================== */
-const PS_IL = {ps:["il"], il:["ps"]};
+const PS_IL = REGION === "me" ? {ps:["il"], il:["ps"]} : {};   // capitals that must not be options for each other
 function others(c, n, excl){
   excl = new Set([c.id].concat(excl||[]));
   return shuffle(C.filter(o=>!excl.has(o.id))).slice(0,n);
@@ -997,7 +1039,7 @@ function q4(cat, c, prompt, correct, wrongs, extra){
 const GEN = {
   fuse(c){
     // پرچم‌های خیلی شبیه به هم با هم ترکیب نشوند
-    const SIM = ["eg ye iq sy","jo ps kw ae","bh qa"].map(g=>g.split(" ")), sim = (SIM.find(g=>g.includes(c.id))||[]).filter(x=>x!==c.id);
+    const SIM = (REGION === "eu" ? EU_SIM : ["eg ye iq sy","jo ps kw ae","bh qa"]).map(g=>g.split(" ")), sim = (SIM.find(g=>g.includes(c.id))||[]).filter(x=>x!==c.id);
     const b = others(c,1,sim)[0], style = pick(FSTYLES)[0];
     const nm = (x,y) => `${x.fa} + ${y.fa}`, key = (x,y) => [x.id,y.id].sort().join();
     const used = new Set([key(c,b)]), ws = [];
@@ -1027,7 +1069,7 @@ const GEN = {
       const ws = others(c,3,C.filter(o=>o.lang.some(l=>c.lang.includes(l))).map(o=>o.id));
       return q4("lang", c, T(`زبان رسمی کدام کشور «${L}» است؟`,`Which country's official language is ${L}?`), c.fa, ws.map(o=>o.fa));
     }
-    const pool = [...new Set(C.map(langStr).concat(T(["کردی","انگلیسی","فرانسوی","ارمنی","آذری","عربی و انگلیسی","عربی و فارسی"],["Kurdish","English","French","Armenian","Azerbaijani","Arabic & English","Arabic & Persian"])))].filter(v=>v!==L);
+    const pool = [...new Set(C.map(langStr).concat(REGION === "eu" ? T(...EU_FAKE_LANGS) : T(["کردی","انگلیسی","فرانسوی","ارمنی","آذری","عربی و انگلیسی","عربی و فارسی"],["Kurdish","English","French","Armenian","Azerbaijani","Arabic & English","Arabic & Persian"])))].filter(v=>v!==L);
     // گزینه‌های غلط: ترجیحاً زبان‌های واقعی منطقه
     const real = shuffle(pool.filter(v=>C.some(o=>langStr(o)===v))), fake = shuffle(pool.filter(v=>!C.some(o=>langStr(o)===v)));
     const ws = real.slice(0,2).concat(fake).slice(0,3);
@@ -1418,15 +1460,15 @@ function openSettings(){
 }
 $("#setBtn").onclick = openSettings;
 $("#langBtn").textContent = EN ? "فا" : "EN";
-$("#langBtn").onclick = () => { store.set("me-lang", EN ? "fa" : "en"); location.reload(); };
+$("#langBtn").onclick = () => { store.set("me-lang", EN ? "fa" : "en"); if (curScreen !== "sRegions") try { sessionStorage.setItem("me-enter", "1"); } catch(e){} location.reload(); };
 
 /* ================== دوستی پرچم‌ها ================== */
-const BORDERS = {ir:"iq tr", iq:"ir tr sy jo sa kw", tr:"ir iq sy", sy:"tr iq jo il lb", lb:"sy il", jo:"sy iq sa il ps", ps:"il jo eg", il:"lb sy jo eg ps",
+const BORDERS = REGION === "eu" ? EU_BORDERS : {ir:"iq tr", iq:"ir tr sy jo sa kw", tr:"ir iq sy", sy:"tr iq jo il lb", lb:"sy il", jo:"sy iq sa il ps", ps:"il jo eg", il:"lb sy jo eg ps",
   sa:"jo iq kw qa ae om ye", kw:"iq sa", bh:"", qa:"sa", ae:"sa om", om:"ae sa ye", ye:"sa om", eg:"il ps", cy:""};
-const SEAS_OF = [[T("خلیج فارس","Persian Gulf"),"ir iq kw sa bh qa ae om"],[T("دریای مدیترانه","Mediterranean Sea"),"tr sy lb il ps eg cy"],[T("دریای سرخ","Red Sea"),"eg sa ye jo il"],[T("دریای عمان","Gulf of Oman"),"ir om ae"],[T("دریای عرب","Arabian Sea"),"om ye"]];
+const SEAS_OF = REGION === "eu" ? EU_SEAS.map(([f,e,ids]) => [T(f,e), ids]) : [[T("خلیج فارس","Persian Gulf"),"ir iq kw sa bh qa ae om"],[T("دریای مدیترانه","Mediterranean Sea"),"tr sy lb il ps eg cy"],[T("دریای سرخ","Red Sea"),"eg sa ye jo il"],[T("دریای عمان","Gulf of Oman"),"ir om ae"],[T("دریای عرب","Arabian Sea"),"om ye"]];
 const has = (list, id) => list.split(" ").includes(id);
 function distKm(a, b){
-  const [p1,l1] = BY[a].ll.map(v=>v*Math.PI/180), [p2,l2] = BY[b].ll.map(v=>v*Math.PI/180);
+  const [l1,p1] = MAP.ll[a].map(v=>v*Math.PI/180), [l2,p2] = MAP.ll[b].map(v=>v*Math.PI/180);
   const h = Math.sin((p2-p1)/2)**2 + Math.cos(p1)*Math.cos(p2)*Math.sin((l2-l1)/2)**2;
   return Math.round(2*6371*Math.asin(Math.sqrt(h))/10)*10;
 }
@@ -1497,7 +1539,7 @@ $("#goFriends").onclick = () => { nav("sFriends"); renderFriends(); setTimeout(c
 
 /* ================== رژهٔ کانتری‌بال‌ها و ستاره‌های چشمک‌زن ================== */
 (function decorateHero(){
-  const one = shuffle(C).map((c,i)=>`<div class="cbw" data-id="${c.id}" style="--d:-${(i*.37%2.2).toFixed(2)}s">${ball(c.id, i%4===0?"happy":"")}</div>`).join("");
+  const one = shuffle(C).slice(0, 18).map((c,i)=>`<div class="cbw" data-id="${c.id}" style="--d:-${(i*.37%2.2).toFixed(2)}s">${ball(c.id, i%4===0?"happy":"")}</div>`).join("");
   $("#parade").innerHTML = `<div class="track">${one}${one}</div>`;
   let tw = ""; for (let i=0;i<9;i++) tw += `<span class="twinkle" style="top:${5+Math.random()*50}%;left:${3+Math.random()*92}%;animation-delay:${(Math.random()*2.6).toFixed(2)}s">✦</span>`;
   $("#hero").insertAdjacentHTML("beforeend", tw);
@@ -1531,7 +1573,9 @@ const LANGS_EN = {
 const AR_HOW_EN = {"شلونك؟":"shlonak?", "كيفك؟":"keefak?", "إزيّك؟":"izzayyak?"};
 if (EN) for (const k in LANGS){ const e = LANGS_EN[k]; LANGS[k].name = e.name; LANGS[k].note = e.note;
   LANGS[k].w = LANGS[k].w.map((w,i) => [w[0], e.pr[i], k==="el" && i===3 ? e.n3 : undefined]); }
-const COUNTRY_LANGS = {ir:["fa"], iq:["ar","ku"], tr:["tr"], cy:["el","tr"], il:["he"]};
+for (const [k, v] of Object.entries(EU_WORDS))
+  LANGS[k] = {name:T(...v.name), tts:v.tts, w:v.w.map((w,i) => [w, EN && k === "en" ? "" : (EN ? v.en[i] : v.fa[i]), v.notes[i] && T(...v.notes[i])])};
+const COUNTRY_LANGS = {ir:["fa"], iq:["ar","ku"], tr:["tr"], cy:["el","tr"], il:["he"], ...EU_COUNTRY_LANGS};
 const langsOf = id => COUNTRY_LANGS[id] || ["ar"];
 const ttsLang = (cid, lk) => lk==="ar" && cid==="eg" ? "ar-EG" : LANGS[lk].tts;
 function wordsFor(cid, lk){
@@ -1646,9 +1690,33 @@ function wordTap(i, btn){
 $("#goWords").onclick = () => { nav("sWords"); renderWordPick(); };
 
 /* ================== دکمهٔ برگشت گوشی (History API) ================== */
-history.replaceState({s:"sHome", i:0}, "");
+/* ================== Region picker ================== */
+function renderRegions(){
+  $("#regTitle").textContent = APP_TITLE;
+  $("#regSub").textContent = T("امروز کجا را می‌خواهی بگردی؟","Where do you want to explore today?");
+  $("#rnMe").textContent = T("خاورمیانه","Middle East"); $("#rcMe").textContent = T(`${fa(ME_C.length)} کشور`, `${ME_C.length} countries`);
+  $("#rnEu").textContent = T("اروپا","Europe"); $("#rcEu").textContent = T(`${fa(EU_C.length)} کشور`, `${EU_C.length} countries`);
+  const balls = list => shuffle(list).slice(0, 5).map((c,i)=>`<div class="cbw" style="--d:-${i*.4}s">${ball(c.id, i%2?"":"happy")}</div>`).join("");
+  $("#rbMe").innerHTML = balls(ME_C); $("#rbEu").innerHTML = balls(EU_C);
+  document.querySelectorAll(".region .go").forEach(g => g.textContent = EN ? "→" : "←");
+}
+document.querySelectorAll(".region").forEach(b => b.onclick = () => {
+  const r = b.dataset.r;
+  if (r === REGION) return nav("sHome");
+  store.set("me-region", r);
+  try { sessionStorage.setItem("me-enter", "1"); } catch(e){}
+  location.reload();
+});
+$("#goRegions").innerHTML = `🌍 ${RG.name} · ${T("عوض کن","change")}`;
+$("#goRegions").onclick = () => history.go(-((history.state && history.state.i) || 0));
+$("#hero h1").textContent = RG.h1; $("#hero p").textContent = RG.p;
+renderRegions();
+
+history.replaceState({s:"sRegions", i:0}, "");
+let enterRegion = false; try { enterRegion = !!sessionStorage.getItem("me-enter"); sessionStorage.removeItem("me-enter"); } catch(e){}
+if (enterRegion){ history.pushState({s:"sHome", i:1}, ""); show("sHome"); } else show("sRegions");
 addEventListener("popstate", e => {
-  const st = e.state || {s:"sHome", i:0};
+  const st = e.state || {s:"sRegions", i:0};
   if (sheetOpen){
     sheetOpen = false; $("#ov").classList.remove("on");
     const f = afterSheet; afterSheet = null; if (f) f();
