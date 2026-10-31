@@ -1,20 +1,38 @@
 {
-  "name": "خاورمیانه‌شناس",
-  "short_name": "خاورمیانه‌شناس",
-  "description": "بازی آموزشی کشورهای خاورمیانه: پرچم، پایتخت، زبان، نقشه و نکته‌ها",
+  "name": "MidEast Explorer",
+  "short_name": "MidEast",
+  "description": "Educational game about the countries of the Middle East: flags, capitals, languages, map and fun facts",
   "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "dir": "rtl",
-  "lang": "fa",
+  "dir": "auto",
+  "lang": "en",
   "background_color": "#0e1320",
   "theme_color": "#0f766e",
-  "categories": ["education", "games"],
+  "categories": [
+    "education",
+    "games"
+  ],
   "icons": [
-    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }

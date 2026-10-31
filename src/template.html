@@ -1,17 +1,18 @@
 <!doctype html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f766e">
-<title>خاورمیانه‌شناس</title>
-<meta name="description" content="بازی آموزشی کشورهای خاورمیانه: پرچم، پایتخت، زبان، نقشه و نکته‌ها">
+<title>MidEast Explorer</title>
+<script>try{var ml=JSON.parse(localStorage.getItem("me-lang"))}catch(e){}if(ml!=="fa")ml="en";document.documentElement.lang=ml;document.documentElement.dir=ml==="en"?"ltr":"rtl";</script>
+<meta name="description" content="Educational game about the countries of the Middle East: flags, capitals, languages, map and fun facts">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="خاورمیانه‌شناس">
+<meta name="apple-mobile-web-app-title" content="MidEast Explorer">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
 @font-face{font-family:Vazirmatn;src:url("fonts/Vazirmatn-Variable.woff2") format("woff2");font-weight:100 900;font-display:swap}
@@ -49,7 +50,7 @@ header.top{padding-top:env(safe-area-inset-top)}
 header.top .in{max-width:960px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-right)) 10px max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:10px}
 .logo{font-weight:900;font-size:1.2rem;display:flex;align-items:center;gap:8px;flex:1}
 .logo span.dot{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--g3),var(--g1));display:grid;place-items:center;color:#fff;font-size:1rem}
-.iconbtn{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:1.1rem}
+.iconbtn{width:38px;height:38px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-size:1.1rem}
 .screen{display:none;animation:fade .25s ease}
 .screen.on{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -63,14 +64,14 @@ h1,h2,h3{line-height:1.4;margin:0}
 .btn:active{transform:scale(.97)}
 .btn.ghost{background:var(--card);color:var(--text);border:1px solid var(--line)}
 .btn.big{width:100%;padding:16px;font-size:1.05rem}
-.learnbtn{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:right;margin-bottom:18px}
+.learnbtn{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:start;margin-bottom:18px}
 .learnbtn .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.6rem;background:linear-gradient(135deg,var(--g5),var(--g3));flex:none}
 .learnbtn b{display:block;font-size:1.1rem}
 .learnbtn small{color:var(--muted)}
 .sec-title{font-weight:900;font-size:1.1rem;margin:6px 0 10px}
 .modes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 @media(min-width:640px){.modes{grid-template-columns:repeat(3,1fr)}}
-.mode{padding:16px 14px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:right;position:relative;overflow:hidden;transition:transform .12s}
+.mode{padding:16px 14px;border-radius:var(--r);background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);text-align:start;position:relative;overflow:hidden;transition:transform .12s}
 .mode:active{transform:scale(.97)}
 .mode .ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:1.35rem;color:#fff;margin-bottom:8px}
 .mode b{display:block;font-size:1rem}
@@ -105,7 +106,7 @@ h1,h2,h3{line-height:1.4;margin:0}
 .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 @media(min-width:640px){.cards{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:860px){.cards{grid-template-columns:repeat(4,1fr)}}
-.ccard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);text-align:right;transition:transform .12s}
+.ccard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);text-align:start;transition:transform .12s}
 .ccard:active{transform:scale(.97)}
 .ccard .fl{aspect-ratio:3/2;display:grid;place-items:center;background:var(--bg2);padding:12px}
 .ccard .fl > svg{max-width:100%;max-height:100%;width:auto;height:100%;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
@@ -122,14 +123,14 @@ h1,h2,h3{line-height:1.4;margin:0}
 .det-flag{height:150px;display:grid;place-items:center;margin-bottom:12px}
 .det-flag > svg{height:100%;width:auto;max-width:100%;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .det-name{font-size:1.5rem;font-weight:900;text-align:center}
-.det-en{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:12px;direction:ltr}
+.det-en{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:12px;unicode-bidi:plaintext}
 .rows{display:grid;gap:10px}
 .row{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:14px;background:var(--bg2)}
 .row .k{font-size:1.3rem;line-height:1.3}
 .row small{color:var(--muted);display:block;font-size:.8rem}
 .row b{font-weight:700}
 .row .note{font-size:.8rem;color:var(--muted);margin-top:2px}
-.facts{margin:0;padding:0 18px 0 0}
+.facts{margin:0;padding:0;padding-inline-start:18px}
 .facts li{margin:4px 0}
 .det-nav{display:flex;gap:8px;margin-top:14px}
 .det-nav .btn{flex:1}
@@ -147,10 +148,10 @@ h1,h2,h3{line-height:1.4;margin:0}
 .qtext{font-size:1.2rem;font-weight:900;margin-bottom:12px}
 .qflag{height:140px;display:grid;place-items:center;margin:6px 0 14px}
 .qflag > svg{height:100%;width:auto;max-width:100%;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.2)}
-.qfact{font-size:1.05rem;padding:14px 16px;border-radius:16px;background:var(--bg2);border-right:5px solid var(--g6);margin-bottom:14px}
+.qfact{font-size:1.05rem;padding:14px 16px;border-radius:16px;background:var(--bg2);border-inline-start:5px solid var(--g6);margin-bottom:14px}
 .opts{display:grid;gap:10px}
 @media(min-width:560px){.opts{grid-template-columns:1fr 1fr}}
-.opt{padding:14px 16px;border-radius:16px;background:var(--bg2);border:2px solid transparent;text-align:right;font-weight:700;font-size:1rem;display:flex;align-items:center;gap:10px;transition:transform .1s, background .2s}
+.opt{padding:14px 16px;border-radius:16px;background:var(--bg2);border:2px solid transparent;text-align:start;font-weight:700;font-size:1rem;display:flex;align-items:center;gap:10px;transition:transform .1s, background .2s}
 .opt:active{transform:scale(.98)}
 .opt .n{width:28px;height:28px;flex:none;border-radius:9px;background:var(--card);display:grid;place-items:center;font-size:.85rem;color:var(--muted)}
 .opt.ok{background:var(--okbg);border-color:var(--ok)}
@@ -198,7 +199,8 @@ h1,h2,h3{line-height:1.4;margin:0}
 .installbox .tx{flex:1;font-size:.9rem}
 .installbox b{display:block;font-size:1rem}
 .installbox .x{color:var(--muted);font-size:1.2rem;padding:4px 8px}
-.ios-steps{margin:12px 0 0;padding:0 22px 0 0;list-style:persian}
+.ios-steps{margin:12px 0 0;padding:0;padding-inline-start:22px;list-style:persian}
+[dir=ltr] .ios-steps{list-style:decimal}
 .ios-steps li{margin:8px 0}
 .foot{text-align:center;color:var(--muted);font-size:.78rem;margin-top:26px}
 /* ===== افکت‌ها و انیمیشن‌ها ===== */
@@ -246,26 +248,28 @@ h1,h2,h3{line-height:1.4;margin:0}
 .parade .cbw{width:64px;flex:none}
 /* کارت‌ها و جزئیات */
 .ccard .fl{position:relative}
-.ccard .cbw{position:absolute;left:2px;bottom:-16px;width:50px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+.ccard .cbw{position:absolute;inset-inline-end:2px;bottom:-16px;width:50px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
 .ccard .tx{padding-top:14px}
 .det-top{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
 .det-top .det-flag{height:118px;margin:0;flex:1 1 auto;min-width:0}
 .det-top .cbw{width:112px;flex:none}
 .det-note{font-size:.78rem;color:var(--muted);text-align:center;margin:-8px 0 12px}
 /* جشن‌ها */
-.festbar{display:none;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--r);margin:16px 0 0;background:linear-gradient(135deg,var(--f1,#f97316),var(--f2,#7c3aed));color:#fff;font-weight:700;box-shadow:var(--shadow);width:100%;text-align:right}
+.festbar{display:none;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--r);margin:16px 0 0;background:linear-gradient(135deg,var(--f1,#f97316),var(--f2,#7c3aed));color:#fff;font-weight:700;box-shadow:var(--shadow);width:100%;text-align:start}
 .festbar.on{display:flex;animation:fade .4s}
 .festbar .fe{font-size:1.8rem;animation:wob 1.6s ease-in-out infinite;display:inline-block}
 /* تنظیمات */
-.setrow{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:var(--bg2);margin-top:10px;width:100%;text-align:right}
+.setrow{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:var(--bg2);margin-top:10px;width:100%;text-align:start}
 .setrow span{flex:1;font-weight:700}
 .sw{width:50px;height:30px;border-radius:30px;background:var(--line);position:relative;transition:.2s;flex:none}
-.sw::after{content:"";position:absolute;top:3px;right:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.sw.on{background:var(--primary)}.sw.on::after{right:23px}
+.sw::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.sw.on{background:var(--primary)}.sw.on::after{inset-inline-start:23px}
 .fchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .fchips button{padding:6px 12px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);font-size:.85rem}
 .fchips button.on{background:var(--primary);color:#fff;border-color:transparent}
-.hdr-btns{display:flex;gap:6px}
+.hdr-btns{display:flex;gap:5px}
+#langBtn{font-weight:900;font-size:.85rem}
+.logo{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* دوستی پرچم‌ها */
 .fr-pick{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin:16px 0}
 .fr-slot{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px 6px;text-align:center;box-shadow:var(--shadow)}
@@ -277,8 +281,10 @@ h1,h2,h3{line-height:1.4;margin:0}
 .fr-stage{position:relative;background:linear-gradient(180deg,color-mix(in srgb,var(--g2) 14%,var(--card)),var(--card) 45%);border:1px solid var(--line);border-radius:24px;padding:18px 16px;text-align:center;box-shadow:var(--shadow);overflow:hidden}
 .fr-balls{display:flex;justify-content:center;align-items:flex-end;height:128px;position:relative}
 .fr-balls .cbw{width:112px}
-.fr-balls .a{transform:rotate(9deg) translateX(-8px)}
-.fr-balls .b{transform:rotate(-9deg) translateX(8px)}
+.fr-balls .a{transform:rotate(-9deg) translateX(-8px)}
+.fr-balls .b{transform:rotate(9deg) translateX(8px)}
+[dir=ltr] .fr-balls .a{transform:rotate(9deg) translateX(8px)}
+[dir=ltr] .fr-balls .b{transform:rotate(-9deg) translateX(-8px)}
 .heart{position:absolute;left:50%;top:40px;font-size:1.3rem;animation:heartUp 2.8s ease-in infinite;opacity:0;pointer-events:none}
 @keyframes heartUp{0%{transform:translate(-50%,10px) scale(.4);opacity:0}20%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),-70px) scale(1.2);opacity:0}}
 .ship{font-size:1.9rem;font-weight:900;margin-top:8px;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g4),var(--g1));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 5s linear infinite}
@@ -293,7 +299,7 @@ h1,h2,h3{line-height:1.4;margin:0}
 .styles button.on{background:var(--primary);color:#fff;border-color:transparent}
 .meter{height:14px;border-radius:14px;background:var(--line);overflow:hidden;margin:6px 0 2px}
 .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f472b6,#ef4444,#f59e0b);transition:width 1.3s cubic-bezier(.2,.8,.2,1)}
-.traits{list-style:none;padding:0;margin:12px 0 0;text-align:right;display:grid;gap:8px}
+.traits{list-style:none;padding:0;margin:12px 0 0;text-align:start;display:grid;gap:8px}
 .traits li{padding:10px 12px;border-radius:12px;background:var(--bg2)}
 .pickgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
 .pickgrid button{padding:4px 2px 6px;border-radius:14px;background:var(--bg2);font-size:.72rem;font-weight:700;line-height:1.3}
@@ -303,7 +309,7 @@ h1,h2,h3{line-height:1.4;margin:0}
 /* بازخورد کوییز */
 .fb.on{display:flex;align-items:center;gap:12px}
 .fb .cbw{width:62px;flex:none}
-.fb .cbw+.cbw{margin-right:-22px}
+.fb .cbw+.cbw{margin-inline-start:-22px}
 .dance{display:flex;justify-content:center;gap:2px;margin-top:12px}
 .dance .cbw{width:54px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
@@ -319,6 +325,7 @@ h1,h2,h3{line-height:1.4;margin:0}
 .w-head .cbw{width:128px;flex:none;cursor:pointer}
 .say{flex:1;min-width:0;position:relative;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:12px 14px;box-shadow:var(--shadow);min-height:100px;display:flex;flex-direction:column;justify-content:center;gap:2px}
 .say::before{content:"";position:absolute;right:-12px;top:42%;border:10px solid transparent;border-right:0;border-left-color:var(--line)}
+[dir=ltr] .say::before{right:auto;left:-12px;border-left:0;border-right:10px solid var(--line)}
 .say .nat{font-size:1.7rem;font-weight:900;line-height:1.35;overflow-wrap:anywhere}
 .say .pr{color:var(--primary);font-weight:700}
 .say .mn{color:var(--muted);font-size:.85rem}
@@ -330,7 +337,7 @@ h1,h2,h3{line-height:1.4;margin:0}
 .notice:empty{display:none}
 .words{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(min-width:640px){.words{grid-template-columns:repeat(3,1fr)}}
-.wcard{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 12px;text-align:right;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center;transition:background .2s,border-color .2s}
+.wcard{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 12px;text-align:start;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center;transition:background .2s,border-color .2s}
 .wcard .em{font-size:1.7rem;flex:none}
 .wcard b{display:block;font-size:1rem}
 .wcard .nt{display:block;font-size:1rem;color:var(--primary);font-weight:700;overflow-wrap:anywhere}
@@ -346,11 +353,12 @@ h1,h2,h3{line-height:1.4;margin:0}
 </head>
 <body>
 <header class="top"><div class="in">
-  <button class="logo" id="goHome" aria-label="خانه"><span class="dot">🌍</span>خاورمیانه‌شناس</button>
+  <button class="logo" id="goHome" aria-label="Home"><span class="dot">🌍</span><span data-fa="خاورمیانه‌شناس">MidEast Explorer</span></button>
   <div class="hdr-btns">
-    <button class="iconbtn" id="soundBtn" aria-label="صدا روشن/خاموش">🔊</button>
-    <button class="iconbtn" id="setBtn" aria-label="تنظیمات و جشن‌ها">⚙️</button>
-    <button class="iconbtn" id="themeBtn" aria-label="تغییر حالت روشن و تیره">🌙</button>
+    <button class="iconbtn" id="langBtn" aria-label="فارسی / English">فا</button>
+    <button class="iconbtn" id="soundBtn" aria-label="Sound on/off">🔊</button>
+    <button class="iconbtn" id="setBtn" aria-label="Settings">⚙️</button>
+    <button class="iconbtn" id="themeBtn" aria-label="Light/dark mode">🌙</button>
   </div>
 </div></header>
 
@@ -360,40 +368,40 @@ h1,h2,h3{line-height:1.4;margin:0}
     <button class="festbar" id="festBar"></button>
     <div class="hero" id="hero">
       <div class="globe">🗺️</div>
-      <h1>کشورهای خاورمیانه را بشناس!</h1>
-      <p>پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ۱۷ کشور، همراه با کانتری‌بال‌های بامزه — روی هرکدام بزن تا سلام کند!</p>
+      <h1 data-fa="کشورهای خاورمیانه را بشناس!">Discover the Middle East!</h1>
+      <p data-fa="پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ۱۷ کشور، همراه با کانتری‌بال‌های بامزه — روی هرکدام بزن تا سلام کند!">Flags, capitals, languages, places on the map and fun facts about 17 countries — with cute countryballs. Tap one to say hi!</p>
       <div class="parade" id="parade"></div>
     </div>
     <div class="installbox" id="installBox">
       <span style="font-size:1.8rem">📲</span>
-      <div class="tx"><b>نصب روی گوشی</b>مثل یک برنامه روی صفحهٔ اصلی، حتی بدون اینترنت</div>
-      <button class="btn" id="installBtn">نصب</button>
-      <button class="x" id="installX" aria-label="بستن">✕</button>
+      <div class="tx" data-fa="&lt;b&gt;نصب روی گوشی&lt;/b&gt;مثل یک برنامه روی صفحهٔ اصلی، حتی بدون اینترنت"><b>Install on your phone</b>Like a real app on your home screen — even offline</div>
+      <button class="btn" id="installBtn" data-fa="نصب">Install</button>
+      <button class="x" id="installX" aria-label="Close">✕</button>
     </div>
     <button class="learnbtn" id="goLearn">
       <span class="ic">📚</span>
-      <span><b>حالت یادگیری</b><small>نقشهٔ تعاملی و کارت همهٔ کشورها برای مرور</small></span>
+      <span data-fa="&lt;b&gt;حالت یادگیری&lt;/b&gt;&lt;small&gt;نقشهٔ تعاملی و کارت همهٔ کشورها برای مرور&lt;/small&gt;"><b>Learning mode</b><small>Interactive map and a card for every country</small></span>
     </button>
     <button class="learnbtn" id="goFriends">
       <span class="ic" style="background:linear-gradient(135deg,var(--g2),var(--g4))">🤝</span>
-      <span><b>دوستی پرچم‌ها</b><small>دو کشور را کنار هم بگذار: پرچم ترکیبی، اسم دوستی و نکته‌های مشترک</small></span>
+      <span data-fa="&lt;b&gt;دوستی پرچم‌ها&lt;/b&gt;&lt;small&gt;دو کشور را کنار هم بگذار: پرچم ترکیبی، اسم دوستی و نکته‌های مشترک&lt;/small&gt;"><b>Flag Friends</b><small>Put two countries together: fused flag, friendship name and what they share</small></span>
     </button>
     <button class="learnbtn" id="goWords">
       <span class="ic" style="background:linear-gradient(135deg,var(--g1),var(--g5))">🗣️</span>
-      <span><b>کلمه‌های ساده</b><small>کانتری‌بال‌ها به زبان خودشان کلمه یادت می‌دهند (با صدا)</small></span>
+      <span data-fa="&lt;b&gt;کلمه‌های ساده&lt;/b&gt;&lt;small&gt;کانتری‌بال‌ها به زبان خودشان کلمه یادت می‌دهند (با صدا)&lt;/small&gt;"><b>Simple Words</b><small>Countryballs teach you words in their own language (with sound)</small></span>
     </button>
-    <div class="sec-title">کوییزها</div>
+    <div class="sec-title" data-fa="کوییزها">Quizzes</div>
     <div class="modes" id="modes"></div>
-    <div class="foot">مرزهای نقشه: Natural Earth · امتیازها فقط روی همین دستگاه ذخیره می‌شوند</div>
+    <div class="foot" data-fa="مرزهای نقشه: Natural Earth · امتیازها فقط روی همین دستگاه ذخیره می‌شوند">Map borders: Natural Earth · Scores are saved only on this device</div>
   </section>
 
   <!-- LEARN -->
   <section class="screen" id="sLearn">
     <div class="searchbar">
-      <input id="search" type="search" placeholder="جستجوی کشور، پایتخت یا زبان…" autocomplete="off">
+      <input id="search" type="search" placeholder="Search a country, capital or language…" data-fa-ph="جستجوی کشور، پایتخت یا زبان…" autocomplete="off">
     </div>
     <div class="mapbox" id="learnMap"></div>
-    <div class="maphint">👆 روی هر کشور بزن تا کارتش باز شود. با دو انگشت یا دکمه‌های + و − بزرگ‌نمایی کن.</div>
+    <div class="maphint" data-fa="👆 روی هر کشور بزن تا کارتش باز شود. با دو انگشت یا دکمه‌های + و − بزرگ‌نمایی کن.">👆 Tap a country to open its card. Pinch or use + and − to zoom.</div>
     <div class="cards" id="cards"></div>
   </section>
 
@@ -401,16 +409,16 @@ h1,h2,h3{line-height:1.4;margin:0}
   <section class="screen" id="sFriends">
     <div class="fr-pick">
       <button class="fr-slot" id="slotA"></button>
-      <button class="fr-dice" id="frDice" aria-label="جفت تصادفی">🎲</button>
+      <button class="fr-dice" id="frDice" aria-label="Random pair">🎲</button>
       <button class="fr-slot" id="slotB"></button>
     </div>
     <div class="fr-stage" id="frStage"></div>
-    <button class="btn big shine" id="frQuiz" style="margin-top:16px">🧬 کوییز ترکیب پرچم‌ها</button>
+    <button class="btn big shine" id="frQuiz" style="margin-top:16px" data-fa="🧬 کوییز ترکیب پرچم‌ها">🧬 Flag Fusion quiz</button>
   </section>
 
   <!-- WORDS -->
   <section class="screen" id="sWords">
-    <div class="w-intro"><b>🗣️ کدام کشور یادت بدهد؟</b>یک کانتری‌بال انتخاب کن تا چند کلمهٔ ساده به زبان خودش بگوید.</div>
+    <div class="w-intro" data-fa="&lt;b&gt;🗣️ کدام کشور یادت بدهد؟&lt;/b&gt;یک کانتری‌بال انتخاب کن تا چند کلمهٔ ساده به زبان خودش بگوید."><b>🗣️ Who should teach you?</b>Pick a countryball and it will say a few simple words in its own language.</div>
     <div class="wgrid" id="wpGrid"></div>
   </section>
   <section class="screen" id="sWord"></section>
@@ -438,6 +446,15 @@ h1,h2,h3{line-height:1.4;margin:0}
 <script>
 "use strict";
 const MAP = /*MAP_DATA*/;
+
+/* ================== Language (English / Persian) ================== */
+const EN = document.documentElement.lang !== "fa";
+const T = (fa, en) => EN ? en : fa;   // pick the string for the current language
+if (!EN){
+  document.querySelectorAll("[data-fa]").forEach(el => el.innerHTML = el.dataset.fa);
+  document.querySelectorAll("[data-fa-ph]").forEach(el => el.placeholder = el.dataset.faPh);
+  document.title = "خاورمیانه‌شناس";
+}
 
 /* ================== داده‌های کشورها ================== */
 // x: کشورهایی که نباید گزینهٔ غلطِ آن نکته باشند (چون نکته دربارهٔ آن‌ها هم صدق می‌کند)
@@ -516,11 +533,11 @@ const C = [
          {t:"از سال ۲۰۰۴ عضو اتحادیهٔ اروپا است.", x:["tr"]}]}
 ];
 const BY = Object.fromEntries(C.map(c=>[c.id,c]));
-const langStr = c => c.lang.join(" و ");
+const langStr = c => c.lang.join(T(" و ", " & "));
 
 /* ================== ابزارها ================== */
 const $ = s => document.querySelector(s);
-const fa = n => String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);
+const fa = n => EN ? String(n) : String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]);   // Persian digits in Persian mode
 const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
 const pick = a => a[Math.random()*a.length|0];
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
@@ -535,7 +552,7 @@ function starPts(cx,cy,R,r,n,rot){
   return p.join(" ");
 }
 const tri3 = (w,h,a,b,c) => `<rect width="${w}" height="${h/3+.5}" fill="${a}"/><rect y="${h/3}" width="${w}" height="${h/3+.5}" fill="${b}"/><rect y="${2*h/3}" width="${w}" height="${h/3}" fill="${c}"/>`;
-const svgw = (w,h,body,label) => `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${label||"پرچم"}" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
+const svgw = (w,h,body,label) => `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${EN ? "Flag" : (label||"پرچم")}" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
 const FLAG = {
   ir(){ // پرچم شیر و خورشید دوران پهلوی: سبز، سفید، سرخ + شیر شمشیربه‌دست، خورشید و تاج
     const L = "#e3a82b", D = "#7a4a06";
@@ -605,6 +622,89 @@ const EXTRA = {
  cy:{hi:"Γεια σου!", hat:"تاج زیتون", ll:[35.1856,33.3823]}
 };
 for (const c of C) Object.assign(c, EXTRA[c.id]);
+
+/* ================== English version of the data ================== */
+// Applied when the app runs in English: overwrites the Persian fields, so the rest of the code works unchanged
+const EN_DATA = {
+ ir:{n:"Iran", cap:"Tehran", lang:["Persian"], hat:"Felt hat (kolah namadi)",
+     flagNote:"This game shows the Pahlavi-era Lion and Sun flag; today's flag has the stylized “Allah” emblem and “Allahu Akbar” instead.",
+     f:["Persepolis, the ceremonial capital of the Achaemenid Empire, is one of its most important ancient sites.",
+        "Nowruz, the New Year festival on the first day of spring, has its roots in this country's ancient culture.",
+        "It has the world's second-largest natural gas reserves, after Russia."]},
+ iq:{n:"Iraq", cap:"Baghdad", lang:["Arabic","Kurdish"], hat:"Sidara (Faisali cap)",
+     f:["It is Mesopotamia, the land between the Tigris and Euphrates — one of the first cradles of civilization and of cuneiform writing.",
+        "The pilgrimage cities of Karbala and Najaf are here.",
+        "Ancient Babylon, with its legendary Hanging Gardens, was in this land."]},
+ tr:{n:"Turkey", sub:"Türkiye", cap:"Ankara", lang:["Turkish"], hat:"Fez",
+     f:["Istanbul, its largest city, sits on two continents — Europe and Asia — on both sides of the Bosphorus.",
+        "Its republic was founded in 1923 under Mustafa Kemal Atatürk.",
+        "Hagia Sophia and the fairy chimneys of Cappadocia are among its famous sights."]},
+ sy:{n:"Syria", cap:"Damascus", lang:["Arabic"], hat:"Keffiyeh and agal",
+     f:["Its capital, Damascus, is one of the oldest continuously inhabited cities in the world.",
+        "The ancient city of Palmyra and the Umayyad Mosque are among its famous landmarks.",
+        "Aleppo, with its covered souq and historic citadel, is one of its major cities."]},
+ lb:{n:"Lebanon", cap:"Beirut", lang:["Arabic"], hat:"Tarboosh",
+     f:["The cedar tree is its national symbol and sits in the middle of its flag.",
+        "It was the land of the Phoenicians, seafaring people who created the Phoenician alphabet.",
+        "It has 18 officially recognized religious sects, and political power is shared among them."]},
+ jo:{n:"Jordan", cap:"Amman", lang:["Arabic"], hat:"Red shemagh with tassels and agal",
+     f:["The ancient city of Petra, carved into rose-red rock, is one of the New Seven Wonders of the World.",
+        "It is a kingdom ruled by the Hashemite family.",
+        "The Wadi Rum desert, nicknamed the “Valley of the Moon”, is in its south."]},
+ ps:{n:"Palestine", cap:"East Jerusalem", capNote:"Its declared capital is East Jerusalem; the government is based in Ramallah.", lang:["Arabic"], hat:"Black-and-white keffiyeh",
+     f:["It is made up of two separate parts: the West Bank and the Gaza Strip.",
+        "Bethlehem, the birthplace of Jesus according to Christian tradition, is here.",
+        "Jericho is one of the oldest cities in the world and the lowest city on Earth."]},
+ il:{n:"Israel", cap:"Jerusalem", capNote:"Israel considers Jerusalem its capital, but most countries do not recognize this and keep their embassies in Tel Aviv.",
+     lang:["Hebrew"], langNote:"Arabic has a “special status”.", hat:"Kova tembel (bucket hat)",
+     f:["It was established in 1948.",
+        "Its official language is a rare example of an ancient language revived as an everyday spoken language.",
+        "Tel Aviv, its economic center, is known for its tech start-ups."]},
+ sa:{n:"Saudi Arabia", short:"Saudi", cap:"Riyadh", lang:["Arabic"], hat:"White ghutra and agal",
+     f:["Mecca and Medina, the two holiest cities of Islam, are here; millions travel there every year for Hajj.",
+        "It is the largest country on the Arabian Peninsula — about 2.15 million km².",
+        "Most of the Rub' al Khali, the largest continuous sand desert in the world, lies within it."]},
+ kw:{n:"Kuwait", cap:"Kuwait City", lang:["Arabic"], hat:"Ghutra and agal",
+     f:["Its currency, the dinar, is the highest-valued currency unit in the world.",
+        "Iraq invaded it in 1990, which led to the Gulf War in 1991.",
+        "Its famous Kuwait Towers, with their blue-tiled spheres, are a national symbol."]},
+ bh:{n:"Bahrain", cap:"Manama", lang:["Arabic"], hat:"Ghutra and agal",
+     f:["It is the smallest country in the Middle East — an archipelago of dozens of islands.",
+        "The King Fahd Causeway connects it to Saudi Arabia across the sea.",
+        "Since ancient times (the Dilmun civilization) it has been famous for pearl diving."]},
+ qa:{n:"Qatar", cap:"Doha", lang:["Arabic"], hat:"Ghutra and tasselled agal",
+     f:["It hosted the 2022 FIFA World Cup, the first World Cup in the Middle East.",
+        "It is a small peninsula whose only land border is with Saudi Arabia.",
+        "It is one of the largest exporters of liquefied natural gas (LNG); its gas field is shared with Iran (South Pars)."]},
+ ae:{n:"United Arab Emirates", short:"UAE", cap:"Abu Dhabi", lang:["Arabic"], hat:"Ghutra and tasselled agal",
+     f:["The Burj Khalifa in Dubai, the tallest building in the world (828 m), is here.",
+        "It is a federation of seven emirates, formed in 1971.",
+        "Dubai, one of its emirates, is a major global hub for tourism and trade."]},
+ om:{n:"Oman", cap:"Muscat", lang:["Arabic"], hat:"Kummah (embroidered cap)",
+     f:["Its Musandam Peninsula overlooks the Strait of Hormuz.",
+        "Frankincense from the Dhofar region in its south has been famous since ancient times.",
+        "It is a sultanate with many historic forts, such as Nizwa Fort."]},
+ ye:{n:"Yemen", cap:"Sana'a", capNote:"Sana'a is the official capital; because of the civil war, the internationally recognized government is based in Aden.", lang:["Arabic"], hat:"Yemeni turban",
+     f:["The city of Shibam, with its multi-storey mud-brick towers, is called the “Manhattan of the Desert”.",
+        "“Mocha” coffee takes its name from the port of Mokha in this country.",
+        "The Bab el-Mandeb Strait, between the Red Sea and the Gulf of Aden, lies beside it."]},
+ eg:{n:"Egypt", cap:"Cairo", lang:["Arabic"], hat:"Nemes (pharaoh headdress)",
+     f:["The Great Pyramid of Giza is the only surviving wonder of the Seven Wonders of the Ancient World.",
+        "The Nile, one of the longest rivers in the world, flows through it into the Mediterranean.",
+        "Its Suez Canal connects the Mediterranean Sea to the Red Sea."]},
+ cy:{n:"Cyprus", cap:"Nicosia", lang:["Greek","Turkish"], hat:"Olive wreath",
+     f:["It is the third-largest island in the Mediterranean, and the island's map appears on its flag.",
+        "Since 1974 it has been divided between the Greek Cypriot south and the Turkish Cypriot north.",
+        "It has been a member of the European Union since 2004."]}
+};
+if (EN) for (const c of C){
+  const e = EN_DATA[c.id];
+  c.en = e.sub ? `${c.fa} · ${e.sub}` : c.fa;   // subtitle shows the local (Persian) name
+  c.fa = e.n; c.short = e.short; c.cap = e.cap; c.capNote = e.capNote; c.lang = e.lang; c.langNote = e.langNote; c.hat = e.hat;
+  if (c.flagNote) c.flagNote = e.flagNote;
+  c.facts.forEach((f,i) => f.t = e.f[i]);
+}
+
 const SK = "#1f2937";
 function shemagh(u, col, o){
   o = o || {};
@@ -662,17 +762,17 @@ function ball(id, mood, o){
 }
 
 /* ================== پرچم ترکیبی ================== */
-const FSTYLES = [["diag","مورب"],["half","نیمه‌نیمه"],["stripes","راه‌راه"],["circle","نشان وسط"]];
+const FSTYLES = [["diag",T("مورب","Diagonal")],["half",T("نیمه‌نیمه","Half & half")],["stripes",T("راه‌راه","Stripes")],["circle",T("نشان وسط","Center badge")]];
 let fzUid = 0;
 function fusedFlag(a, b, style){
   const u = "fz" + (++fzUid);
   const emb = x => flag(x).replace("<svg ", `<svg x="0" y="0" width="300" height="200" preserveAspectRatio="xMidYMid slice" `);
   let clip, seam = "";
-  if (style==="half"){ clip = `<rect width="150" height="200"/>`; seam = `<line x1="150" y1="0" x2="150" y2="200"/>`; }
+  if (style==="half"){ clip = `<rect x="${EN?150:0}" width="150" height="200"/>`; seam = `<line x1="150" y1="0" x2="150" y2="200"/>`; }
   else if (style==="stripes"){ clip = [0,1,2,3,4].map(i=>`<rect y="${i*40+20}" width="300" height="20"/>`).join(""); }
   else if (style==="circle"){ clip = `<circle cx="150" cy="100" r="58"/>`; seam = `<circle cx="150" cy="100" r="58" fill="none"/>`; }
   else { clip = `<polygon points="0,0 300,200 0,200"/>`; seam = `<line x1="0" y1="0" x2="300" y2="200"/>`; }
-  return `<svg class="fz" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="پرچم ترکیبی"><defs><clipPath id="${u}">${clip}</clipPath></defs>${emb(a)}<g clip-path="url(#${u})">${emb(b)}</g>${seam?`<g class="seam" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".9">${seam}</g>`:""}</svg>`;
+  return `<svg class="fz" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${T("پرچم ترکیبی","Fused flag")}"><defs><clipPath id="${u}">${clip}</clipPath></defs>${emb(a)}<g clip-path="url(#${u})">${emb(b)}</g>${seam?`<g class="seam" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".9">${seam}</g>`:""}</svg>`;
 }
 
 
@@ -680,7 +780,7 @@ function fusedFlag(a, b, style){
 // جای برچسب کشورهای کوچک (با خط راهنما)
 const LBL = { lb:{p:[280.7,261.8],a:[310.4,256.3]}, il:{p:[258,289.1],a:[295.6,294.5]}, ps:{p:[256,312],a:[301.3,308]},
               bh:{p:[636,434],a:[651.9,459.6]}, om:{p:[794.6,581.8]}, cy:{p:[256.1,219]} };
-const SEAS = [["دریای مدیترانه",159.7,250.8],["دریای سرخ",376.7,611.1,-58],["خلیج فارس",712,452,-35],["دریای خزر",662,40],["دریای عرب",905,670],["خلیج عدن",600,792],["دریای سیاه",275,14],["دریای عمان",842,512,-30]];
+const SEAS = [[T("دریای مدیترانه","Mediterranean Sea"),159.7,250.8],[T("دریای سرخ","Red Sea"),376.7,611.1,-58],[T("خلیج فارس","Persian Gulf"),712,452,-35],[T("دریای خزر","Caspian Sea"),662,40],[T("دریای عرب","Arabian Sea"),905,670],[T("خلیج عدن","Gulf of Aden"),600,792],[T("دریای سیاه","Black Sea"),275,14],[T("دریای عمان","Gulf of Oman"),842,512,-30]];
 let mapUid=0;
 // تبدیل [عرض، طول] به مختصات نقشه (همان مرکاتور ساخته‌شده در build)
 function projLL([lat, lon]){ const r=Math.PI/180, P=MAP.proj; return [P.t[0]+P.k*lon*r, P.t[1]-P.k*Math.log(Math.tan(Math.PI/4+lat*r/2))]; }
@@ -689,7 +789,7 @@ function makeMap(host, opt){
   opt = opt || {};
   const W=MAP.W, H=MAP.H, NS="http://www.w3.org/2000/svg";
   const uid = ++mapUid;
-  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="${NS}" aria-label="نقشهٔ خاورمیانه"><rect x="-2000" y="-2000" width="5000" height="5000" fill="var(--sea)"/>`;
+  let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="${NS}" aria-label="Map of the Middle East"><rect x="-2000" y="-2000" width="5000" height="5000" fill="var(--sea)"/>`;
   s += `<path class="m-other" d="${MAP.others}"/>`;
   s += `<g class="m-cs">` + C.map(c=>`<path class="m-c" data-id="${c.id}" d="${MAP.targets[c.id].d}"><title>${c.fa}</title></path>`).join("") + `</g>`;
   s += SEAS.map(([t,x,y,r])=>`<text class="m-sea" x="${x}" y="${y}"${r?` transform="rotate(${r} ${x} ${y})"`:""}>${t}</text>`).join("");
@@ -700,7 +800,7 @@ function makeMap(host, opt){
     if (L.a) s += `<line class="m-lead" x1="${p[0]}" y1="${p[1]}" x2="${L.a[0]}" y2="${L.a[1]}"/>`;
     s += `<text class="m-lbl" x="${p[0]}" y="${p[1]}" font-size="${L.a?10:fs}">${c.fa}</text>`;
   }
-  s += `</g></svg><div class="zoom"><button data-z="in" aria-label="بزرگ‌نمایی">+</button><button data-z="out" aria-label="کوچک‌نمایی">−</button><button data-z="reset" aria-label="بازنشانی" style="font-size:.9rem">⟲</button></div>`;
+  s += `</g></svg><div class="zoom"><button data-z="in" aria-label="Zoom in">+</button><button data-z="out" aria-label="Zoom out">−</button><button data-z="reset" aria-label="Reset" style="font-size:.9rem">⟲</button></div>`;
   host.innerHTML = s;
   host.classList.toggle("nolabels", !!opt.noLabels);
   const svg = host.querySelector("svg"), rings = host.querySelector(".m-rings");
@@ -789,13 +889,13 @@ function nav(id, replace){
 }
 function show(id){ curScreen = id; typeof TTS !== "undefined" && TTS.stop(); document.querySelectorAll(".sbubble").forEach(b=>b.remove()); document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id===id)); window.scrollTo({top:0}); }
 const MODES = [
-  {id:"flag", t:"پرچم‌ها", d:"این پرچم مال کدام کشور است؟", ic:"🚩", g:"var(--g2)"},
-  {id:"cap", t:"پایتخت‌ها", d:"پایتخت هر کشور کجاست؟", ic:"🏛️", g:"var(--g1)"},
-  {id:"map", t:"روی نقشه", d:"کشور را روی نقشه پیدا کن", ic:"📍", g:"var(--g3)"},
-  {id:"lang", t:"زبان‌ها", d:"زبان رسمی هر کشور", ic:"🗣️", g:"var(--g5)"},
-  {id:"fact", t:"نکته‌ها", d:"این نکته مال کدام کشور است؟", ic:"💡", g:"var(--g4)"},
-  {id:"fuse", t:"ترکیب پرچم‌ها", d:"این پرچم ترکیبی از کدام دو کشور است؟", ic:"🧬", g:"var(--g6)"},
-  {id:"mix", t:"کوییز ترکیبی", d:"سؤال‌هایی از همهٔ بخش‌ها، قاطی و تصادفی", ic:"🎯", g:"linear-gradient(135deg,var(--g1),var(--g2))"}
+  {id:"flag", t:T("پرچم‌ها","Flags"), d:T("این پرچم مال کدام کشور است؟","Which country does this flag belong to?"), ic:"🚩", g:"var(--g2)"},
+  {id:"cap", t:T("پایتخت‌ها","Capitals"), d:T("پایتخت هر کشور کجاست؟","What is each country's capital?"), ic:"🏛️", g:"var(--g1)"},
+  {id:"map", t:T("روی نقشه","On the map"), d:T("کشور را روی نقشه پیدا کن","Find the country on the map"), ic:"📍", g:"var(--g3)"},
+  {id:"lang", t:T("زبان‌ها","Languages"), d:T("زبان رسمی هر کشور","Each country's official language"), ic:"🗣️", g:"var(--g5)"},
+  {id:"fact", t:T("نکته‌ها","Facts"), d:T("این نکته مال کدام کشور است؟","Which country is this fact about?"), ic:"💡", g:"var(--g4)"},
+  {id:"fuse", t:T("ترکیب پرچم‌ها","Flag Fusion"), d:T("این پرچم ترکیبی از کدام دو کشور است؟","Which two countries make this flag?"), ic:"🧬", g:"var(--g6)"},
+  {id:"mix", t:T("کوییز ترکیبی","Mixed Quiz"), d:T("سؤال‌هایی از همهٔ بخش‌ها، قاطی و تصادفی","Questions from every section, shuffled"), ic:"🎯", g:"linear-gradient(135deg,var(--g1),var(--g2))"}
 ];
 const MODE = Object.fromEntries(MODES.map(m=>[m.id,m]));
 const allCount = m => m==="mix" ? C.length*5 : C.length;
@@ -804,12 +904,12 @@ function renderHome(){
   $("#modes").innerHTML = MODES.map(m=>{
     const b = [10,20,"all"].map(n=>store.get(bestKey(m.id,n),null)).filter(v=>v!=null);
     const best = b.length ? Math.max(...b) : null;
-    return `<button class="mode${m.id==="mix"?" mixed":""}" data-m="${m.id}"><div class="ic" style="background:${m.g}">${m.ic}</div><b>${m.t}</b><small>${m.d}</small><div class="best">${best!=null?`🏆 بهترین امتیاز: <em>${fa(best)}</em>`:"هنوز بازی نکرده‌ای"}</div></button>`;
+    return `<button class="mode${m.id==="mix"?" mixed":""}" data-m="${m.id}"><div class="ic" style="background:${m.g}">${m.ic}</div><b>${m.t}</b><small>${m.d}</small><div class="best">${best!=null?`🏆 ${T("بهترین امتیاز","Best")}: <em>${fa(best)}</em>`:T("هنوز بازی نکرده‌ای","Not played yet")}</div></button>`;
   }).join("");
 }
 $("#modes").addEventListener("click", e=>{ const b=e.target.closest("[data-m]"); if(b) chooseCount(b.dataset.m); });
 $("#goHome").onclick = () => closeSheet(() => {
-  if (curScreen === "sQuiz" && quizRunning() && !confirm("از کوییز خارج می‌شوی؟ امتیاز این دور ذخیره نمی‌شود.")) return;
+  if (curScreen === "sQuiz" && quizRunning() && !confirm(T("از کوییز خارج می‌شوی؟ امتیاز این دور ذخیره نمی‌شود.","Leave the quiz? This round's score won't be saved."))) return;
   nav("sHome");
 });
 $("#goLearn").onclick = () => { nav("sLearn"); initLearn(); };
@@ -832,11 +932,11 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeSheet(); });
 function chooseCount(m){
   const M = MODE[m];
   const best = n => { const v=store.get(bestKey(m,n),null); return v==null?"—":"🏆 "+fa(v); };
-  openSheet(`<h3>${M.ic} ${M.t}</h3><p class="c">چند سؤال؟</p>
+  openSheet(`<h3>${M.ic} ${M.t}</h3><p class="c">${T("چند سؤال؟","How many questions?")}</p>
    <div class="countpick">
     <button data-n="10">${fa(10)}<small>${best(10)}</small></button>
     <button data-n="20">${fa(20)}<small>${best(20)}</small></button>
-    <button data-n="all">همه (${fa(allCount(m))})<small>${best("all")}</small></button>
+    <button data-n="all">${T("همه","All")} (${fa(allCount(m))})<small>${best("all")}</small></button>
    </div>`);
   $("#sheet").querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{ closeSheet(() => startQuiz(m, b.dataset.n)); });
 }
@@ -858,24 +958,24 @@ function renderCards(){
   learnMap && learnMap.clear();
   if (q && list.length) list.forEach(c=>learnMap.mark(c.id,"sel"));
   $("#cards").innerHTML = list.length ? list.map((c,i)=>`<button class="ccard" data-id="${c.id}"><div class="fl">${flag(c.id)}<div class="cbw" data-id="${c.id}" style="--d:-${(i*.41%2.2).toFixed(2)}s">${ball(c.id)}</div></div><div class="tx"><b>${c.fa}</b><small>🏛️ ${c.cap}</small></div></button>`).join("")
-    : `<p style="grid-column:1/-1;color:var(--muted);text-align:center">کشوری پیدا نشد.</p>`;
+    : `<p style="grid-column:1/-1;color:var(--muted);text-align:center">${T("کشوری پیدا نشد.","No country found.")}</p>`;
 }
 function detailHTML(c){
   return `<div class="det-top"><div class="det-flag">${flag(c.id)}</div><div class="cbw" data-id="${c.id}">${ball(c.id,"happy")}</div></div><div class="det-name">${c.fa}</div><div class="det-en">${c.en}</div>${c.flagNote?`<div class="det-note">🏳️ ${c.flagNote}</div>`:""}
    <div class="rows">
-    <div class="row"><span class="k">🏛️</span><div><small>پایتخت</small><b>${c.cap}</b>${c.capNote?`<div class="note">${c.capNote}</div>`:""}</div></div>
-    <div class="row"><span class="k">🗣️</span><div><small>زبان رسمی</small><b>${langStr(c)}</b>${c.langNote?`<div class="note">${c.langNote}</div>`:""}</div></div>
-    <div class="row"><span class="k">👒</span><div><small>کلاه سنتیِ کانتری‌بالش</small><b>${c.hat}</b></div></div>
-    <div class="row"><span class="k">💡</span><div><small>نکته‌های مهم</small><ul class="facts">${c.facts.map(f=>`<li>${f.t}</li>`).join("")}</ul></div></div>
+    <div class="row"><span class="k">🏛️</span><div><small>${T("پایتخت","Capital")}</small><b>${c.cap}</b>${c.capNote?`<div class="note">${c.capNote}</div>`:""}</div></div>
+    <div class="row"><span class="k">🗣️</span><div><small>${T("زبان رسمی","Official language")}</small><b>${langStr(c)}</b>${c.langNote?`<div class="note">${c.langNote}</div>`:""}</div></div>
+    <div class="row"><span class="k">👒</span><div><small>${T("کلاه سنتیِ کانتری‌بالش","Its countryball's traditional hat")}</small><b>${c.hat}</b></div></div>
+    <div class="row"><span class="k">💡</span><div><small>${T("نکته‌های مهم","Key facts")}</small><ul class="facts">${c.facts.map(f=>`<li>${f.t}</li>`).join("")}</ul></div></div>
    </div>
-   <button class="btn big shine" id="dWords" style="margin-top:12px">🗣️ چند کلمه به ${langsOf(c.id).map(k=>LANGS[k].name).join(" و ")} یاد بگیر</button>
+   <button class="btn big shine" id="dWords" style="margin-top:12px">🗣️ ${T(`چند کلمه به ${langsOf(c.id).map(k=>LANGS[k].name).join(" و ")} یاد بگیر`, `Learn a few words in ${langsOf(c.id).map(k=>LANGS[k].name).join(" & ")}`)}</button>
    <div class="mapbox mini nolabels" id="miniMap"></div>`;
 }
 function openDetail(id){
   const ids = shownIds.includes(id) ? shownIds : C.map(c=>c.id);
   detIdx = ids.indexOf(id);
   const c = BY[id];
-  openSheet(detailHTML(c) + `<div class="det-nav"><button class="btn ghost" id="dPrev">→ قبلی</button><button class="btn ghost" id="dClose">بستن</button><button class="btn ghost" id="dNext">بعدی ←</button></div>`);
+  openSheet(detailHTML(c) + `<div class="det-nav"><button class="btn ghost" id="dPrev">${T("→ قبلی","← Prev")}</button><button class="btn ghost" id="dClose">${T("بستن","Close")}</button><button class="btn ghost" id="dNext">${T("بعدی ←","Next →")}</button></div>`);
   const mm = makeMap($("#miniMap"), {noLabels:true, caps:true});
   mm.mark(id,"sel"); mm.focus(id);
   if (learnMap){ learnMap.clear(); learnMap.mark(id,"sel"); }
@@ -905,38 +1005,38 @@ const GEN = {
     for (const x of shuffle(C)) { if (ws.length>=1) break; add(c,x); }
     for (const x of shuffle(C)) { if (ws.length>=2) break; add(x,b); }
     while (ws.length<3){ const [x,y] = shuffle(C); add(x,y); }
-    return q4("fuse", c, "این پرچم ترکیبیِ کدام دو کشور است؟", nm(c,b), ws, {fuse:[c.id,b.id,style]});
+    return q4("fuse", c, T("این پرچم ترکیبیِ کدام دو کشور است؟","Which two countries make up this flag?"), nm(c,b), ws, {fuse:[c.id,b.id,style]});
   },
   flag(c){
-    if (Math.random()<.65) return q4("flag", c, "این پرچم مال کدام کشور است؟", c.fa, others(c,3).map(o=>o.fa), {flag:c.id});
+    if (Math.random()<.65) return q4("flag", c, T("این پرچم مال کدام کشور است؟","Which country does this flag belong to?"), c.fa, others(c,3).map(o=>o.fa), {flag:c.id});
     const ws = others(c,3);
-    return Object.assign(q4("flag", c, `پرچم «${c.fa}» کدام است؟`, c.id, ws.map(o=>o.id), {flagOpts:true}), {answerText:c.fa});
+    return Object.assign(q4("flag", c, T(`پرچم «${c.fa}» کدام است؟`,`Which one is the flag of ${c.fa}?`), c.id, ws.map(o=>o.id), {flagOpts:true}), {answerText:c.fa});
   },
   cap(c){
-    if (Math.random()<.6) return q4("cap", c, `پایتخت «${c.fa}» کجاست؟`, c.cap, others(c,3,PS_IL[c.id]).map(o=>o.cap));
-    return q4("cap", c, `«${c.cap}» پایتخت کدام کشور است؟`, c.fa, others(c,3,PS_IL[c.id]).map(o=>o.fa));
+    if (Math.random()<.6) return q4("cap", c, T(`پایتخت «${c.fa}» کجاست؟`,`What is the capital of ${c.fa}?`), c.cap, others(c,3,PS_IL[c.id]).map(o=>o.cap));
+    return q4("cap", c, T(`«${c.cap}» پایتخت کدام کشور است؟`,`${c.cap} is the capital of which country?`), c.fa, others(c,3,PS_IL[c.id]).map(o=>o.fa));
   },
   map(c){
-    if (Math.random()<.5) return {cat:"map", id:c.id, prompt:`«${c.fa}» را روی نقشه پیدا کن و رویش بزن.`, tap:true, answer:c.fa};
-    return q4("map", c, "کشورِ رنگی‌شده روی نقشه کدام است؟", c.fa, others(c,3).map(o=>o.fa), {showMap:true});
+    if (Math.random()<.5) return {cat:"map", id:c.id, prompt:T(`«${c.fa}» را روی نقشه پیدا کن و رویش بزن.`,`Find ${c.fa} on the map and tap it.`), tap:true, answer:c.fa};
+    return q4("map", c, T("کشورِ رنگی‌شده روی نقشه کدام است؟","Which country is highlighted on the map?"), c.fa, others(c,3).map(o=>o.fa), {showMap:true});
   },
   lang(c){
     const L = langStr(c);
     const uniq = C.filter(o=>langStr(o)===L).length===1;
     if (uniq && Math.random()<.45){
       const ws = others(c,3,C.filter(o=>o.lang.some(l=>c.lang.includes(l))).map(o=>o.id));
-      return q4("lang", c, `زبان رسمی کدام کشور «${L}» است؟`, c.fa, ws.map(o=>o.fa));
+      return q4("lang", c, T(`زبان رسمی کدام کشور «${L}» است؟`,`Which country's official language is ${L}?`), c.fa, ws.map(o=>o.fa));
     }
-    const pool = [...new Set(C.map(langStr).concat(["کردی","انگلیسی","فرانسوی","ارمنی","آذری","عربی و انگلیسی","عربی و فارسی"]))].filter(v=>v!==L);
+    const pool = [...new Set(C.map(langStr).concat(T(["کردی","انگلیسی","فرانسوی","ارمنی","آذری","عربی و انگلیسی","عربی و فارسی"],["Kurdish","English","French","Armenian","Azerbaijani","Arabic & English","Arabic & Persian"])))].filter(v=>v!==L);
     // گزینه‌های غلط: ترجیحاً زبان‌های واقعی منطقه
     const real = shuffle(pool.filter(v=>C.some(o=>langStr(o)===v))), fake = shuffle(pool.filter(v=>!C.some(o=>langStr(o)===v)));
     const ws = real.slice(0,2).concat(fake).slice(0,3);
-    return q4("lang", c, `زبان رسمی «${c.fa}» چیست؟`, L, ws);
+    return q4("lang", c, T(`زبان رسمی «${c.fa}» چیست؟`,`What is the official language of ${c.fa}?`), L, ws);
   },
   fact(c, used){
     const avail = c.facts.filter(f=>!used || !used.has(f.t));
     const f = pick(avail.length?avail:c.facts); used && used.add(f.t);
-    return q4("fact", c, "این نکته مال کدام کشور است؟", c.fa, others(c,3,f.x).map(o=>o.fa), {fact:f.t});
+    return q4("fact", c, T("این نکته مال کدام کشور است؟","Which country is this fact about?"), c.fa, others(c,3,f.x).map(o=>o.fa), {fact:f.t});
   }
 };
 function buildQuiz(mode, nSel){
@@ -963,17 +1063,17 @@ function buildQuiz(mode, nSel){
 
 /* ================== اجرای کوییز ================== */
 let Q = null, quizMap = null;
-const CAT = {flag:["پرچم","var(--g2)"], cap:["پایتخت","var(--g1)"], map:["نقشه","var(--g3)"], lang:["زبان","var(--g5)"], fact:["نکته","var(--g4)"], fuse:["ترکیب پرچم","var(--g6)"]};
+const CAT = {flag:[T("پرچم","Flag"),"var(--g2)"], cap:[T("پایتخت","Capital"),"var(--g1)"], map:[T("نقشه","Map"),"var(--g3)"], lang:[T("زبان","Language"),"var(--g5)"], fact:[T("نکته","Fact"),"var(--g4)"], fuse:[T("ترکیب پرچم","Flag Fusion"),"var(--g6)"]};
 function startQuiz(mode, nSel, preset, replace){
   Q = {mode, nSel, qs: preset || buildQuiz(mode,nSel), i:0, score:0, ok:0, bad:0, streak:0, bestStreak:0, wrong:[], retry:!!preset};
   nav("sQuiz", !!replace); renderQ();
 }
 function updateTop(){
-  $("#qProg").textContent = `سؤال ${fa(Q.i+1)} از ${fa(Q.qs.length)}`;
+  $("#qProg").textContent = T(`سؤال ${fa(Q.i+1)} از ${fa(Q.qs.length)}`, `Question ${Q.i+1} of ${Q.qs.length}`);
   $("#qScore").textContent = `⭐ ${fa(Q.score)}`;
   $("#qOk").textContent = `✔ ${fa(Q.ok)}`;
   $("#qBad").textContent = `✘ ${fa(Q.bad)}`;
-  const st=$("#qStreak"); st.hidden = Q.streak<2; st.textContent = `🔥 ${fa(Q.streak)} پشت سر هم`;
+  const st=$("#qStreak"); st.hidden = Q.streak<2; st.textContent = `🔥 ${fa(Q.streak)} ${T("پشت سر هم","in a row")}`;
   $("#qBar").style.width = (Q.i/Q.qs.length*100)+"%";
 }
 function renderQ(){
@@ -986,10 +1086,10 @@ function renderQ(){
   if (q.showMap || q.tap) h += `<div class="mapbox${q.showMap?" nolabels":" nolabels"}" id="qMap" style="margin-bottom:14px"></div>`;
   if (q.opts){
     h += `<div class="opts${q.flagOpts?" flags":""}">` + q.opts.map((o,k)=> q.flagOpts
-      ? `<button class="opt fopt" data-k="${k}" aria-label="گزینهٔ ${fa(k+1)}">${flag(o.v)}</button>`
+      ? `<button class="opt fopt" data-k="${k}" aria-label="${T("گزینهٔ","Option")} ${fa(k+1)}">${flag(o.v)}</button>`
       : `<button class="opt" data-k="${k}"><span class="n">${fa(k+1)}</span>${esc(o.v)}</button>`).join("") + `</div>`;
   }
-  h += `<div class="fb" id="fb"></div><button class="btn big next" id="nextBtn">${Q.i+1<Q.qs.length?"سؤال بعدی ←":"دیدن نتیجه 🏁"}</button>`;
+  h += `<div class="fb" id="fb"></div><button class="btn big next" id="nextBtn">${Q.i+1<Q.qs.length?T("سؤال بعدی ←","Next question →"):T("دیدن نتیجه 🏁","See results 🏁")}</button>`;
   const card = $("#qCard"); card.innerHTML = h; card.classList.remove("pop","shake");
   if (q.showMap || q.tap){
     quizMap = makeMap($("#qMap"), {noLabels:true});
@@ -1022,39 +1122,39 @@ function answer(ok, given, tapId, btn){
   if (quizMap && q.tap){ quizMap.mark(q.id, ok?"ok":"bad"); if(!ok && tapId){ quizMap.mark(tapId,"sel"); } quizMap.focus(q.id); }
   if (quizMap && q.showMap) quizMap.mark(q.id, ok?"ok":"bad");
   const c = BY[q.id], correctText = q.answerText || q.answer;
-  const why = q.fuse ? `${BY[q.fuse[0]].fa} و ${BY[q.fuse[1]].fa} · اسم دوستی: «${shipName(q.fuse[0],q.fuse[1])}»` : `${c.fa} · پایتخت: ${c.cap} · زبان: ${langStr(c)}`;
+  const why = q.fuse ? T(`${BY[q.fuse[0]].fa} و ${BY[q.fuse[1]].fa} · اسم دوستی: «${shipName(q.fuse[0],q.fuse[1])}»`, `${BY[q.fuse[0]].fa} & ${BY[q.fuse[1]].fa} · Friendship name: “${shipName(q.fuse[0],q.fuse[1])}”`) : T(`${c.fa} · پایتخت: ${c.cap} · زبان: ${langStr(c)}`, `${c.fa} · Capital: ${c.cap} · Language: ${langStr(c)}`);
   const balls = (q.fuse ? q.fuse.slice(0,2) : [q.id]).map(id=>`<div class="cbw" data-id="${id}">${ball(id, ok?"happy jump":"sad")}</div>`).join("");
   const fb = $("#fb");
   fb.className = "fb on " + (ok?"ok":"bad");
-  fb.innerHTML = balls + `<div style="flex:1">` + (ok ? `🎉 آفرین! درست بود. <span style="float:left">+${fa(pts)}</span><span class="why">${why}</span>`
-    : `❌ اشتباه بود${given&&q.tap?` (زدی روی «${given}»)`:""}. جواب درست: «${esc(correctText)}»<span class="why">${why}</span>`) + `</div>`;
+  fb.innerHTML = balls + `<div style="flex:1">` + (ok ? `🎉 ${T("آفرین! درست بود.","Correct! Well done.")} <span style="float:inline-end">+${fa(pts)}</span><span class="why">${why}</span>`
+    : T(`❌ اشتباه بود${given&&q.tap?` (زدی روی «${given}»)`:""}. جواب درست: «${esc(correctText)}»`, `❌ Not quite${given&&q.tap?` (you tapped ${given})`:""}. The answer: ${esc(correctText)}`) + `<span class="why">${why}</span>`) + `</div>`;
   card.classList.add(ok?"pop":"shake");
   $("#nextBtn").classList.add("on");
   Q.i < Q.qs.length && ($("#qBar").style.width = ((Q.i+1)/Q.qs.length*100)+"%");
   updateTopCounts();
   $("#nextBtn").scrollIntoView({behavior:"smooth", block:"nearest"});
 }
-function updateTopCounts(){ $("#qScore").textContent=`⭐ ${fa(Q.score)}`; $("#qOk").textContent=`✔ ${fa(Q.ok)}`; $("#qBad").textContent=`✘ ${fa(Q.bad)}`; const st=$("#qStreak"); st.hidden=Q.streak<2; st.textContent=`🔥 ${fa(Q.streak)} پشت سر هم`; }
+function updateTopCounts(){ $("#qScore").textContent=`⭐ ${fa(Q.score)}`; $("#qOk").textContent=`✔ ${fa(Q.ok)}`; $("#qBad").textContent=`✘ ${fa(Q.bad)}`; const st=$("#qStreak"); st.hidden=Q.streak<2; st.textContent=`🔥 ${fa(Q.streak)} ${T("پشت سر هم","in a row")}`; }
 function next(){ Q.i++; quizMap=null; if (Q.i>=Q.qs.length) result(); else { renderQ(); window.scrollTo({top:0,behavior:"smooth"}); } }
 
 function result(){
   const M = MODE[Q.mode], n = Q.qs.length, pct = Math.round(Q.ok/n*100);
   let rec = false, prev = null;
   if (!Q.retry){ const k=bestKey(Q.mode,Q.nSel); prev=store.get(k,null); if (prev==null || Q.score>prev){ store.set(k,Q.score); rec = prev!=null || Q.score>0; } }
-  const msg = pct===100?"عالی! همه را درست جواب دادی 🌟": pct>=80?"خیلی خوب بود! 👏": pct>=50?"خوب بود، با کمی مرور بهتر هم می‌شود 💪":"اشکالی ندارد؛ کمی در حالت یادگیری مرور کن و دوباره امتحان کن 📚";
-  let h = `<div class="res-hero"><div>${M.ic} ${M.t}${Q.retry?" · تمرین اشتباه‌ها":""}</div><div class="big">⭐ ${fa(Q.score)}</div><div>${msg}</div>
-    ${rec?`<div class="rec">🏆 رکورد تازه!</div>`:(!Q.retry && prev!=null?`<div class="rec">بهترین امتیاز: ${fa(Math.max(prev,Q.score))}</div>`:"")}</div>
-    <div class="stats"><div class="stat"><b style="color:var(--ok)">${fa(Q.ok)}</b><small>درست</small></div><div class="stat"><b style="color:var(--bad)">${fa(Q.bad)}</b><small>غلط</small></div><div class="stat"><b>${fa(pct)}٪</b><small>دقت</small></div></div>`;
+  const msg = pct===100?T("عالی! همه را درست جواب دادی 🌟","Perfect! You got everything right 🌟"): pct>=80?T("خیلی خوب بود! 👏","Great job! 👏"): pct>=50?T("خوب بود، با کمی مرور بهتر هم می‌شود 💪","Good — a little review and you'll do even better 💪"):T("اشکالی ندارد؛ کمی در حالت یادگیری مرور کن و دوباره امتحان کن 📚","No worries — review a bit in Learning mode and try again 📚");
+  let h = `<div class="res-hero"><div>${M.ic} ${M.t}${Q.retry?T(" · تمرین اشتباه‌ها"," · Mistakes practice"):""}</div><div class="big">⭐ ${fa(Q.score)}</div><div>${msg}</div>
+    ${rec?`<div class="rec">🏆 ${T("رکورد تازه!","New record!")}</div>`:(!Q.retry && prev!=null?`<div class="rec">${T("بهترین امتیاز","Best score")}: ${fa(Math.max(prev,Q.score))}</div>`:"")}</div>
+    <div class="stats"><div class="stat"><b style="color:var(--ok)">${fa(Q.ok)}</b><small>${T("درست","Correct")}</small></div><div class="stat"><b style="color:var(--bad)">${fa(Q.bad)}</b><small>${T("غلط","Wrong")}</small></div><div class="stat"><b>${fa(pct)}${T("٪","%")}</b><small>${T("دقت","Accuracy")}</small></div></div>`;
   if (Q.wrong.length){
-    h += `<div class="sec-title">مرور اشتباه‌ها (${fa(Q.wrong.length)})</div><div class="review">` + Q.wrong.map(({q,given})=>{
-      const c=BY[q.id]; const qt = q.fact ? `«${q.fact}»` : q.prompt;
-      return `<div class="rv"><div class="rf">${q.fuse?fusedFlag(...q.fuse):flag(c.id)}</div><div><div class="q">${qt}</div><div class="a">جواب تو: <span class="u">${esc(given||"—")}</span><br>جواب درست: <span class="c">${esc(q.answerText||q.answer)}</span></div></div></div>`;
+    h += `<div class="sec-title">${T("مرور اشتباه‌ها","Review your mistakes")} (${fa(Q.wrong.length)})</div><div class="review">` + Q.wrong.map(({q,given})=>{
+      const c=BY[q.id]; const qt = q.fact ? T(`«${q.fact}»`, `“${q.fact}”`) : q.prompt;
+      return `<div class="rv"><div class="rf">${q.fuse?fusedFlag(...q.fuse):flag(c.id)}</div><div><div class="q">${qt}</div><div class="a">${T("جواب تو","Your answer")}: <span class="u">${esc(given||"—")}</span><br>${T("جواب درست","Correct answer")}: <span class="c">${esc(q.answerText||q.answer)}</span></div></div></div>`;
     }).join("") + `</div>`;
-  } else h += `<div class="allgood">🎯 هیچ اشتباهی نداشتی!</div>`;
-  h += `<div class="btns">${Q.wrong.length?`<button class="btn big" id="rRetry">🔁 تمرین دوبارهٔ اشتباه‌ها</button>`:""}
-    <button class="btn big ${Q.wrong.length?"ghost":""}" id="rAgain">▶ دوباره بازی کن</button>
-    <button class="btn big ghost" id="rLearn">📚 حالت یادگیری</button>
-    <button class="btn big ghost" id="rHome">🏠 خانه</button></div>`;
+  } else h += `<div class="allgood">🎯 ${T("هیچ اشتباهی نداشتی!","No mistakes at all!")}</div>`;
+  h += `<div class="btns">${Q.wrong.length?`<button class="btn big" id="rRetry">🔁 ${T("تمرین دوبارهٔ اشتباه‌ها","Practice my mistakes")}</button>`:""}
+    <button class="btn big ${Q.wrong.length?"ghost":""}" id="rAgain">▶ ${T("دوباره بازی کن","Play again")}</button>
+    <button class="btn big ghost" id="rLearn">📚 ${T("حالت یادگیری","Learning mode")}</button>
+    <button class="btn big ghost" id="rHome">🏠 ${T("خانه","Home")}</button></div>`;
   $("#sResult").innerHTML = h; nav("sResult", true);
   { const wrongSet = new Set(Q.wrong.map(w=>w.q)), good = [...new Set(Q.qs.filter(q=>!wrongSet.has(q)).map(q=>q.id))].slice(0,5);
     const ids = good.length ? good : [...new Set(Q.wrong.map(w=>w.q.id))].slice(0,3);
@@ -1215,6 +1315,12 @@ const FESTS = {
   fitr:     {name:"عید فطر", e:["🌙","✨","🎉","🍬"], mode:"fall", fw:true, c:["#065f46","#7c3aed","#f59e0b"], msg:"عید فطر مبارک! 🌙", snd:"finish"},
   adha:     {name:"عید قربان", e:["🌙","✨","🎉","🐑"], mode:"fall", fw:true, c:["#065f46","#0e7490","#f59e0b"], msg:"عید قربان مبارک! 🌙", snd:"finish"}
 };
+const FESTS_EN = {nowruz:["Nowruz","Happy Nowruz — Happy Persian New Year! 🌱"], sizdah:["Sizdah Bedar","Happy Sizdah Bedar — the nature picnic day! 🌿"],
+  suri:["Chaharshanbe Suri","Happy Chaharshanbe Suri — jump over the fire! 🔥"], yalda:["Yalda Night","Happy Yalda! The longest night of the year, with pomegranates and watermelon 🍉"],
+  mehregan:["Mehregan","Happy Mehregan, the festival of friendship! 🍂"], halloween:["Halloween","Happy Halloween! Watch out for the bats 🦇"],
+  christmas:["Christmas","Merry Christmas! 🎄"], newyear:["New Year","Happy New Year! 🎆"], valentine:["Valentine's Day","Happy Valentine's Day! 💖"],
+  ramadan:["Ramadan","Ramadan Kareem! 🌙"], fitr:["Eid al-Fitr","Eid Mubarak — happy Eid al-Fitr! 🌙"], adha:["Eid al-Adha","Eid Mubarak — happy Eid al-Adha! 🌙"]};
+if (EN) for (const k in FESTS) [FESTS[k].name, FESTS[k].msg] = FESTS_EN[k];
 function calParts(d, cal){
   try {
     const f = new Intl.DateTimeFormat("en-US-u-ca-" + cal + "-nu-latn", {year:"numeric", month:"numeric", day:"numeric"});
@@ -1290,14 +1396,14 @@ $("#soundBtn").onclick = () => { const v = !store.get("me-sound", true); store.s
 syncSoundBtn();
 function openSettings(){
   const now = new Date(), auto = detectFest(now);
-  let today = ""; try { today = new Intl.DateTimeFormat("fa-IR", {dateStyle:"full"}).format(now); } catch(e){}
+  let today = ""; try { today = new Intl.DateTimeFormat(T("fa-IR","en-US"), {dateStyle:"full"}).format(now); } catch(e){}
   const row = (k, t, d) => `<button class="setrow" data-k="${k}"><span>${t}</span><i class="sw ${store.get(k,d)?"on":""}"></i></button>`;
   const cur = festPreview === undefined ? "auto" : (festPreview || "none");
-  openSheet(`<h3>⚙️ تنظیمات</h3><p class="c">امروز: ${today}${auto ? ` · ${FESTS[auto].e[0]} ${FESTS[auto].name}` : ""}</p>
-    ${row("me-sound","🔊 صداها",true)}${row("me-music","🎵 موسیقی پس‌زمینه",false)}${row("me-fx","✨ افکت‌ها و ذرات",true)}${row("me-ttsdev","🗣️ صدای طبیعی گوشی برای کلمه‌ها (اگر نصب باشد)",false)}${row("me-fest","🎉 افکت جشن‌ها در روزهای خاص",true)}
-    <div class="sec-title" style="margin-top:18px">🎉 پیش‌نمایش جشن‌ها</div>
-    <p style="margin:0;color:var(--muted);font-size:.85rem">هر جشن در روز خودش خودکار فعال می‌شود. برای دیدنش همین حالا، یکی را بزن:</p>
-    <div class="fchips"><button data-f="auto" class="${cur==="auto"?"on":""}">📅 خودکار (امروز)</button><button data-f="none" class="${cur==="none"?"on":""}">بدون جشن</button>${Object.entries(FESTS).map(([k,F])=>`<button data-f="${k}" class="${cur===k?"on":""}">${F.e[0]} ${F.name}</button>`).join("")}</div>`);
+  openSheet(`<h3>⚙️ ${T("تنظیمات","Settings")}</h3><p class="c">${T("امروز","Today")}: ${today}${auto ? ` · ${FESTS[auto].e[0]} ${FESTS[auto].name}` : ""}</p>
+    ${row("me-sound",T("🔊 صداها","🔊 Sounds"),true)}${row("me-music",T("🎵 موسیقی پس‌زمینه","🎵 Background music"),false)}${row("me-fx",T("✨ افکت‌ها و ذرات","✨ Effects & particles"),true)}${row("me-ttsdev",T("🗣️ صدای طبیعی گوشی برای کلمه‌ها (اگر نصب باشد)","🗣️ Use the phone's natural voice for words (if installed)"),false)}${row("me-fest",T("🎉 افکت جشن‌ها در روزهای خاص","🎉 Festival effects on special days"),true)}
+    <div class="sec-title" style="margin-top:18px">🎉 ${T("پیش‌نمایش جشن‌ها","Festival preview")}</div>
+    <p style="margin:0;color:var(--muted);font-size:.85rem">${T("هر جشن در روز خودش خودکار فعال می‌شود. برای دیدنش همین حالا، یکی را بزن:","Each festival turns on automatically on its day. Tap one to preview it now:")}</p>
+    <div class="fchips"><button data-f="auto" class="${cur==="auto"?"on":""}">📅 ${T("خودکار (امروز)","Automatic (today)")}</button><button data-f="none" class="${cur==="none"?"on":""}">${T("بدون جشن","No festival")}</button>${Object.entries(FESTS).map(([k,F])=>`<button data-f="${k}" class="${cur===k?"on":""}">${F.e[0]} ${F.name}</button>`).join("")}</div>`);
   $("#sheet").querySelectorAll("[data-k]").forEach(b => b.onclick = () => {
     const k = b.dataset.k, v = !store.get(k, k!=="me-music" && k!=="me-ttsdev"); store.set(k, v); b.querySelector(".sw").classList.toggle("on", v);
     if (k==="me-sound"){ syncSoundBtn(); v ? SND.music() : SND.musicStop(); }
@@ -1311,11 +1417,13 @@ function openSettings(){
   });
 }
 $("#setBtn").onclick = openSettings;
+$("#langBtn").textContent = EN ? "فا" : "EN";
+$("#langBtn").onclick = () => { store.set("me-lang", EN ? "fa" : "en"); location.reload(); };
 
 /* ================== دوستی پرچم‌ها ================== */
 const BORDERS = {ir:"iq tr", iq:"ir tr sy jo sa kw", tr:"ir iq sy", sy:"tr iq jo il lb", lb:"sy il", jo:"sy iq sa il ps", ps:"il jo eg", il:"lb sy jo eg ps",
   sa:"jo iq kw qa ae om ye", kw:"iq sa", bh:"", qa:"sa", ae:"sa om", om:"ae sa ye", ye:"sa om", eg:"il ps", cy:""};
-const SEAS_OF = [["خلیج فارس","ir iq kw sa bh qa ae om"],["دریای مدیترانه","tr sy lb il ps eg cy"],["دریای سرخ","eg sa ye jo il"],["دریای عمان","ir om ae"],["دریای عرب","om ye"]];
+const SEAS_OF = [[T("خلیج فارس","Persian Gulf"),"ir iq kw sa bh qa ae om"],[T("دریای مدیترانه","Mediterranean Sea"),"tr sy lb il ps eg cy"],[T("دریای سرخ","Red Sea"),"eg sa ye jo il"],[T("دریای عمان","Gulf of Oman"),"ir om ae"],[T("دریای عرب","Arabian Sea"),"om ye"]];
 const has = (list, id) => list.split(" ").includes(id);
 function distKm(a, b){
   const [p1,l1] = BY[a].ll.map(v=>v*Math.PI/180), [p2,l2] = BY[b].ll.map(v=>v*Math.PI/180);
@@ -1325,43 +1433,43 @@ function distKm(a, b){
 function friendship(a, b){
   const A = BY[a], B = BY[b], tr = [];
   let s = 40 + ([...[a,b].sort().join("")].reduce((t,ch)=>t+ch.charCodeAt(0),0) % 10);
-  if (has(BORDERS[a], b)){ s += 22; tr.push(["🧱", "مرز زمینی مشترک دارند؛ همسایهٔ دیوار به دیوارند!"]); }
+  if (has(BORDERS[a], b)){ s += 22; tr.push(["🧱", T("مرز زمینی مشترک دارند؛ همسایهٔ دیوار به دیوارند!","They share a land border — next-door neighbours!")]); }
   const sl = A.lang.filter(l => B.lang.includes(l));
-  if (sl.length){ s += 14; tr.push(["🗣️", `هر دو به ${sl.join(" و ")} حرف می‌زنند.`]); }
-  for (const [n, ids] of SEAS_OF) if (has(ids,a) && has(ids,b)){ s += 6; tr.push(["🌊", `هر دو کنار ${n} هستند.`]); }
-  if (A.hat === B.hat){ s += 4; tr.push(["👒", `کلاه‌هایشان مثل هم است: ${A.hat}!`]); }
-  if (!tr.length) tr.push(["✈️", "از هم دورند، ولی دوستی فاصله نمی‌شناسد!"]);
+  if (sl.length){ s += 14; tr.push(["🗣️", T(`هر دو به ${sl.join(" و ")} حرف می‌زنند.`, `Both speak ${sl.join(" & ")}.`)]); }
+  for (const [n, ids] of SEAS_OF) if (has(ids,a) && has(ids,b)){ s += 6; tr.push(["🌊", T(`هر دو کنار ${n} هستند.`, `Both are on the ${n}.`)]); }
+  if (A.hat === B.hat){ s += 4; tr.push(["👒", T(`کلاه‌هایشان مثل هم است: ${A.hat}!`, `Matching hats: ${A.hat}!`)]); }
+  if (!tr.length) tr.push(["✈️", T("از هم دورند، ولی دوستی فاصله نمی‌شناسد!","Far apart, but friendship knows no distance!")]);
   const d = distKm(a, b);
   if (d < 400) s += 5;
-  tr.push(["📏", d < 20 ? `پایتخت‌هایشان تقریباً در یک‌جاست!` : `فاصلهٔ ${A.cap} تا ${B.cap} حدود ${fa(d)} کیلومتر است.`]);
-  tr.push(["👋", `${A.fa} می‌گوید «${A.hi}» و ${B.fa} جواب می‌دهد «${B.hi}»`]);
+  tr.push(["📏", d < 20 ? T("پایتخت‌هایشان تقریباً در یک‌جاست!","Their capitals are almost in the same place!") : T(`فاصلهٔ ${A.cap} تا ${B.cap} حدود ${fa(d)} کیلومتر است.`, `${A.cap} to ${B.cap} is about ${d} km.`)]);
+  tr.push(["👋", T(`${A.fa} می‌گوید «${A.hi}» و ${B.fa} جواب می‌دهد «${B.hi}»`, `${A.fa} says “${A.hi}” and ${B.fa} replies “${B.hi}”`)]);
   return {s: Math.min(99, s), tr};
 }
 function shipName(a, b){
   const n = x => (BY[x].short || BY[x].fa).replace(/\s/g, "");
   const A = n(a), B = n(b);
-  return A.slice(0, Math.ceil(A.length/2)) + B.slice(Math.floor(B.length/2));
+  return A.slice(0, Math.ceil(A.length/2)) + (EN ? B.slice(Math.floor(B.length/2)).toLowerCase() : B.slice(Math.floor(B.length/2)));
 }
 const FR = {a:null, b:null, style:"diag"};
 function randPair(){ const [x,y] = shuffle(C); FR.a = x.id; FR.b = y.id; }
 function renderFriends(){
   if (!FR.a) randPair();
   const A = BY[FR.a], B = BY[FR.b], f = friendship(FR.a, FR.b);
-  const slot = (id, t) => `<div class="cbw">${ball(id,"happy")}</div><b>${BY[id].short||BY[id].fa}</b><small>${t} · عوض کن</small>`;
-  $("#slotA").innerHTML = slot(FR.a, "دوست اول"); $("#slotB").innerHTML = slot(FR.b, "دوست دوم");
+  const slot = (id, t) => `<div class="cbw">${ball(id,"happy")}</div><b>${BY[id].short||BY[id].fa}</b><small>${t} · ${T("عوض کن","change")}</small>`;
+  $("#slotA").innerHTML = slot(FR.a, T("دوست اول","Friend 1")); $("#slotB").innerHTML = slot(FR.b, T("دوست دوم","Friend 2"));
   let hearts = ""; for (let i=0;i<6;i++) hearts += `<span class="heart" style="--dx:${(i%2?1:-1)*(12+i*7)}px;animation-delay:${i*.45}s">${["❤️","💖","💕","✨"][i%4]}</span>`;
   $("#frStage").innerHTML = `
-    <div class="fr-balls">${hearts}<div class="cbw a" data-id="${FR.a}">${ball(FR.a,"happy")}</div><div class="cbw b" data-id="${FR.b}">${ball(FR.b,"happy",{look:"right"})}</div></div>
-    <div class="ship">${shipName(FR.a,FR.b)}</div><small style="color:var(--muted)">اسم دوستیِ ${A.fa} و ${B.fa}!</small>
+    <div class="fr-balls">${hearts}<div class="cbw a" data-id="${FR.a}">${ball(FR.a,"happy",EN?{look:"right"}:null)}</div><div class="cbw b" data-id="${FR.b}">${ball(FR.b,"happy",EN?null:{look:"right"})}</div></div>
+    <div class="ship">${shipName(FR.a,FR.b)}</div><small style="color:var(--muted)">${T(`اسم دوستیِ ${A.fa} و ${B.fa}!`, `The friendship name of ${A.fa} & ${B.fa}!`)}</small>
     <div class="fused">${fusedFlag(FR.a, FR.b, FR.style)}</div>
     <div class="styles">${FSTYLES.map(([k,t])=>`<button data-st="${k}" class="${k===FR.style?"on":""}">${t}</button>`).join("")}</div>
-    <div style="display:flex;justify-content:space-between;font-weight:700"><span>💞 میزان دوستی</span><span id="frPct">۰٪</span></div>
+    <div style="display:flex;justify-content:space-between;font-weight:700"><span>💞 ${T("میزان دوستی","Friendship")}</span><span id="frPct">${T("۰٪","0%")}</span></div>
     <div class="meter"><i id="frBar"></i></div>
     <ul class="traits">${f.tr.map(([i,t])=>`<li>${i} ${t}</li>`).join("")}</ul>
     <div class="mapbox nolabels" id="frMap" style="margin-top:14px"></div>`;
   const mp = makeMap($("#frMap"), {noLabels:true, caps:true}); mp.mark(FR.a, "sel"); mp.mark(FR.b, "ok"); mp.link(FR.a, FR.b);
   setTimeout(() => { const bar = $("#frBar"); if (bar) bar.style.width = f.s + "%"; }, 60);
-  const t0 = performance.now(), tick = now => { const el = $("#frPct"); if (!el) return; const k = Math.min(1, (now-t0)/1300); el.textContent = fa(Math.round(f.s*(1-Math.pow(1-k,3)))) + "٪"; if (k < 1) requestAnimationFrame(tick); };
+  const t0 = performance.now(), tick = now => { const el = $("#frPct"); if (!el) return; const k = Math.min(1, (now-t0)/1300); el.textContent = fa(Math.round(f.s*(1-Math.pow(1-k,3)))) + T("٪","%"); if (k < 1) requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
   $("#frStage").querySelectorAll("[data-st]").forEach(b => b.onclick = () => {
     FR.style = b.dataset.st; $("#frStage .fused").innerHTML = fusedFlag(FR.a, FR.b, FR.style);
@@ -1374,7 +1482,7 @@ function celebratePair(){
   SND.play("sparkle");
 }
 function pickFriend(slot){
-  openSheet(`<h3>یک کشور انتخاب کن</h3><div class="pickgrid">${C.map(c=>`<button data-pick="${c.id}"><div class="cbw">${ball(c.id)}</div>${c.short||c.fa}</button>`).join("")}</div>`);
+  openSheet(`<h3>${T("یک کشور انتخاب کن","Pick a country")}</h3><div class="pickgrid">${C.map(c=>`<button data-pick="${c.id}"><div class="cbw">${ball(c.id)}</div>${c.short||c.fa}</button>`).join("")}</div>`);
   $("#sheet").querySelectorAll("[data-pick]").forEach(b => b.onclick = () => {
     const id = b.dataset.pick, other = slot==="a" ? "b" : "a";
     if (FR[other] === id) FR[other] = FR[slot];
@@ -1397,7 +1505,8 @@ $("#goFriends").onclick = () => { nav("sFriends"); renderFriends(); setTimeout(c
 
 
 /* ================== کلمه‌های ساده با صدای کانتری‌بال ================== */
-const MEAN = [["🙋","سلام"],["😊","حالت چطوره؟"],["🙏","ممنون"],["👍","بله"],["👎","نه"],["🤲","لطفاً"],["👋","خداحافظ"],["🤝","دوست"],["💧","آب"],["🔢","یک، دو، سه"]];
+const MEAN = EN ? [["🙋","Hello"],["😊","How are you?"],["🙏","Thank you"],["👍","Yes"],["👎","No"],["🤲","Please"],["👋","Goodbye"],["🤝","Friend"],["💧","Water"],["🔢","One, two, three"]]
+  : [["🙋","سلام"],["😊","حالت چطوره؟"],["🙏","ممنون"],["👍","بله"],["👎","نه"],["🤲","لطفاً"],["👋","خداحافظ"],["🤝","دوست"],["💧","آب"],["🔢","یک، دو، سه"]];
 // هر کلمه: [نوشته به زبان خودش، تلفظ با حروف فارسی، نکته]
 const LANGS = {
   fa:{name:"فارسی", tts:"fa-IR", note:"زبان خودمان! 😄", w:[["سلام"],["حالت چطوره؟"],["ممنون"],["بله"],["نه"],["لطفاً"],["خداحافظ"],["دوست"],["آب"],["یک، دو، سه"]]},
@@ -1410,13 +1519,25 @@ const LANGS = {
 // «حالت چطوره؟» به لهجهٔ محلی کشورهای عرب‌زبان
 const AR_HOW = {iq:["شلونك؟","شْلونَک؟"], kw:["شلونك؟","شْلونَک؟"], bh:["شلونك؟","شْلونَک؟"], qa:["شلونك؟","شْلونَک؟"], ae:["شلونك؟","شْلونَک؟"],
   sy:["كيفك؟","کیفَک؟"], lb:["كيفك؟","کیفَک؟"], jo:["كيفك؟","کیفَک؟"], ps:["كيفك؟","کیفَک؟"], eg:["إزيّك؟","اِزَّیَک؟"]};
+// English mode: language names, notes and pronunciation in Latin letters
+const LANGS_EN = {
+  fa:{name:"Persian", note:"Persian (Farsi) — the language of Iran!", pr:["salaam","haalet chetoreh?","mamnoon","baleh","na","lotfan","khodaahaafez","doost","aab","yek, do, seh"]},
+  ar:{name:"Arabic", pr:["marhaba","kayfa haaluk?","shukran","na'am","laa","min fadlak","ma'a as-salaama","sadeeq","maa'","waahid, ithnaan, thalaatha"]},
+  ku:{name:"Kurdish (Sorani)", pr:["slaw","choni?","supaas","baleh","nakheir","tikaaye","khwaat lagal","haawreh","aaw","yak, du, seh"]},
+  tr:{name:"Turkish", pr:["mer-ha-ba","na-suhl-suhn?","teh-shek-kur-ler","eh-vet","ha-yuhr","lewt-fen","hosh-cha kal","ar-ka-dash","soo","beer, ee-kee, ewch"]},
+  he:{name:"Hebrew", pr:["shalom","ma shlomkha?","toda","ken","lo","bevakasha","lehitra'ot","khaver","mayim","akhat, shtayim, shalosh"]},
+  el:{name:"Greek", pr:["ya su","ti kanis?","efkharisto","ne","okhi","parakalo","andio","filos","nero","ena, dhio, tria"], n3:"Fun fact: “ne” sounds like “nay”, but it means YES! 😄"}
+};
+const AR_HOW_EN = {"شلونك؟":"shlonak?", "كيفك؟":"keefak?", "إزيّك؟":"izzayyak?"};
+if (EN) for (const k in LANGS){ const e = LANGS_EN[k]; LANGS[k].name = e.name; LANGS[k].note = e.note;
+  LANGS[k].w = LANGS[k].w.map((w,i) => [w[0], e.pr[i], k==="el" && i===3 ? e.n3 : undefined]); }
 const COUNTRY_LANGS = {ir:["fa"], iq:["ar","ku"], tr:["tr"], cy:["el","tr"], il:["he"]};
 const langsOf = id => COUNTRY_LANGS[id] || ["ar"];
 const ttsLang = (cid, lk) => lk==="ar" && cid==="eg" ? "ar-EG" : LANGS[lk].tts;
 function wordsFor(cid, lk){
   return LANGS[lk].w.map((w,i) => {
     let [nat, pr, note] = w;
-    if (lk==="ar" && i===1 && AR_HOW[cid]){ [nat, pr] = AR_HOW[cid]; note = "به لهجهٔ محلی"; }
+    if (lk==="ar" && i===1 && AR_HOW[cid]){ [nat, pr] = AR_HOW[cid]; if (EN) pr = AR_HOW_EN[nat]; note = T("به لهجهٔ محلی","local dialect"); }
     return {em:MEAN[i][0], mn:MEAN[i][1], nat, pr:pr||"", note};
   });
 }
@@ -1454,7 +1575,7 @@ function setSay(o){
 }
 function updateVoiceNote(){
   const el = $("#wVoice"); if (!el || !W.c) return;
-  el.textContent = store.get("me-sound", true) ? "" : "🔇 صدای بازی خاموش است؛ برای شنیدن کلمه‌ها، دکمهٔ 🔊 بالای صفحه را بزن.";
+  el.textContent = store.get("me-sound", true) ? "" : T("🔇 صدای بازی خاموش است؛ برای شنیدن کلمه‌ها، دکمهٔ 🔊 بالای صفحه را بزن.","🔇 Game sound is off — tap 🔊 at the top to hear the words.");
 }
 // فایل صوتی هر کلمه (ساخته‌شده با tools/make_audio.py)
 const HOW_FILE = {iq:"iq", kw:"iq", bh:"iq", qa:"iq", ae:"iq", sy:"lev", lb:"lev", jo:"lev", ps:"lev", eg:"eg"};
@@ -1469,7 +1590,7 @@ function renderWord(){
     ${L.note ? `<p class="notice">${L.note}</p>` : ""}<p class="notice" id="wVoice"></p>
     <div class="words" id="wList">${ws.map((w,i)=>`<button class="wcard" data-i="${i}"><span class="em">${w.em}</span><span><b>${w.mn}</b><span class="nt" dir="auto">${esc(w.nat)}</span>${w.pr && w.pr!==w.nat ? `<small class="pr">«${esc(w.pr)}»</small>` : ""}</span></button>`).join("")}</div>
     <div class="btns" id="wBtns" style="margin-top:16px"></div>`;
-  setSay({nat:W.lk==="fa" ? "سلام!" : ws[0].nat, pr:ws[0].pr, mn:"روی هر کلمه بزن تا بگویمش!"});
+  setSay({nat:W.lk==="fa" ? "سلام!" : ws[0].nat, pr:ws[0].pr, mn:T("روی هر کلمه بزن تا بگویمش!","Tap any word and I'll say it!")});
   updateVoiceNote(); renderWordBtns();
   $("#sWord").querySelectorAll("[data-l]").forEach(b => b.onclick = () => { W.lk = b.dataset.l; W.practice = null; TTS.stop(); renderWord(); });
   $("#wBall").onclick = () => speakWord(0);
@@ -1477,10 +1598,10 @@ function renderWord(){
 }
 function renderWordBtns(){
   $("#wBtns").innerHTML = W.practice
-    ? `<button class="btn big shine" id="wAgain">🔁 دوباره بگو</button><button class="btn big ghost" id="wStop">✋ پایان تمرین (${fa(W.practice.score)} امتیاز)</button>`
-    : `<button class="btn big shine" id="wPractice">🎧 تمرین: گوش بده و پیدا کن</button>`;
+    ? `<button class="btn big shine" id="wAgain">🔁 ${T("دوباره بگو","Say it again")}</button><button class="btn big ghost" id="wStop">✋ ${T(`پایان تمرین (${fa(W.practice.score)} امتیاز)`, `Stop practice (${W.practice.score} points)`)}</button>`
+    : `<button class="btn big shine" id="wPractice">🎧 ${T("تمرین: گوش بده و پیدا کن","Practice: listen and find")}</button>`;
   $("#wList").classList.toggle("quizzing", !!W.practice);
-  if (W.practice){ $("#wAgain").onclick = () => speakWord(W.practice.i, true); $("#wStop").onclick = () => { W.practice = null; renderWordBtns(); setSay({nat:"👏", mn:"آفرین! هر وقت خواستی دوباره تمرین کن."}); }; }
+  if (W.practice){ $("#wAgain").onclick = () => speakWord(W.practice.i, true); $("#wStop").onclick = () => { W.practice = null; renderWordBtns(); setSay({nat:"👏", mn:T("آفرین! هر وقت خواستی دوباره تمرین کن.","Well done! Practice again any time.")}); }; }
   else $("#wPractice").onclick = () => { W.practice = {i:-1, score:0}; renderWordBtns(); nextPractice(); };
 }
 function nextPractice(){
@@ -1490,7 +1611,7 @@ function nextPractice(){
 function speakWord(i, quiz){
   const w = wordsFor(W.c, W.lk)[i], lang = ttsLang(W.c, W.lk), svg = $("#wBall .cb"), canHear = store.get("me-sound", true);
   document.querySelectorAll(".wcard").forEach(b => b.classList.toggle("playing", +b.dataset.i===i && !quiz));
-  if (quiz) setSay(canHear ? {nat:"🎧 ؟", mn:"گوش بده! کدام کلمه بود؟"} : {nat:w.nat, pr:w.pr, mn:"این یعنی چه؟ پیدایش کن!"});
+  if (quiz) setSay(canHear ? {nat:"🎧 ?", mn:T("گوش بده! کدام کلمه بود؟","Listen! Which word was it?")} : {nat:w.nat, pr:w.pr, mn:T("این یعنی چه؟ پیدایش کن!","What does this mean? Find it!")});
   else setSay(w);
   let done = false;
   const start = () => svg && svg.classList.add("talk");
@@ -1514,7 +1635,7 @@ function wordTap(i, btn){
     W.practice.score++; btn.classList.add("ok"); SND.play("ok");
     const r = btn.getBoundingClientRect(); FX.confetti(r.left+r.width/2, r.top+r.height/2, 30); FX.sparkles(r.left+r.width/2, r.top+r.height/2, 10);
     const svg = $("#wBall .cb"); svg.classList.add("jump"); setTimeout(() => svg.classList.remove("jump"), 700);
-    setSay(Object.assign({}, w, {mn:`آفرین! «${w.mn}» بود 🎉`}));
+    setSay(Object.assign({}, w, {mn:T(`آفرین! «${w.mn}» بود 🎉`, `Well done! It was “${w.mn}” 🎉`)}));
     renderWordBtns();
     setTimeout(() => { btn.classList.remove("ok"); if (W.practice) nextPractice(); }, 1500);
   } else {
@@ -1534,7 +1655,7 @@ addEventListener("popstate", e => {
     return;
   }
   if (curScreen === "sQuiz" && quizRunning() && st.s !== "sQuiz"){
-    if (!confirm("از کوییز خارج می‌شوی؟ امتیاز این دور ذخیره نمی‌شود.")){ history.pushState({s:"sQuiz", i:st.i+1}, ""); return; }
+    if (!confirm(T("از کوییز خارج می‌شوی؟ امتیاز این دور ذخیره نمی‌شود.","Leave the quiz? This round's score won't be saved."))){ history.pushState({s:"sQuiz", i:st.i+1}, ""); return; }
   }
   show(st.s);
   if (st.s === "sHome") renderHome();
@@ -1551,11 +1672,13 @@ if (isIOS && location.protocol.startsWith("http")) showInstall();
 $("#installX").onclick = () => { store.set("me-install-hide", true); $("#installBox").classList.remove("on"); };
 $("#installBtn").onclick = async () => {
   if (deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; $("#installBox").classList.remove("on"); return; }
-  openSheet(isIOS ? `<h3>📲 نصب روی آیفون / آیپد</h3><ol class="ios-steps">
+  openSheet(isIOS ? T(`<h3>📲 نصب روی آیفون / آیپد</h3><ol class="ios-steps">
       <li>این صفحه را در <b>Safari</b> باز کن.</li>
       <li>دکمهٔ <b>اشتراک‌گذاری</b> (مربعی با فلش رو به بالا، پایین صفحه) را بزن.</li>
-      <li>گزینهٔ <b>Add to Home Screen</b> (افزودن به صفحهٔ اصلی) را انتخاب کن و <b>Add</b> را بزن.</li></ol>`
-    : `<h3>📲 نصب روی گوشی</h3><ol class="ios-steps"><li>منوی مرورگر (⋮) را باز کن.</li><li><b>Install app</b> یا <b>Add to Home screen</b> را بزن.</li></ol>`);
+      <li>گزینهٔ <b>Add to Home Screen</b> (افزودن به صفحهٔ اصلی) را انتخاب کن و <b>Add</b> را بزن.</li></ol>`,
+      `<h3>📲 Install on iPhone / iPad</h3><ol class="ios-steps"><li>Open this page in <b>Safari</b>.</li><li>Tap the <b>Share</b> button (the square with an up arrow).</li><li>Choose <b>Add to Home Screen</b>, then tap <b>Add</b>.</li></ol>`)
+    : T(`<h3>📲 نصب روی گوشی</h3><ol class="ios-steps"><li>منوی مرورگر (⋮) را باز کن.</li><li><b>Install app</b> یا <b>Add to Home screen</b> را بزن.</li></ol>`,
+      `<h3>📲 Install on your phone</h3><ol class="ios-steps"><li>Open the browser menu (⋮).</li><li>Tap <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>`));
 };
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
