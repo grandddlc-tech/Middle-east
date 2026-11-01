@@ -313,46 +313,6 @@ h1,h2,h3{line-height:1.4;margin:0}
 .dance{display:flex;justify-content:center;gap:2px;margin-top:12px}
 .dance .cbw{width:54px}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
-/* اینترو — opening animation */
-.intro{position:fixed;inset:0;z-index:80;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
-  background:radial-gradient(ellipse at 50% 35%,#1e3a8a 0%,#0b1229 55%,#03050f 100%);color:#fff;cursor:pointer;transition:opacity .6s,transform .6s}
-.intro.out{opacity:0;transform:scale(1.15);pointer-events:none}
-.intro .star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;animation:tw 3s ease-in-out infinite}
-.globe-wrap{position:relative;width:min(78vw,340px);aspect-ratio:1;animation:globeIn 1.2s cubic-bezier(.2,1.4,.4,1) both}
-@keyframes globeIn{from{transform:scale(.2) rotate(-40deg);opacity:0}to{transform:none;opacity:1}}
-.globe{position:absolute;inset:14%;width:72%;height:72%;filter:drop-shadow(0 0 24px rgba(96,165,250,.55))}
-.globe .land{animation:spinLand 16s linear infinite}
-@keyframes spinLand{to{transform:translateX(-360px)}}
-.orbit{position:absolute;inset:0;animation:spin 14s linear infinite}
-.orbit .ob{position:absolute;left:50%;top:50%;width:17%;margin:-8.5% 0 0 -8.5%;transform:rotate(var(--a)) translateY(calc(var(--r) * -1)) rotate(calc(var(--a) * -1))}
-.orbit .ob > div{animation:spin 14s linear infinite reverse}
-@keyframes spin{to{transform:rotate(360deg)}}
-.iflag{position:absolute;left:50%;top:50%;width:46px;opacity:0;animation:flagOut 3.2s ease-out infinite;animation-delay:var(--dl)}
-.iflag svg{width:100%;height:auto;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,.4)}
-@keyframes flagOut{0%{transform:translate(-50%,-50%) scale(.2);opacity:0}15%{opacity:1}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) rotate(var(--rot)) scale(1);opacity:0}}
-.intro-title{font-size:clamp(1.7rem,7vw,2.6rem);font-weight:900;text-align:center;line-height:1.2;padding:0 16px;
-  background:linear-gradient(90deg,#fff 20%,#fde68a 35%,#fff 50%,#a5f3fc 65%,#fff 80%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:shimmer 4s linear infinite, rise .8s .5s ease both}
-.intro-sub{opacity:.85;text-align:center;padding:0 20px;animation:rise .8s .8s ease both}
-@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.fight{position:relative;width:200px;height:96px;margin-top:4px;animation:rise .6s 1.1s ease both}
-.fight .fa,.fight .fb2{position:absolute;bottom:0;width:78px}
-.fight .fa{left:0;animation:charge 1.2s 1.4s ease-in forwards}
-.fight .fb2{right:0;animation:charge2 1.2s 1.4s ease-in forwards}
-@keyframes charge{to{transform:translateX(48px) rotate(14deg)}}
-@keyframes charge2{to{transform:translateX(-48px) rotate(-14deg)}}
-.cloud{position:absolute;left:50%;top:50%;width:150px;height:110px;margin:-55px 0 0 -75px;opacity:0;animation:cloud 2.6s 2.3s ease both}
-.cloud .puff{position:absolute;border-radius:50%;background:#e5e7eb;box-shadow:inset -6px -6px 0 rgba(0,0,0,.08)}
-.cloud .bang{position:absolute;font-size:1.5rem;animation:bang .35s linear infinite alternate}
-@keyframes cloud{0%{opacity:0;transform:scale(.3)}12%{opacity:1;transform:scale(1.1)}20%,82%{opacity:1;transform:scale(1) rotate(4deg)}50%{opacity:1;transform:scale(1.06) rotate(-4deg)}100%{opacity:0;transform:scale(.6)}}
-@keyframes bang{from{transform:scale(.8) rotate(-15deg)}to{transform:scale(1.25) rotate(15deg)}}
-.dove{position:absolute;top:-30px;font-size:2.4rem;left:-60px;opacity:0;animation:dove 2.4s 4.5s ease-in-out forwards}
-@keyframes dove{0%{opacity:0;transform:translate(0,30px)}20%{opacity:1}100%{opacity:1;transform:translate(330px,-30px)}}
-.tapgo{margin-top:6px;padding:12px 28px;border-radius:999px;background:linear-gradient(135deg,#f59e0b,#ec4899);font-weight:900;font-size:1.05rem;box-shadow:0 8px 28px rgba(236,72,153,.45);opacity:0;animation:rise .6s 1.6s ease both, pulse 1.4s 2.2s ease-in-out infinite}
-@keyframes pulse{50%{transform:scale(1.07)}}
-.cb .brows,.cb .m-angry{display:none}
-.cb.angry .brows,.cb.angry .m-angry{display:inline}
-.cb.angry .m-smile,.cb.angry .m-happy{display:none}
 /* انتخاب منطقه — region picker */
 .reg-hero{text-align:center;margin:26px 0 18px}
 .reg-hero h1{font-size:1.7rem;font-weight:900;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g4),var(--g3),var(--g1));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 7s linear infinite}
@@ -429,6 +389,7 @@ h1,h2,h3{line-height:1.4;margin:0}
     <div class="regions">
       <button class="region me" data-r="asia"><span class="em">🏯</span><span class="go">→</span><div class="rballs" id="rbAsia"></div><b id="rnAsia">Asia</b><small id="rcAsia"></small></button>
       <button class="region eu" data-r="eu"><span class="em">🏰</span><span class="go">→</span><div class="rballs" id="rbEu"></div><b id="rnEu">Europe</b><small id="rcEu"></small></button>
+      <button class="region" data-r="all" style="background:linear-gradient(135deg,#b45309,#f59e0b 55%,#ec4899)"><span class="em">🏆</span><span class="go">→</span><div class="rballs" id="rbAll"></div><b id="rnAll">All countries quiz</b><small id="rcAll"></small></button>
     </div>
   </section>
 
@@ -523,8 +484,8 @@ h1,h2,h3{line-height:1.4;margin:0}
 "use strict";
 const MAPS = /*MAP_DATA*/;
 // Which region's data is loaded (Middle East or Europe); switching region reloads the page
-const REGION = (() => { let r; try { r = JSON.parse(localStorage.getItem("me-region")); } catch(e){} return MAPS[r] ? r : "me"; })();
-const MAP = MAPS[REGION];
+const REGION = (() => { let r; try { r = JSON.parse(localStorage.getItem("me-region")); } catch(e){} return (MAPS[r] || r === "all") ? r : "me"; })();
+const MAP = MAPS[REGION] || MAPS.me;   // "all" (quiz over every country) has no map of its own: each map question uses its country's region map
 
 /* ================== Language (English / Persian) ================== */
 const EN = document.documentElement.lang !== "fa";
@@ -836,8 +797,6 @@ function ball(id, mood, o){
 <path class="m-smile" d="M51,92 Q60,100 69,92" fill="none" stroke="${SK}" stroke-width="2.6" stroke-linecap="round"/>
 <path class="m-happy" d="M48,90 Q60,108 72,90 Z" fill="#9f1239" stroke="${SK}" stroke-width="2" stroke-linejoin="round"/>
 <path class="m-sad" d="M51,99 Q60,91 69,99" fill="none" stroke="${SK}" stroke-width="2.6" stroke-linecap="round"/>
-<path class="brows" d="M35,57 L53,64 M85,57 L67,64" stroke="${SK}" stroke-width="3.4" stroke-linecap="round"/>
-<path class="m-angry" d="M49,97 l5.5,-5 l5.5,5 l5.5,-5 l5.5,5" fill="none" stroke="${SK}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
 <path class="tear" d="M36,84 q-4,7 0,9 q4,-2 0,-9z" fill="#60a5fa" stroke="#1e40af" stroke-width=".8"/></g></svg>`;
 }
 
@@ -867,43 +826,53 @@ const REG = {
 };
 Object.assign(REG.ea, {grad:["#b91c1c","#f59e0b"]}); Object.assign(REG.sea, {grad:["#047857","#0ea5e9"]});
 Object.assign(REG.sa, {grad:["#ea580c","#db2777"]}); Object.assign(REG.ca, {grad:["#4338ca","#0891b2"]});
+REG.all = {name:["همهٔ کشورها","All countries"], title:["کوییز همهٔ کشورها","All Countries Quiz"], h1:["همهٔ کشورها را محک بزن!","Test yourself on every country!"],
+  quizOnly:true, borders:{}, seas:[], sim:["eg ye iq sy","jo ps kw ae","bh qa", ...Object.keys(REG).filter(k => REG[k].sim).flatMap(k => REG[k].sim)],
+  fake:[0,1].map(i => [...new Set(Object.keys(REG).filter(k => REG[k].fake).flatMap(k => REG[k].fake[i]))])};
 const R = REG[REGION];
 const ASIA_KEYS = ["me", "ea", "sea", "sa", "ca"];
 const regionCountries = k => k === "me" ? ME_C : REG[k].C;
 const HOME_I = R.parent ? 2 : 1;   // history depth of a region's home: picker → (Asia →) home
 
 /* ================== Active region's countries ================== */
+const toCountry = e => ({id:e.id, fa:T(...e.n), en:T(e.n[1], e.n[0]), short:e.short && T(...e.short), cap:T(...e.cap), capNote:e.capNote && T(...e.capNote),
+  note:e.note && T(...e.note), lang:T(...e.lang), hi:e.hi, hat:T(...e.hat), facts:e.f.map(f => ({t:T(f[0], f[1]), x:f[2]}))});
+const MAP_REGIONS = ["me", "ea", "sea", "sa", "ca", "eu"];
+const REG_OF = {};   // country id → region key
+MAP_REGIONS.forEach(k => regionCountries(k).forEach(c => REG_OF[c.id] = k));
 const C = REGION === "me" ? ME_C
-  : R.C.map(e => ({id:e.id, fa:T(...e.n), en:T(e.n[1], e.n[0]), short:e.short && T(...e.short), cap:T(...e.cap), capNote:e.capNote && T(...e.capNote),
-      note:e.note && T(...e.note), lang:T(...e.lang), hi:e.hi, hat:T(...e.hat), facts:e.f.map(f => ({t:T(f[0], f[1]), x:f[2]}))}));
+  : REGION === "all" ? MAP_REGIONS.flatMap(k => k === "me" ? ME_C : REG[k].C.map(toCountry))
+  : R.C.map(toCountry);
 const BY = Object.fromEntries(C.map(c=>[c.id,c]));
 const RG = {
   title: R.title ? T(...R.title) : T(`کاوشگر ${R.name[0]}`, `${R.name[1]} Explorer`),
   name: T(...R.name),
   h1: R.h1 ? T(...R.h1) : T(`کشورهای ${R.name[0]} را بشناس!`, `Discover ${R.name[1]}!`),
-  p: T(`پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ${fa(C.length)} کشور، همراه با کانتری‌بال‌های بامزه — روی هرکدام بزن تا سلام کند!`,
+  p: R.quizOnly
+    ? T(`کوییز پرچم، پایتخت، نقشه، زبان و نکته‌ها از همهٔ ${fa(C.length)} کشور آسیا و اروپا!`, `Flags, capitals, maps, languages and facts — quizzes on all ${C.length} countries of Asia and Europe!`)
+    : T(`پرچم، پایتخت، زبان، جای روی نقشه و نکته‌های جالب ${fa(C.length)} کشور، همراه با کانتری‌بال‌های بامزه — روی هرکدام بزن تا سلام کند!`,
        `Flags, capitals, languages, places on the map and fun facts about ${C.length} countries — with cute countryballs. Tap one to say hi!`)
 };
 const APP_TITLE = T("کاوشگر کانتری‌بال","Countryball Explorer");
 
 /* ================== نقشه ================== */
-const LBL = MAP.lbl;   // label positions for small countries (with leader lines)
-const SEAS = MAP.seas.map(([f,e,x,y,r]) => [T(f,e),x,y,r]);
 let mapUid=0;
-const capsSvg = () => `<g>${C.map(c=>{ const [x,y]=MAP.caps[c.id]; return `<polygon class="m-cap" points="${starPts(x,y,6,2.6,5,-Math.PI/2)}"><title>${c.cap}</title></polygon>`; }).join("")}</g>`;
+const capsSvg = (M, list) => `<g>${list.map(c=>{ const [x,y]=M.caps[c.id]; return `<polygon class="m-cap" points="${starPts(x,y,6,2.6,5,-Math.PI/2)}"><title>${c.cap}</title></polygon>`; }).join("")}</g>`;
+// opt.map / opt.list draw another region's map (used by the all-countries quiz)
 function makeMap(host, opt){
   opt = opt || {};
-  const W=MAP.W, H=MAP.H, NS="http://www.w3.org/2000/svg";
+  const M = opt.map || MAP, LIST = opt.list || C, LB = M.lbl, SE = M.seas.map(([f,e,x,y,r]) => [T(f,e),x,y,r]);
+  const W=M.W, H=M.H, NS="http://www.w3.org/2000/svg";
   const uid = ++mapUid;
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="${NS}" aria-label="Map"><rect x="-2000" y="-2000" width="5000" height="5000" fill="var(--sea)"/>`;
-  s += `<path class="m-other" d="${MAP.others}"/>`;
-  s += `<g class="m-cs">` + C.map(c=>`<path class="m-c" data-id="${c.id}" d="${MAP.targets[c.id].d}"><title>${c.fa}</title></path>`).join("") + `</g>`;
-  s += SEAS.map(([t,x,y,r])=>`<text class="m-sea" x="${x}" y="${y}"${r?` transform="rotate(${r} ${x} ${y})"`:""}>${t}</text>`).join("");
+  s += `<path class="m-other" d="${M.others}"/>`;
+  s += `<g class="m-cs">` + LIST.map(c=>`<path class="m-c" data-id="${c.id}" d="${M.targets[c.id].d}"><title>${c.fa}</title></path>`).join("") + `</g>`;
+  s += SE.map(([t,x,y,r])=>`<text class="m-sea" x="${x}" y="${y}"${r?` transform="rotate(${r} ${x} ${y})"`:""}>${t}</text>`).join("");
   // bigger invisible tap targets for tiny countries
-  s += C.filter(c => MAP.targets[c.id].r < 18).map(c => { const a = (LBL[c.id] && LBL[c.id].a) || MAP.targets[c.id].c; return `<circle class="m-hit" data-id="${c.id}" cx="${a[0]}" cy="${a[1]}" r="11"/>`; }).join("");
-  s += `<g class="m-rings"></g>${opt.caps?capsSvg():""}<g class="m-lbls">`;
-  for (const c of C){
-    const t = MAP.targets[c.id], L = LBL[c.id] || {}, p = L.p || t.c;
+  s += LIST.filter(c => M.targets[c.id].r < 18).map(c => { const a = (LB[c.id] && LB[c.id].a) || M.targets[c.id].c; return `<circle class="m-hit" data-id="${c.id}" cx="${a[0]}" cy="${a[1]}" r="11"/>`; }).join("");
+  s += `<g class="m-rings"></g>${opt.caps?capsSvg(M, LIST):""}<g class="m-lbls">`;
+  for (const c of LIST){
+    const t = M.targets[c.id], L = LB[c.id] || {}, p = L.p || t.c;
     const fs = Math.max(10, Math.min(22, t.r/7));
     if (L.a) s += `<line class="m-lead" x1="${p[0]}" y1="${p[1]}" x2="${L.a[0]}" y2="${L.a[1]}"/>`;
     s += `<text class="m-lbl" x="${p[0]}" y="${p[1]}" font-size="${L.a?10:fs}">${c.short||c.fa}</text>`;
@@ -958,14 +927,14 @@ function makeMap(host, opt){
     clear(){ svg.querySelectorAll(".m-c").forEach(p=>p.classList.remove("sel","ok","bad","dim")); rings.innerHTML=""; },
     mark(id, cls){ // cls: sel | ok | bad
       const p = pathOf(id); if(!p) return; p.classList.remove("sel","ok","bad"); p.classList.add(cls);
-      const t = MAP.targets[id];
-      if (t.r < 60){ const a=(LBL[id]&&LBL[id].a)||t.c; rings.insertAdjacentHTML("beforeend", `<circle class="m-ring ${cls}" cx="${a[0]}" cy="${a[1]}" r="${Math.max(14,t.r*0.7)}"/>`); }
+      const t = M.targets[id];
+      if (t.r < 60){ const a=(LB[id]&&LB[id].a)||t.c; rings.insertAdjacentHTML("beforeend", `<circle class="m-ring ${cls}" cx="${a[0]}" cy="${a[1]}" r="${Math.max(14,t.r*0.7)}"/>`); }
     },
-    link(a, b){ const p=MAP.caps[a], q=MAP.caps[b], mx=(p[0]+q[0])/2, my=(p[1]+q[1])/2-Math.hypot(q[0]-p[0],q[1]-p[1])*.3;
+    link(a, b){ const p=M.caps[a], q=M.caps[b], mx=(p[0]+q[0])/2, my=(p[1]+q[1])/2-Math.hypot(q[0]-p[0],q[1]-p[1])*.3;
       rings.insertAdjacentHTML("beforeend", `<path class="m-link" d="M${p} Q${mx},${my} ${q}"/>`); },
     dimOthers(id){ svg.querySelectorAll(".m-c").forEach(p=>{ if(p.dataset.id!==id) p.classList.add("dim"); }); },
     focus(id){ // بزرگ‌نمایی ملایم روی یک کشور
-      const t=MAP.targets[id]; const w=Math.min(W, Math.max(260, t.r*3.2)); vb={w, h:w*H/W, x:t.c[0]-w/2, y:t.c[1]-w*H/W/2}; clamp(); apply();
+      const t=M.targets[id]; const w=Math.min(W, Math.max(260, t.r*3.2)); vb={w, h:w*H/W, x:t.c[0]-w/2, y:t.c[1]-w*H/W/2}; clamp(); apply();
     },
     reset(){ vb={x:0,y:0,w:W,h:H}; apply(); },
     disable(v){ opt.disabled=v; svg.style.pointerEvents=""; },
@@ -1098,7 +1067,7 @@ function openDetail(id){
 }
 
 /* ================== ساخت سؤال‌ها ================== */
-const PS_IL = REGION === "me" ? {ps:["il"], il:["ps"]} : {};   // capitals that must not be options for each other
+const PS_IL = (REGION === "me" || REGION === "all") ? {ps:["il"], il:["ps"]} : {};   // capitals that must not be options for each other
 function others(c, n, excl){
   excl = new Set([c.id].concat(excl||[]));
   return shuffle(C.filter(o=>!excl.has(o.id))).slice(0,n);
@@ -1205,7 +1174,8 @@ function renderQ(){
   h += `<div class="fb" id="fb"></div><button class="btn big next" id="nextBtn">${Q.i+1<Q.qs.length?T("سؤال بعدی ←","Next question →"):T("دیدن نتیجه 🏁","See results 🏁")}</button>`;
   const card = $("#qCard"); card.innerHTML = h; card.classList.remove("pop","shake");
   if (q.showMap || q.tap){
-    quizMap = makeMap($("#qMap"), {noLabels:true});
+    const rk = REG_OF[q.id];   // in the all-countries quiz, show the map of the question's own region
+    quizMap = makeMap($("#qMap"), REGION === "all" ? {noLabels:true, map:MAPS[rk], list:C.filter(c => REG_OF[c.id] === rk)} : {noLabels:true});
     if (q.showMap){ quizMap.mark(q.id,"sel"); }
     else quizMap.setSelect(id=>{ if(!Q.answered) answer(id===q.id, BY[id].fa, id); });
   }
@@ -1771,6 +1741,9 @@ function renderRegions(){
   $("#rnAsia").textContent = T("آسیا","Asia"); $("#rcAsia").textContent = T(`${fa(asiaAll.length)} کشور در ${fa(ASIA_KEYS.length)} بخش`, `${asiaAll.length} countries in ${ASIA_KEYS.length} sections`);
   $("#rnEu").textContent = T("اروپا","Europe"); $("#rcEu").textContent = T(`${fa(EU_C.length)} کشور`, `${EU_C.length} countries`);
   $("#rbAsia").innerHTML = balls(asiaAll); $("#rbEu").innerHTML = balls(EU_C);
+  $("#rnAll").textContent = T("کوییز همهٔ کشورها","All countries quiz");
+  $("#rcAll").textContent = T(`${fa(asiaAll.length + EU_C.length)} کشور آسیا و اروپا با هم`, `${asiaAll.length + EU_C.length} countries of Asia and Europe together`);
+  $("#rbAll").innerHTML = balls([...asiaAll, ...EU_C]);
   $("#asiaTitle").textContent = T("آسیا","Asia");
   $("#asiaSub").textContent = T("کدام بخش آسیا؟","Which part of Asia?");
   $("#asiaList").innerHTML = ASIA_KEYS.map(k => { const g = REG[k].grad, list = regionCountries(k);
@@ -1788,59 +1761,8 @@ document.addEventListener("click", e => { const b = e.target.closest(".region[da
 $("#goRegions").innerHTML = `🌍 ${RG.name} · ${T("عوض کن","change")}`;
 $("#goRegions").onclick = () => { const i = (history.state && history.state.i) || 0, target = R.parent ? 1 : 0; if (i > target) history.go(-(i - target)); };
 $("#hero h1").textContent = RG.h1; $("#hero p").textContent = RG.p;
+if (R.quizOnly) ["#goLearn", "#goFriends", "#goWords"].forEach(q => $(q).style.display = "none");   // the all-countries mode is quizzes only
 renderRegions();
-
-/* ================== Intro: spinning globe, orbiting countryballs, flags and a cartoon scuffle ================== */
-const WORLD = /*WORLD_DATA*/;
-// Countries currently at war with each other, shown as a cartoon dust-cloud scuffle that ends with a dove of peace
-const AT_WAR = [["ru", "ua"]];
-function playIntro(){
-  let shown = false; try { shown = !!sessionStorage.getItem("me-intro"); sessionStorage.setItem("me-intro", "1"); } catch(e){}
-  if (shown || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const all = [...ASIA_KEYS.flatMap(regionCountries), ...EU_C].map(c => c.id);
-  const orbiters = shuffle(all).slice(0, 8), fliers = shuffle(all).slice(0, 14), [wa, wb] = pick(AT_WAR);
-  let stars = ""; for (let i=0;i<60;i++) stars += `<i class="star" style="left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${(Math.random()*3).toFixed(2)}s;opacity:${(.3+Math.random()*.7).toFixed(2)}"></i>`;
-  const flags = fliers.map((id,i) => { const a = Math.random()*Math.PI*2, d = 160 + Math.random()*140;
-    return `<div class="iflag" style="--dx:${Math.round(Math.cos(a)*d)}px;--dy:${Math.round(Math.sin(a)*d)}px;--rot:${Math.round(Math.random()*120-60)}deg;--dl:${(i*.23).toFixed(2)}s">${flag(id)}</div>`; }).join("");
-  const orbit = orbiters.map((id,i) => `<div class="ob" style="--a:${i*45}deg;--r:min(39vw,170px)"><div><div class="cbw" style="--d:-${i*.3}s">${ball(id, i%3 ? "" : "happy")}</div></div></div>`).join("");
-  let puffs = ""; [[10,30,50],[40,10,60],[80,20,55],[60,50,58],[20,55,48],[95,55,45]].forEach(([x,y,r]) => puffs += `<i class="puff" style="left:${x}px;top:${y}px;width:${r}px;height:${r}px"></i>`);
-  const bangs = [["💥",20,10],["⭐",100,6],["💢",64,-6],["⚡",118,60],["💫",4,64],["🌀",70,70]].map(([e,x,y],i)=>`<span class="bang" style="left:${x}px;top:${y}px;animation-delay:${i*.08}s">${e}</span>`).join("");
-  const el = document.createElement("div");
-  el.className = "intro"; el.id = "intro";
-  el.innerHTML = `${stars}
-    <div class="globe-wrap">
-      ${flags}
-      <svg class="globe" viewBox="0 0 200 200" aria-hidden="true">
-        <defs><clipPath id="globeClip"><circle cx="100" cy="100" r="99"/></clipPath>
-          <radialGradient id="globeSea" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#1e3a8a"/></radialGradient>
-          <radialGradient id="globeShade" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient></defs>
-        <g clip-path="url(#globeClip)"><rect width="200" height="200" fill="url(#globeSea)"/>
-          <g class="land"><g transform="translate(0 10) scale(.5)" fill="#4ade80" stroke="#166534" stroke-width="2"><path d="${WORLD}"/><path d="${WORLD}" transform="translate(720 0)"/></g></g>
-          <circle cx="100" cy="100" r="99" fill="url(#globeShade)"/></g>
-        <circle cx="100" cy="100" r="99" fill="none" stroke="#93c5fd" stroke-width="2" opacity=".7"/>
-      </svg>
-      <div class="orbit">${orbit}</div>
-    </div>
-    <div class="intro-title">${APP_TITLE}</div>
-    <div class="intro-sub">${T("آسیا و اروپا، با کانتری‌بال‌ها!","Asia and Europe, with countryballs!")}</div>
-    <div class="fight">
-      <div class="fa cbw">${ball(wa, "angry", {look:"right"})}</div><div class="fb2 cbw">${ball(wb, "angry")}</div>
-      <div class="cloud">${puffs}${bangs}</div>
-      <div class="dove">🕊️</div>
-    </div>
-    <button class="tapgo">${T("بزن بریم! ▶","Let's go! ▶")}</button>`;
-  document.body.appendChild(el);
-  // after the scuffle the two balls make up
-  setTimeout(() => el.querySelectorAll(".fight .cb").forEach(b => { b.classList.remove("angry"); b.classList.add("happy"); }), 4800);
-  const close = () => {
-    if (el.classList.contains("out")) return;
-    el.classList.add("out"); SND.unlock(); SND.play("sparkle"); SND.music();
-    setTimeout(() => el.remove(), 650);
-  };
-  el.addEventListener("click", close);
-  setTimeout(close, 9000);
-}
-playIntro();
 
 history.replaceState({s:"sRegions", i:0}, "");
 let enterRegion = false; try { enterRegion = !!sessionStorage.getItem("me-enter"); sessionStorage.removeItem("me-enter"); } catch(e){}

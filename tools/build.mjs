@@ -3,7 +3,7 @@
 // Builds the SVG maps for each region (Middle East, Europe) and injects them into src/template.html.
 import fs from "fs";
 import {feature, merge} from "topojson-client";
-import {geoMercator, geoConicConformal, geoEquirectangular, geoPath} from "d3-geo";
+import {geoMercator, geoConicConformal, geoPath} from "d3-geo";
 
 const t = JSON.parse(fs.readFileSync(new URL("./node_modules/world-atlas/countries-50m.json", import.meta.url)));
 const geoms = t.objects.countries.geometries;
@@ -129,13 +129,8 @@ for (const [rid, R] of Object.entries(REGIONS)) {
   console.log(rid, W + "x" + H, Math.round(JSON.stringify(out).length/1024) + " KB");
 }
 
-// World land outline (equirectangular, 720×360) for the spinning globe in the intro
-const land = JSON.parse(fs.readFileSync(new URL("./node_modules/world-atlas/land-110m.json", import.meta.url)));
-const world = geoPath(geoEquirectangular().scale(720 / (2 * Math.PI)).translate([360, 180])).digits(0)(feature(land, land.objects.land));
-console.log("world", Math.round(world.length/1024) + " KB");
-
 const root = new URL("../", import.meta.url);
 const tpl = fs.readFileSync(new URL("src/template.html", root), "utf8");
 const data = ["europe.js", "europe_words.js", "asia.js", "asia_words.js"].map(f => fs.readFileSync(new URL("src/" + f, root), "utf8")).join("\n");
-fs.writeFileSync(new URL("index.html", root), tpl.replace("/*MAP_DATA*/", JSON.stringify(maps)).replace("/*REGION_DATA*/", () => data).replace("/*WORLD_DATA*/", () => JSON.stringify(world)));
+fs.writeFileSync(new URL("index.html", root), tpl.replace("/*MAP_DATA*/", JSON.stringify(maps)).replace("/*REGION_DATA*/", () => data));
 console.log("index.html built");
